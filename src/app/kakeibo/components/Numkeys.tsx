@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 type NumkeysProps = {
     amount: string;
@@ -15,19 +15,27 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
                 setAmount(amount + val);
         }
     };
-    const buttonStyle = "w-16 h-16 text-white bg-stone-400 rounded-full flex items-center justify-center text-4xl shadow-md focus:bg-gray-300 transition-colors";
-
+    const [touched, setTouched] = useState(0);
+    const buttonStyle = (num: number) => `${touched == num ? "bg-gray-300 " : "bg-stone-400 "}w-16 h-16 text-white  rounded-full flex items-center justify-center text-4xl shadow-md transition-colors`;
+    const divStyle = "flex justify-between m-2";
     return (
-        <>
-            <div className="flex">
+        <div className="justify-center content-center w-3/5">
+            <div className={divStyle}>
                 {[1, 2, 3].map((number) => (
-                    <input className={buttonStyle} type="button" value={number} onClick={() => handleOnClick(number.toString())} />
+                    <input className={buttonStyle(number)} type="button" value={number} onTouchStart={() => setTouched(number)} onClick={() => handleOnClick(number.toString())} />
                 ))}
-                <input className=" " type="button" value="2" onClick={() => handleOnClick("2")} />
-                <input type="button" value="delete" onClick={() => handleOnClick("delete")} />
-                <div className="">hello wll</div>
             </div>
-        </>
+            <div className={divStyle}>
+                {[4, 5, 6].map((number) => (
+                    <input className={buttonStyle(number)} type="button" value={number} onClick={() => handleOnClick(number.toString())} />
+                ))}
+            </div>
+            <div className={divStyle}>
+                {[7, 8, 9].map((number) => (
+                    <input className={buttonStyle(number)} type="button" value={number} onClick={() => handleOnClick(number.toString())} />
+                ))}
+            </div>
+        </div>
     );
 };
 
