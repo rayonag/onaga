@@ -8,7 +8,7 @@ type InputProps = {
 };
 
 const Input: FC<InputProps> = ({ value, setValue, placeholder }) => {
-    const divStyle = "flex justify-center my-2";
+    const divStyle = "flex justify-center my-4 text-2xl";
 
     return (
         <div className={divStyle}>

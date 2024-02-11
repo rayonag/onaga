@@ -11,7 +11,7 @@ const IncomeExpense: FC<IncomeExpenseProps> = ({ incomeExpense, setIncomeExpense
     const [touched, setTouched] = useState("");
     const x = useMotionValue(0);
     const opacity = useTransform(x, [-100, 0, 100], [0, 1, 0]);
-    const buttonStyle = (val: string) => `${touched === val ? "bg-gray-300 " : val === "Income" ? "bg-cyan-600 " : "bg-rose-600 "} mr-1 w-40 h-12 text-white rounded-full justify-center text-3xl`;
+    const buttonStyle = (val: string) => `${touched === val ? "bg-gray-300 " : val === "Income" ? "bg-cyan-600 " : "bg-rose-600 "} mr-1 w-40 h-12 text-white rounded-full justify-center text-2xl`;
     const divStyle = "flex justify-center my-2";
     const nextVal = incomeExpense === "Income" ? "Expense" : "Income";
     const toggleIncomeExpense = () => {
