@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import Numkeys from "./components/Numkeys";
 import Currency from "./components/Currency";
 import IncomeExpense from "./components/IncomeExpense";
+import Type from "./components/Type";
 
 const Kakeibo = () => {
     function getCurrentDate() {
@@ -24,6 +25,7 @@ const Kakeibo = () => {
     const [amount, setAmount] = useState("");
     const [currency, setCurrency] = useState("₪");
     const [incomeExpense, setIncomeExpense] = useState("Expense");
+    const [type, setType] = useState("");
     return (
         <div className="h-screen">
             <h1 className="title">問い合わせフォーム</h1>
@@ -37,6 +39,7 @@ const Kakeibo = () => {
                         <input className="hidden" defaultValue={amount} name="entry.1455952162" />
                         <input type="date" name="entry.1377508283" defaultValue={getCurrentDate()} />
                         <IncomeExpense incomeExpense={incomeExpense} setIncomeExpense={setIncomeExpense} />
+                        <Type type={type} setType={setType} />
                     </div>
                 </div>
                 <label htmlFor="entry.1036151169">Currency</label>

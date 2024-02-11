@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { PanInfo, motion, useMotionValue, useTransform } from "framer-motion";
-import { caveat } from "@/app/fonts";
+import { roboto_mono } from "@/app/fonts";
 
 type IncomeExpenseProps = {
     incomeExpense: string;
@@ -11,7 +11,7 @@ const IncomeExpense: FC<IncomeExpenseProps> = ({ incomeExpense, setIncomeExpense
     const [touched, setTouched] = useState("");
     const x = useMotionValue(0);
     const opacity = useTransform(x, [-100, 0, 100], [0, 1, 0]);
-    const buttonStyle = (val: string) => `${touched === val ? "bg-gray-300 " : val === "Income" ? "bg-cyan-600 " : "bg-rose-600 "} mr-1 w-40 h-12 text-white rounded-full justify-center text-4xl`;
+    const buttonStyle = (val: string) => `${touched === val ? "bg-gray-300 " : val === "Income" ? "bg-cyan-600 " : "bg-rose-600 "} mr-1 w-40 h-12 text-white rounded-full justify-center text-3xl`;
     const divStyle = "flex justify-center my-2";
     const nextVal = incomeExpense === "Income" ? "Expense" : "Income";
     const toggleIncomeExpense = () => {
@@ -19,26 +19,21 @@ const IncomeExpense: FC<IncomeExpenseProps> = ({ incomeExpense, setIncomeExpense
         setIncomeExpense(newVal);
     };
 
-    const handleDrag = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-        // Update the x position based on the drag
-        x.set(info.offset.x);
-        // If dragged enough, toggle the incomeExpense
-        if (info.offset.x <= -30 || info.offset.x >= 30) {
-            toggleIncomeExpense();
-        }
-    };
-
     return (
         <div className={divStyle}>
             <motion.div
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }} // Allow dragging within the container
-                dragElastic={0.2} // Add a bit of elasticity to the drag
-                onDrag={handleDrag}
+                dragElastic={0.5} // Add a bit of elasticity to the drag
+                onDragEnd={(e, info) => {
+                    if (info.offset.x <= -40 || info.offset.x >= 40) {
+                        toggleIncomeExpense();
+                    }
+                }}
                 style={{ x, opacity }}
                 className="w-40 flex justify-center"
             >
-                <motion.button className={`${caveat.className + " " + buttonStyle(incomeExpense)}`} type="button" onTouchStart={() => setTouched(incomeExpense)} onTouchEnd={() => setTouched("")}>
+                <motion.button className={`${roboto_mono.className + " " + buttonStyle(incomeExpense)}`} type="button" onTouchStart={() => setTouched(incomeExpense)} onTouchEnd={() => setTouched("")}>
                     {incomeExpense}
                 </motion.button>
             </motion.div>
