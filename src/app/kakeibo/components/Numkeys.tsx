@@ -39,7 +39,7 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
                     </div>
                 ))}
             </div>
-            <div className={divStyle}>
+            <div className={divStyle} onContextMenu={(e) => handleOnContextMenu(e)}>
                 {[4, 5, 6].map((number) => (
                     <div key={number}>
                         <button className={buttonStyle(number)} type="button" onTouchStart={() => setTouched(number)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick(number.toString())}>
@@ -49,7 +49,7 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
                     </div>
                 ))}
             </div>
-            <div className={divStyle}>
+            <div className={divStyle} onContextMenu={(e) => handleOnContextMenu(e)}>
                 {[7, 8, 9].map((number) => (
                     <div key={number}>
                         <button className={buttonStyle(number)} type="button" onTouchStart={() => setTouched(number)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick(number.toString())}>
@@ -59,7 +59,7 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
                     </div>
                 ))}
             </div>
-            <div className={divStyle}>
+            <div className={divStyle} onContextMenu={(e) => handleOnContextMenu(e)}>
                 <div>
                     <button className={buttonStyle(-2) + " invisible"}>
                         <div>-1</div>
@@ -70,7 +70,7 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
                         <div>0</div>
                     </button>
                 </div>
-                <div>
+                <div onContextMenu={(e) => handleOnContextMenu(e)}>
                     <button className={buttonStyle(-3)} type="button" onTouchStart={() => setTouched(-3)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick("delete")}>
                         <Image width="100" height="100" className="rotate-180" alt="delete" src="/delete-icon-ios-12.jpg" />
                     </button>
