@@ -61,8 +61,8 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
             </div>
             <div className={divStyle} onContextMenu={(e) => handleOnContextMenu(e)}>
                 <div>
-                    <button className={buttonStyle(-2) + " invisible"}>
-                        <div>-1</div>
+                    <button className={buttonStyle(-2)} type="button" onTouchStart={() => setTouched(0)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick(".")}>
+                        <div>.</div>
                     </button>
                 </div>
                 <div>
