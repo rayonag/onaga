@@ -11,7 +11,7 @@ const Currency: FC<CurrencyProps> = ({ currency, setCurrency }) => {
     const [touched, setTouched] = useState("");
     const x = useMotionValue(0);
     const opacity = useTransform(x, [-100, 0, 100], [0, 1, 0]);
-    const buttonStyle = (val: string) => `${touched === val ? "bg-gray-300 " : val === currency ? "bg-cyan-600 " : "bg-gray-500 "} mr-1 w-16 h-12 text-white rounded-full justify-center text-xl`;
+    const buttonStyle = (val: string) => `${touched === val ? "bg-gray-300 " : val === currency ? "bg-cyan-600 " : "bg-gray-500 "} mr-1 w-16 h-12 text-white rounded-full justify-center text-2xl`;
     const divStyle = "flex justify-center my-2";
     const nextVal = currency === "₪" ? "¥" : "₪";
     const toggleName = () => {
