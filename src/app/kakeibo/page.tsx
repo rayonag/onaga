@@ -3,6 +3,7 @@ import React from "react";
 const Kakeibo = () => {
     function getCurrentDate() {
         const currentDate = new Date();
+        const het = "het";
 
         const year = currentDate.getFullYear();
         const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are zero-based
