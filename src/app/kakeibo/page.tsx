@@ -1,6 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Numkeys from "./components/Numkeys";
+import Currency from "./components/Currency";
+import IncomeExpense from "./components/IncomeExpense";
 
 const Kakeibo = () => {
     function getCurrentDate() {
@@ -20,16 +22,23 @@ const Kakeibo = () => {
         }
     };
     const [amount, setAmount] = useState("");
+    const [currency, setCurrency] = useState("₪");
+    const [incomeExpense, setIncomeExpense] = useState("Expense");
     return (
         <div className="h-screen">
             <h1 className="title">問い合わせフォーム</h1>
             <iframe name="hidden_iframe" className=" hidden" onLoad={() => redirect()} />
             <form onSubmit={() => setIsSubmitted(true)} action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScRJSzD2n3gLiW5VEKCCYa3ZeSoE24tSkTNU0BmmSINT-WFTw/formResponse" target="hidden_iframe" method="post">
-                <div>Enter Amount:</div>
-                <div>{amount}</div>
-                <input className="hidden" defaultValue={amount} type="number" name="entry.1455952162" />
-                <Numkeys amount={amount} setAmount={setAmount} />
-
+                <div className="text-center">
+                    <div className="text-xl">
+                        <Currency currency={currency} setCurrency={setCurrency} />
+                        <input className="hidden" defaultValue={amount} name="entry.1036151169" />
+                        <Numkeys amount={amount} setAmount={setAmount} />
+                        <input className="hidden" defaultValue={amount} name="entry.1455952162" />
+                        <input type="date" name="entry.1377508283" defaultValue={getCurrentDate()} />
+                        <IncomeExpense incomeExpense={incomeExpense} setIncomeExpense={setIncomeExpense} />
+                    </div>
+                </div>
                 <label htmlFor="entry.1036151169">Currency</label>
                 <select name="entry.1036151169" defaultValue={"₪"}>
                     <option value="¥">¥</option>
@@ -37,7 +46,6 @@ const Kakeibo = () => {
                 </select>
 
                 <label htmlFor="entry.1377508283">Date</label>
-                <input type="date" name="entry.1377508283" defaultValue={getCurrentDate()} />
 
                 <label htmlFor="entry.1515471867"></label>
                 <select name="entry.1515471867" defaultValue={"Expense"}>

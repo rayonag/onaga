@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useState } from "react";
 
-import { inter, abril } from "@/app/fonts";
+import { caveat } from "@/app/fonts";
 
 type NumkeysProps = {
     amount: string;
@@ -13,23 +13,23 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
             case "delete":
                 setAmount(amount.slice(0, -1));
                 break;
-
             default:
                 setAmount(amount + val);
         }
     };
     const [touched, setTouched] = useState(-1);
-    const buttonStyle = (num: number) => `${touched == num ? "bg-gray-300 " : "bg-stone-400 "} mr-3 w-16 h-16 text-white rounded-full items-center justify-center text-4xl shadow-md transition-colors`;
+    const buttonStyle = (num: number) => `${touched == num ? "bg-gray-300 " : "bg-stone-400 "} mr-3 w-16 h-16 text-white rounded-full justify-center text-4xl shadow-md transition-colors`;
     const divStyle = "flex justify-center m-2";
     return (
-        <div className="justify-center w-3/5">
-            <div className={`${abril.variable}`}>helo all </div>
+        <div>
+            <div className={`${caveat.className} text-3xl`}>Enter Amount:</div>
+            <div className={`${caveat.className} text-3xl`}>{amount || 0}</div>
             <div className={divStyle}>
                 {[1, 2, 3].map((number) => (
                     <div key={number}>
                         <button className={buttonStyle(number)} type="button" onTouchStart={() => setTouched(number)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick(number.toString())}>
                             <div>{number}</div>
-                            <div className="text-sm">{number == 1 ? "" : number == 2 ? "ABC" : "DEF"}</div>
+                            <div className={`${number == 1 ? "invisible " : ""}text-sm`}>{number == 1 ? "-" : number == 2 ? "ABC" : "DEF"}</div>
                         </button>
                     </div>
                 ))}
@@ -37,7 +37,7 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
             <div className={divStyle}>
                 {[4, 5, 6].map((number) => (
                     <div key={number}>
-                        <button className={buttonStyle(number)} type="button" onTouchStart={() => setTouched(number)} onTouchEnd={() => setTouched(0)} onClick={() => handleOnClick(number.toString())}>
+                        <button className={buttonStyle(number)} type="button" onTouchStart={() => setTouched(number)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick(number.toString())}>
                             <div>{number}</div>
                             <div className="text-sm">{number == 4 ? "GHI" : number == 5 ? "JKL" : "MNO"}</div>
                         </button>
