@@ -27,7 +27,7 @@ const Kakeibo = () => {
             <form onSubmit={() => setIsSubmitted(true)} action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScRJSzD2n3gLiW5VEKCCYa3ZeSoE24tSkTNU0BmmSINT-WFTw/formResponse" target="hidden_iframe" method="post">
                 <div>Enter Amount:</div>
                 <div>{amount}</div>
-                <input className="hidden" value={amount} type="number" name="entry.1455952162" />
+                <input className="hidden" defaultValue={amount} type="number" name="entry.1455952162" />
                 <Numkeys amount={amount} setAmount={setAmount} />
 
                 <label htmlFor="entry.1036151169">Currency</label>

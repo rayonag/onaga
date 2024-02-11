@@ -15,5 +15,7 @@ export const roboto_mono = Roboto_Mono({
 export const abril = Abril_Fatface({
     subsets: ["latin"],
     weight: ["400"],
+
+    display: "swap",
     variable: "--font-abril",
 });
