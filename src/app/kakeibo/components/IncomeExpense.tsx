@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { PanInfo, motion, useMotionValue, useTransform } from "framer-motion";
 import { caveat } from "@/app/fonts";
 
 type IncomeExpenseProps = {
@@ -19,7 +19,7 @@ const IncomeExpense: FC<IncomeExpenseProps> = ({ incomeExpense, setIncomeExpense
         setIncomeExpense(newVal);
     };
 
-    const handleDrag = (event, info) => {
+    const handleDrag = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
         // Update the x position based on the drag
         x.set(info.offset.x);
         // If dragged enough, toggle the incomeExpense
