@@ -18,7 +18,7 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
         }
     };
     const [touched, setTouched] = useState(-1);
-    const buttonStyle = (num: number) => `${touched == num ? "bg-gray-300 " : "bg-stone-400 "} mr-3 w-16 h-16 text-white rounded-full justify-center text-4xl shadow-md transition-colors`;
+    const buttonStyle = (num: number) => `${touched == num ? "bg-gray-300 " : "bg-stone-400 "} mx-2 w-20 h-20 text-white rounded-full justify-center text-5xl shadow-md transition-colors`;
     const divStyle = "flex justify-center m-2";
     const handleOnContextMenu = (e: MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -28,13 +28,13 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
     return (
         <div>
             <div className={`${roboto_mono.className} text-3xl`}>Enter Amount:</div>
-            <div className={`${roboto_mono.className} text-3xl`}>{amount || 0}</div>
+            <div className={`${roboto_mono.className} text-4xl`}>{amount || 0}</div>
             <div className={divStyle} onContextMenu={(e) => handleOnContextMenu(e)}>
                 {[1, 2, 3].map((number) => (
                     <div key={number}>
                         <button className={buttonStyle(number)} type="button" onTouchStart={() => setTouched(number)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick(number.toString())}>
                             <div>{number}</div>
-                            <div className={`${number == 1 ? "invisible " : ""}text-sm`}>{number == 1 ? "-" : number == 2 ? "ABC" : "DEF"}</div>
+                            <div className={`${number == 1 ? "invisible " : ""}text-lg`}>{number == 1 ? "-" : number == 2 ? "ABC" : "DEF"}</div>
                         </button>
                     </div>
                 ))}
@@ -44,7 +44,7 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
                     <div key={number}>
                         <button className={buttonStyle(number)} type="button" onTouchStart={() => setTouched(number)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick(number.toString())}>
                             <div>{number}</div>
-                            <div className="text-sm">{number == 4 ? "GHI" : number == 5 ? "JKL" : "MNO"}</div>
+                            <div className="text-lg">{number == 4 ? "GHI" : number == 5 ? "JKL" : "MNO"}</div>
                         </button>
                     </div>
                 ))}
@@ -54,7 +54,7 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
                     <div key={number}>
                         <button className={buttonStyle(number)} type="button" onTouchStart={() => setTouched(number)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick(number.toString())}>
                             <div>{number}</div>
-                            <div className="text-sm">{number == 7 ? "PQRS" : number == 8 ? "TUV" : "WXYZ"}</div>
+                            <div className="text-lg">{number == 7 ? "PQRS" : number == 8 ? "TUV" : "WXYZ"}</div>
                         </button>
                     </div>
                 ))}
@@ -68,6 +68,7 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
                 <div>
                     <button className={buttonStyle(0)} type="button" onTouchStart={() => setTouched(0)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick("0")}>
                         <div>0</div>
+                        <div className="text-lg invisible">-</div>
                     </button>
                 </div>
                 <div onContextMenu={(e) => handleOnContextMenu(e)}>

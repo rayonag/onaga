@@ -42,7 +42,7 @@ const Kakeibo = () => {
                         <Who name={name} setName={setName} />
                         <Currency currency={currency} setCurrency={setCurrency} />
                         <Numkeys amount={amount} setAmount={setAmount} />
-                        <input type="date" name="entry.1377508283" defaultValue={getCurrentDate()} />
+                        <input className="bg-slate-500" type="date" name="entry.1377508283" defaultValue={getCurrentDate()} />
                         <IncomeExpense incomeExpense={incomeExpense} setIncomeExpense={setIncomeExpense} />
                         <Payment payment={payment} setPayment={setPayment} />
                         <Type type={type} setType={setType} incomeExpense={incomeExpense} />
