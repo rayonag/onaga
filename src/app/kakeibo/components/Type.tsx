@@ -31,7 +31,7 @@ const Type: FC<TypeProps> = ({ type, setType, incomeExpense }) => {
                 expenseTypes.map((type) => (
                     <div key={type}>
                         <button className={buttonStyle(type)} type="button" onTouchStart={() => setTouched(type)} onTouchEnd={() => setTouched("")} onClick={() => handleOnClick(type)}>
-                            <Image height={0} width={130} alt={type} src={`/${type}.jpg`} />
+                            <Image height={0} width={80} alt={type} src={`/${type}.jpg`} />
                             <div className="text-2xl">{type}</div>
                         </button>
                     </div>
