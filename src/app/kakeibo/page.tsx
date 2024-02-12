@@ -7,6 +7,7 @@ import Type from "./components/Type";
 import Who from "./components/Who";
 import Input from "./components/Input";
 import Payment from "./components/Payment";
+import Loading from "./components/Loading";
 
 const Kakeibo = () => {
     function getCurrentDate() {
@@ -33,10 +34,28 @@ const Kakeibo = () => {
     const [payment, setPayment] = useState("Cash");
     const [where, setWhere] = useState("");
     const [memo, setMemo] = useState("");
+
+    const [isLoading, setIsLoading] = useState(false);
     return (
         <div className="h-full py-5">
-            <iframe name="hidden_iframe" className=" hidden" onLoad={() => redirect()} />
-            <form onSubmit={() => setIsSubmitted(true)} action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScRJSzD2n3gLiW5VEKCCYa3ZeSoE24tSkTNU0BmmSINT-WFTw/formResponse" target="hidden_iframe" method="post">
+            <iframe
+                name="hidden_iframe"
+                className=" hidden"
+                onLoad={() => {
+                    setIsLoading(false);
+                    redirect();
+                }}
+            />
+            <form
+                onSubmit={() => {
+                    setIsLoading(true);
+                    setIsSubmitted(true);
+                }}
+                action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScRJSzD2n3gLiW5VEKCCYa3ZeSoE24tSkTNU0BmmSINT-WFTw/formResponse"
+                target="hidden_iframe"
+                method="post"
+                className={`${isLoading ? "blur-lg" : ""}`}
+            >
                 <div className="text-center">
                     <div className="text-xl">
                         <Who name={name} setName={setName} />
@@ -64,6 +83,7 @@ const Kakeibo = () => {
                     </div>
                 </div>
             </form>
+            {isLoading && <Loading />}
         </div>
     );
 };

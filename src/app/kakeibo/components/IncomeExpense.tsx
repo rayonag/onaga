@@ -25,6 +25,7 @@ const IncomeExpense: FC<IncomeExpenseProps> = ({ incomeExpense, setIncomeExpense
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }} // Allow dragging within the container
                 dragElastic={0.5} // Add a bit of elasticity to the drag
+                onClick={toggleIncomeExpense}
                 onDragEnd={(e, info) => {
                     if (info.offset.x <= -40 || info.offset.x >= 40) {
                         toggleIncomeExpense();

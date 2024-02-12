@@ -22,6 +22,7 @@ const Payment: FC<PaymentProps> = ({ payment, setPayment }) => {
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }} // Allow dragging within the container
                 dragElastic={0.5} // Add a bit of elasticity to the drag
+                onClick={() => setPayment(nextVal)}
                 onDragEnd={(e, info) => {
                     if (info.offset.x <= -40) setPayment(nextVal);
                     else if (info.offset.x >= 40) setPayment(prevVal);
