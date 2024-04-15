@@ -52,7 +52,7 @@ export default function Loading() {
                 width: "100%",
                 display: "flex",
                 position: "absolute",
-                top: "90%",
+                top: "1000px",
                 alignItems: "center",
                 justifyContent: "center",
             }}

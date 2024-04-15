@@ -11,7 +11,7 @@ const Type: FC<TypeProps> = ({ type, setType, incomeExpense }) => {
         setType(val);
     };
     const [touched, setTouched] = useState("");
-    const buttonStyle = (val: string) => `${touched == val ? "bg-gray-300 " : val == type ? "bg-cyan-600 " : "bg-gray-400 "} m-3 w-28 h-28 text-white rounded-lg justify-center text-4xl shadow-md transition-colors`;
+    const buttonStyle = (val: string) => `${touched == val ? "bg-gray-300 " : val == type ? "bg-cyan-600 " : "bg-gray-400 "} m-3 w-24 h-24 text-white rounded-lg justify-center text-xl shadow-md transition-colors`;
     const divStyle = "flex flex-wrap justify-center m-2";
 
     const incomeTypes = ["BFP Gift", "Offerings", "Other"];
@@ -22,8 +22,8 @@ const Type: FC<TypeProps> = ({ type, setType, incomeExpense }) => {
                 incomeTypes.map((type) => (
                     <div key={type}>
                         <button className={buttonStyle(type)} type="button" onTouchStart={() => setTouched(type)} onTouchEnd={() => setTouched("")} onClick={() => handleOnClick(type)}>
-                            <Image height={0} width={80} alt={type} src={`/${type}.jpg`} />
-                            <div className="text-2xl">{type}</div>
+                            <Image height={0} width={75} alt={type} src={`/${type}.jpg`} />
+                            <div className="text-sm">{type}</div>
                         </button>
                     </div>
                 ))}
@@ -31,8 +31,8 @@ const Type: FC<TypeProps> = ({ type, setType, incomeExpense }) => {
                 expenseTypes.map((type) => (
                     <div key={type}>
                         <button className={buttonStyle(type)} type="button" onTouchStart={() => setTouched(type)} onTouchEnd={() => setTouched("")} onClick={() => handleOnClick(type)}>
-                            <Image height={0} width={80} alt={type} src={`/${type}.jpg`} />
-                            <div className="text-2xl">{type}</div>
+                            <Image height={0} width={75} alt={type} src={`/${type}.jpg`} />
+                            <div className="text-sm">{type}</div>
                         </button>
                     </div>
                 ))}

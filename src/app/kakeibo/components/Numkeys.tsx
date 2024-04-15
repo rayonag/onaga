@@ -29,37 +29,37 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
         <div>
             <div className={`${roboto_mono.className} text-3xl`}>Enter Amount:</div>
             <div className={`${roboto_mono.className} text-4xl`}>{amount || 0}</div>
-            <div className={divStyle} onContextMenu={(e) => handleOnContextMenu(e)}>
+            <div className={divStyle}>
                 {[1, 2, 3].map((number) => (
                     <div key={number}>
                         <button className={buttonStyle(number)} type="button" onTouchStart={() => setTouched(number)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick(number.toString())}>
                             <div>{number}</div>
-                            <div className={`${number == 1 ? "invisible " : ""}text-lg`}>{number == 1 ? "-" : number == 2 ? "ABC" : "DEF"}</div>
+                            <div className={`${number == 1 ? "invisible " : ""}text-sm`}>{number == 1 ? "-" : number == 2 ? "ABC" : "DEF"}</div>
                         </button>
                     </div>
                 ))}
             </div>
-            <div className={divStyle} onContextMenu={(e) => handleOnContextMenu(e)}>
+            <div className={divStyle}>
                 {[4, 5, 6].map((number) => (
                     <div key={number}>
                         <button className={buttonStyle(number)} type="button" onTouchStart={() => setTouched(number)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick(number.toString())}>
                             <div>{number}</div>
-                            <div className="text-lg">{number == 4 ? "GHI" : number == 5 ? "JKL" : "MNO"}</div>
+                            <div className="text-sm">{number == 4 ? "GHI" : number == 5 ? "JKL" : "MNO"}</div>
                         </button>
                     </div>
                 ))}
             </div>
-            <div className={divStyle} onContextMenu={(e) => handleOnContextMenu(e)}>
+            <div className={divStyle}>
                 {[7, 8, 9].map((number) => (
                     <div key={number}>
                         <button className={buttonStyle(number)} type="button" onTouchStart={() => setTouched(number)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick(number.toString())}>
                             <div>{number}</div>
-                            <div className="text-lg">{number == 7 ? "PQRS" : number == 8 ? "TUV" : "WXYZ"}</div>
+                            <div className="text-sm">{number == 7 ? "PQRS" : number == 8 ? "TUV" : "WXYZ"}</div>
                         </button>
                     </div>
                 ))}
             </div>
-            <div className={divStyle} onContextMenu={(e) => handleOnContextMenu(e)}>
+            <div className={divStyle}>
                 <div>
                     <button className={buttonStyle(-2)} type="button" onTouchStart={() => setTouched(0)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick(".")}>
                         <div>.</div>
@@ -68,12 +68,12 @@ const Numkeys: FC<NumkeysProps> = ({ amount, setAmount }) => {
                 <div>
                     <button className={buttonStyle(0)} type="button" onTouchStart={() => setTouched(0)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick("0")}>
                         <div>0</div>
-                        <div className="text-lg invisible">-</div>
+                        <div className="text-sm invisible">-</div>
                     </button>
                 </div>
                 <div onContextMenu={(e) => handleOnContextMenu(e)}>
                     <button className={buttonStyle(-3)} type="button" onTouchStart={() => setTouched(-3)} onTouchEnd={() => setTouched(-1)} onClick={() => handleOnClick("delete")}>
-                        <Image width="100" height="100" className="rotate-180" alt="delete" src="/delete-icon-ios-12.jpg" />
+                        <Image width="100" height="100" className="rotate-180" alt="delete" src="/delete-icon-ios-12.jpg" onContextMenu={(e) => handleOnContextMenu(e)} />
                     </button>
                 </div>
             </div>

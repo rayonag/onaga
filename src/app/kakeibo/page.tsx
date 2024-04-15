@@ -1,5 +1,6 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import { motion, useAnimation, useMotionValue } from "framer-motion";
 import Numkeys from "./components/Numkeys";
 import Currency from "./components/Currency";
 import IncomeExpense from "./components/IncomeExpense";
@@ -26,6 +27,7 @@ const Kakeibo = () => {
             window.location.reload();
         }
     };
+
     const [name, setName] = useState("Hosanna");
     const [amount, setAmount] = useState("");
     const [currency, setCurrency] = useState("₪");
@@ -36,11 +38,16 @@ const Kakeibo = () => {
     const [memo, setMemo] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
+    const controls = useAnimation();
+    const x = useMotionValue(-1200);
+
+    const snapPoints = [0, -600, -1200]; // Snap points for each section
+
     return (
         <div className="h-full py-5">
             <iframe
                 name="hidden_iframe"
-                className=" hidden"
+                className="hidden"
                 onLoad={() => {
                     setIsLoading(false);
                     redirect();
@@ -57,20 +64,39 @@ const Kakeibo = () => {
                 className={`${isLoading ? "blur-lg" : ""}`}
             >
                 <div className="text-center">
-                    <div className="text-xl">
-                        <Who name={name} setName={setName} />
-                        <Currency currency={currency} setCurrency={setCurrency} />
-                        <Numkeys amount={amount} setAmount={setAmount} />
-                        <input className="bg-slate-500" type="date" name="entry.1377508283" defaultValue={getCurrentDate()} />
-                        <IncomeExpense incomeExpense={incomeExpense} setIncomeExpense={setIncomeExpense} />
-                        <Payment payment={payment} setPayment={setPayment} />
-                        <Type type={type} setType={setType} incomeExpense={incomeExpense} />
-                        <Input value={where} setValue={setWhere} placeholder="Where?" />
-                        <Input value={memo} setValue={setMemo} placeholder="Add Memo" />
-                        <button className="bg-cyan-600 w-28 h-12 text-white rounded-full text-2xl" type="submit" value="Submit">
-                            Submit
-                        </button>
-                    </div>
+                    <motion.div
+                        drag="x"
+                        dragConstraints={{ left: 0, right: 1200 }}
+                        dragElastic={0.5}
+                        onDragEnd={(_, info) => {
+                            controls.stop();
+                            const nearestSnap = snapPoints.reduce((prev, curr) => (Math.abs(curr - info.point.x) < Math.abs(prev - info.point.x) ? curr : prev));
+                            console.log(nearestSnap);
+                            controls.start({ x: nearestSnap });
+                        }}
+                        animate={controls}
+                        className="text-xl flex w-[300vw]"
+                        style={{ x }}
+                    >
+                        <div className="w-[100vw] h-full">
+                            <Who name={name} setName={setName} />
+                            <Currency currency={currency} setCurrency={setCurrency} />
+                            <Numkeys amount={amount} setAmount={setAmount} />
+                            <input className="bg-slate-500" type="date" name="entry.1377508283" defaultValue={getCurrentDate()} />
+                        </div>
+                        <div className="w-[100vw] h-full">
+                            <IncomeExpense incomeExpense={incomeExpense} setIncomeExpense={setIncomeExpense} />
+                            <Payment payment={payment} setPayment={setPayment} />
+                            <Type type={type} setType={setType} incomeExpense={incomeExpense} />
+                        </div>
+                        <div className="w-[100vw] h-full">
+                            <Input value={where} setValue={setWhere} placeholder="Where?" />
+                            <Input value={memo} setValue={setMemo} placeholder="Add Memo" />
+                            <button className="bg-cyan-600 w-28 h-12 text-white rounded-full text-2xl" type="submit" value="Submit">
+                                Submit
+                            </button>
+                        </div>
+                    </motion.div>
                     <div className="hidden">
                         <input className="hidden" defaultValue={name} name="entry.2013839616" />
                         <input className="hidden" defaultValue={currency} name="entry.1036151169" />
@@ -87,4 +113,5 @@ const Kakeibo = () => {
         </div>
     );
 };
+
 export default Kakeibo;
