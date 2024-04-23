@@ -15,6 +15,7 @@ const AddQuiz = () => {
     const [result, setResult] = useState<any>(null);
     const { player, setPlayer } = usePlayer();
     const { page, setPage } = usePage();
+    if (!setPage) return null;
     useEffect(() => {
         if (level) {
             switch (level) {
