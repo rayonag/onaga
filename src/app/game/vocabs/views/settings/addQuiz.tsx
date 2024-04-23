@@ -4,7 +4,7 @@ import { getColorByType } from "../game/battle";
 import CountUp from "react-countup";
 import getWeak from "../../common/getWeak";
 import toEng from "../../common/toEng";
-import { usePage, usePlayer } from "../../page";
+import { usePage, usePlayer } from "../../common/exports";
 
 const AddQuiz = () => {
     const [score, setScore] = useState<number | null>(null);
