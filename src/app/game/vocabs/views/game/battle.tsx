@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useBetaRecords, useBoss, usePage, usePlayer } from "../../page";
+import { useBoss, usePage, usePlayer } from "../../page";
 import "./style.css";
 import LeftArrow from "../../components/icons/LeftArrow";
 import toJp from "../../common/toJp";

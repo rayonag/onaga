@@ -1,12 +1,8 @@
 import { memo, useEffect, useState } from "react";
-import { boss, defaultBoss } from "../../beta/records";
-import LeftArrow from "../../components/icons/LeftArrow";
-import RightArrow from "../../components/icons/RightArrow";
-import Image from "next/image";
+import { boss } from "../../beta/records";
 import { getColorByType } from "../game/battle";
 import CountUp from "react-countup";
 import getWeak from "../../common/getWeak";
-import supabase from "../../common/supabase";
 import toEng from "../../common/toEng";
 import { usePage, usePlayer } from "../../page";
 

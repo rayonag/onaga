@@ -1,5 +1,5 @@
 import React from "react";
-import { useBetaRecords, useBoss, usePage } from "../../page";
+import { useBoss, usePage } from "../../page";
 
 const Game = () => {
     const { boss, setBoss, currentBoss, setCurrentBoss } = useBoss();

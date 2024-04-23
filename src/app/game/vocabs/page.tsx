@@ -11,8 +11,6 @@ import Add from "./views/settings/addBoss";
 import AddQuiz from "./views/settings/addQuiz";
 import supabase from "./common/supabase";
 // Create a context to hold the beta/records value
-const BetaRecordsContext = React.createContext<{ betaRecords: any; setBetaRecords: React.Dispatch<React.SetStateAction<any>> | null }>({ betaRecords: [], setBetaRecords: null });
-export const useBetaRecords = () => useContext(BetaRecordsContext);
 const PageContext = React.createContext<{ page: Page; setPage: React.Dispatch<React.SetStateAction<any>> | null }>({ page: "home", setPage: null });
 export const usePage = () => useContext(PageContext);
 export type Page = "battle" | "home" | "game" | "settings" | "addBoss" | "addQuiz";
@@ -79,22 +77,20 @@ const Page: React.FC = () => {
         <BossContext.Provider value={{ boss, setBoss, currentBoss, setCurrentBoss }}>
             <PlayerContext.Provider value={{ player, setPlayer }}>
                 <PageContext.Provider value={{ page, setPage }}>
-                    <BetaRecordsContext.Provider value={{ betaRecords, setBetaRecords }}>
-                        <div className="min-h-screen">
-                            <div className="page-container">
-                                <header className="navbar">{/* Add your navigation links here */}</header>
-                                <main className="content">{/* Add your page content here */}</main>
-                                <footer className="footer">{/* Add your footer content here */}</footer>
-                            </div>
-                            {page == "home" && <Home />}
-                            {page == "settings" && <Settings />}
-                            {page == "addBoss" && <Add />}
-                            {page == "addQuiz" && <AddQuiz />}
-                            {page == "game" && <Game />}
-                            {page == "battle" && <Battle />}
-                            <Navbar page={page} setPage={setPage} />
+                    <div className="min-h-screen">
+                        <div className="page-container">
+                            <header className="navbar">{/* Add your navigation links here */}</header>
+                            <main className="content">{/* Add your page content here */}</main>
+                            <footer className="footer">{/* Add your footer content here */}</footer>
                         </div>
-                    </BetaRecordsContext.Provider>
+                        {page == "home" && <Home />}
+                        {page == "settings" && <Settings />}
+                        {page == "addBoss" && <Add />}
+                        {page == "addQuiz" && <AddQuiz />}
+                        {page == "game" && <Game />}
+                        {page == "battle" && <Battle />}
+                        <Navbar page={page} setPage={setPage} />
+                    </div>
                 </PageContext.Provider>
             </PlayerContext.Provider>
         </BossContext.Provider>
