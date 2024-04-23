@@ -1,12 +1,12 @@
 import React from "react";
-import { useBetaRecords, usePage } from "../../page";
+import { useBetaRecords, useBoss, usePage } from "../../page";
 
 const Game = () => {
-    const { betaRecords, setBetaRecords } = useBetaRecords();
+    const { boss, setBoss, currentBoss, setCurrentBoss } = useBoss();
     const { setPage } = usePage();
-    if (setBetaRecords === null) return null;
+    if (setBoss === null) return null;
     else if (setPage === null) return null;
-    console.log("betaRecords", betaRecords);
+    console.log("boss", boss);
 
     const Hpbar = ({ hp, maxHp }: { hp: number; maxHp: number }) => {
         const hpPercent = (hp / maxHp) * 100;
@@ -17,8 +17,8 @@ const Game = () => {
                 <div>
                     HP: {<span className={`${hpTextColor}`}>{hp}</span>}/{maxHp}
                 </div>
-                <div className="w-44 h-8 bg-gray-300 rounded-3xl">
-                    <div className={`h-full ${hpColor} rounded-l-3xl`} style={{ width: `${(hp / maxHp) * 100}%` }}></div>
+                <div className="w-40 h-8 bg-gray-300 rounded-3xl">
+                    <div className={`h-full ${hpColor} rounded-l-3xl ${(hp / maxHp) * 100 > 90 && "rounded-r-3xl"}`} style={{ width: `${(hp / maxHp) * 100}%` }}></div>
                 </div>
             </div>
         );
@@ -46,40 +46,41 @@ const Game = () => {
     };
     return (
         <div>
-            {betaRecords.boss.map((record: any) => {
-                return (
-                    <div
-                        key={record.id}
-                        onClick={() => {
-                            if (record.hp <= 0) return;
-                            setPage("battle");
-                            setBetaRecords({ ...betaRecords, bossId: record.id });
-                        }}
-                    >
-                        <div>
-                            {record.hp <= 0 && <div className="w-full h-40 absolute bg-black bg-opacity-40 text-5xl flex justify-center items-center text-center italic text-white">COMPLETE</div>}
-                            <div className="p-5 border h-40 border-b-gray-400 flex items-center">
-                                <div className="w-[70%]">
-                                    <div className="text-2xl">{record.name}</div>
-                                    <div>
-                                        <span className="italic">Reward: </span>
-                                        {record.reward}
+            {boss &&
+                boss.map((record: any) => {
+                    return (
+                        <div
+                            key={record.id}
+                            onClick={() => {
+                                if (record.hp <= 0) return;
+                                setPage("battle");
+                                setCurrentBoss(record.id);
+                            }}
+                        >
+                            <div>
+                                {record.hp <= 0 && <div className="w-full h-40 absolute bg-black bg-opacity-40 text-5xl flex justify-center items-center text-center italic text-white">COMPLETE</div>}
+                                <div className="p-5 border h-40 border-b-gray-400 flex items-center">
+                                    <div className="w-[70%]">
+                                        <div className="text-2xl">{record.name}</div>
+                                        <div>
+                                            <span className="italic">Reward: </span>
+                                            {record.reward}
+                                        </div>
+                                        <div>
+                                            <Hpbar hp={record.hp} maxHp={record.maxHp} />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <Hpbar hp={record.hp} maxHp={record.maxHp} />
+                                    <div className="w-[30%]">
+                                        <div className="border border-neutral-600 rounded-lg flex justify-center items-center">
+                                            <img className="h-24 w-24 rounded-lg bg-theme3" src={record.imageup} alt={record.name} />
+                                        </div>
+                                        <DueDate due={record.due} />
                                     </div>
-                                </div>
-                                <div className="w-[30%]">
-                                    <div className="border border-neutral-600 rounded-lg flex justify-center items-center">
-                                        <img className="h-24 w-24" src={`/vocabs/${record.imageup}`} alt={record.name} />
-                                    </div>
-                                    <DueDate due={record.due} />
                                 </div>
                             </div>
                         </div>
-                    </div>
-                );
-            })}
+                    );
+                })}
         </div>
     );
 };

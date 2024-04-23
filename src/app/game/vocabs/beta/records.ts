@@ -11,7 +11,7 @@ export const records = [
 export const boss = [
     {
         id: 1,
-        name: "Rama Aleph",
+        name: "パ",
         maxHp: 1000,
         hp: 350,
         reward: "映画みる",
@@ -19,10 +19,11 @@ export const boss = [
         image: "boss1.jpg",
         imageup: "boss1up.jpg",
         due: "2024-04-15",
+        weak: ["みず"],
     },
     {
         id: 2,
-        name: "Rama Gimel",
+        name: "名",
         maxHp: 1000,
         hp: 750,
         reward: "バラガンラーメン",
@@ -30,6 +31,7 @@ export const boss = [
         image: "boss2.jpg",
         imageup: "boss2up.jpg",
         due: "2024-04-15",
+        weak: ["くさ", "でんき", "こおり"],
     },
     {
         id: 3,
@@ -40,6 +42,7 @@ export const boss = [
         type: "くさ",
         image: "boss1.jpg",
         due: "2024-03-15",
+        weak: [],
     },
 ];
 
@@ -65,3 +68,24 @@ export const player = {
         ノーマル: 0,
     },
 };
+
+export const defaultBoss = [
+    {
+        id: 1,
+        maxHp: 750,
+        image: "boss1.jpg",
+        imageup: "boss1up.jpg",
+    },
+    {
+        id: 2,
+        maxHp: 1000,
+        image: "boss2.jpg",
+        imageup: "boss2up.jpg",
+    },
+    {
+        id: 3,
+        maxHp: 1500,
+        image: "boss3.jpg",
+        imageup: "boss3up.jpg",
+    },
+];

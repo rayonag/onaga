@@ -1,15 +1,71 @@
 import React, { useEffect, useState } from "react";
-import { useBetaRecords, usePage } from "../../page";
+import { useBetaRecords, useBoss, usePage, usePlayer } from "../../page";
 import "./style.css";
+import LeftArrow from "../../components/icons/LeftArrow";
+import toJp from "../../common/toJp";
+import toEng from "../../common/toEng";
 
-const Battle = (recordsss: any) => {
-    const { betaRecords, setBetaRecords } = useBetaRecords();
+export const getColorByType = (type: string) => {
+    let color = "";
+    switch (type) {
+        case "ほのお":
+            color = "bg-red-500";
+            break;
+        case "みず":
+            color = "bg-blue-500";
+            break;
+        case "くさ":
+            color = "bg-green-500";
+            break;
+        case "でんき":
+            color = "bg-yellow-500";
+            break;
+        case "こおり":
+            color = "bg-blue-300";
+            break;
+        case "かくとう":
+            color = "bg-red-300";
+            break;
+        case "どく":
+            color = "bg-purple-500";
+            break;
+        case "じめん":
+            color = "bg-yellow-300";
+            break;
+        case "ひこう":
+            color = "bg-blue-500";
+            break;
+        case "エスパー":
+            color = "bg-purple-300";
+            break;
+        case "むし":
+            color = "bg-green-300";
+            break;
+        case "いわ":
+            color = "bg-gray-500";
+            break;
+        case "ゴースト":
+            color = "bg-purple-500";
+            break;
+        case "ドラゴン":
+            color = "bg-red-500";
+            break;
+        default:
+            color = "bg-gray-500";
+    }
+    return color;
+};
+const Battle = () => {
+    const { player, setPlayer } = usePlayer();
+    const { boss, setBoss, currentBoss } = useBoss();
+    console.log("boss", boss);
     const { setPage } = usePage();
-    if (setBetaRecords === null) return null;
+    if (setPlayer === null) return null;
+    else if (boss == null || setBoss == null) return null;
     else if (setPage === null) return null;
-    console.log("betaRecords", betaRecords);
-    const record = betaRecords.boss.find((boss: any) => boss.id == betaRecords.bossId) || {};
-    const player: { score: { key: number } } = betaRecords.player;
+    const record = boss.find((b: any) => b.id === currentBoss);
+    if (!record) return null;
+    console.log("record", record);
     const [currentHp, setCurrentHp] = useState(record.hp);
     const [ratio, setRatio] = useState<1 | 5 | 10>(1);
     const [isComplete, setIsComplete] = useState(false);
@@ -26,7 +82,7 @@ const Battle = (recordsss: any) => {
                     <span className="absolute w-44 h-8 px-5 text-center flex justify-center items-center">
                         {<span className={`${hpTextColor}`}>HP:{hp}</span>}/{maxHp}
                     </span>
-                    <div className={`h-full ${hpColor} rounded-l-3xl`} style={{ width: `${(hp / maxHp) * 100}%` }}></div>
+                    <div className={`h-full ${hpColor} rounded-l-3xl ${(hp / maxHp) * 100 > 90 && "rounded-r-3xl"}`} style={{ width: `${(hp / maxHp) * 100}%` }}></div>
                 </div>
             </div>
         );
@@ -63,9 +119,10 @@ const Battle = (recordsss: any) => {
         console.log("sortedScore", sortedScore);
         const field = sortedScore.map((score) => {
             console.log("key", score);
+            if (score[0] == "id") return <></>;
             return (
                 <>
-                    <Button type={score[0]} value={score[1]} />
+                    <Button type={toJp(score[0])} value={score[1]} />
                 </>
             );
         });
@@ -73,6 +130,7 @@ const Battle = (recordsss: any) => {
     };
     const Button = ({ type, value }: { type: string; value: number }) => {
         const [currentScore, setCurrentScore] = useState(value);
+        value = value || 0;
         const onTap = () => {
             if (value == 0) return;
             const newScore = currentScore - ratio;
@@ -91,67 +149,21 @@ const Battle = (recordsss: any) => {
             const newHp = currentHp - ratio < 0 ? 0 : currentHp - ratio;
             setCurrentScore(currentScore - ratio);
             setCurrentHp(newHp);
-            const updatedBosses = betaRecords.boss.map((boss: any) => {
+            const updatedBosses = boss.map((boss: any) => {
                 if (boss.id === record.id) {
                     return { ...boss, hp: newHp };
                 }
                 return boss;
             });
-            setBetaRecords({ ...betaRecords, boss: updatedBosses, player: { ...player, score: { ...player.score, [type]: currentScore - ratio } } });
+            setBoss(updatedBosses);
+            setPlayer({ ...player, [toEng(type)]: currentScore - ratio });
             if (newHp <= 0) {
                 setIsComplete(true);
             }
         };
         let color = "";
         if (value == 0) color = "bg-gray-500";
-        else {
-            switch (type) {
-                case "ほのお":
-                    color = "bg-red-500";
-                    break;
-                case "みず":
-                    color = "bg-blue-500";
-                    break;
-                case "くさ":
-                    color = "bg-green-500";
-                    break;
-                case "でんき":
-                    color = "bg-yellow-500";
-                    break;
-                case "こおり":
-                    color = "bg-blue-300";
-                    break;
-                case "かくとう":
-                    color = "bg-red-300";
-                    break;
-                case "どく":
-                    color = "bg-purple-500";
-                    break;
-                case "じめん":
-                    color = "bg-yellow-300";
-                    break;
-                case "ひこう":
-                    color = "bg-blue-500";
-                    break;
-                case "エスパー":
-                    color = "bg-purple-300";
-                    break;
-                case "むし":
-                    color = "bg-green-300";
-                    break;
-                case "いわ":
-                    color = "bg-gray-500";
-                    break;
-                case "ゴースト":
-                    color = "bg-purple-500";
-                    break;
-                case "ドラゴン":
-                    color = "bg-red-500";
-                    break;
-                default:
-                    color = "bg-gray-500";
-            }
-        }
+        else color = getColorByType(type);
         console.log("key22", value);
         return (
             <div onTouchEndCapture={onTap} className={`m-1 p-4 rounded-full w-2/5 ${color}`}>
@@ -193,19 +205,19 @@ const Battle = (recordsss: any) => {
     };
     useEffect(() => {
         if (isComplete) {
-            alert("おめでとう！ボスを倒して報酬をゲットした。");
+            alert("おめでとう！ボスを倒して報酬をゲットしたよ！");
             setPage("game");
         }
     }, [isComplete]);
     return (
         <>
             <section>
-                <div className="absolute" onClick={() => setPage("game")}>
-                    <img className="h-16 w-16 rotate-180" src={`/RightArrow.png`} alt={record.name} />
+                <div className="absolute left-3 top-3" onClick={() => setPage("game")}>
+                    <LeftArrow size={35} />
                 </div>
                 <div className="rounded-lg flex flex-col justify-center items-center m-1">
                     <div className="text-2xl">{record.name}</div>
-                    <img className="max-h-[40vh]" id="boss-image" src={`/vocabs/${record.image}`} alt={record.name} />
+                    <img className="h-[40vh] max-h-[40vh]" id="boss-image" src={record.image} alt={record.name} />
                     <div className="w-[30%]">
                         <DueDate due={record.due} />
                     </div>{" "}
@@ -220,10 +232,10 @@ const Battle = (recordsss: any) => {
             </section>
             <section>
                 <div className="max-h-[40vh] overflow-auto p-2 bg-stone-200">
-                    {player.score && (
+                    {player && (
                         <div className="relative border-8 border-dotted border-blue-200 flex flex-wrap w-full justify-evenly text-center">
                             <RatioButton />
-                            <AttackField score={player.score} />
+                            <AttackField score={player} />
                         </div>
                     )}
                 </div>
