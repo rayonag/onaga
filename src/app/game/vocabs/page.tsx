@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import Game from "./views/game/game";
-import { boss, player, records } from "./beta/records";
+import { records } from "./beta/records";
 import Battle from "./views/game/battle";
 import Home from "./views/home/home";
 import Navbar from "./components/navbar";
