@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useBoss, usePage, usePlayer } from "../../page";
+
 import "./style.css";
 import LeftArrow from "../../components/icons/LeftArrow";
 import toJp from "../../common/toJp";
 import toEng from "../../common/toEng";
+import { usePlayer, useBoss, usePage } from "../../common/exports";
 
 export const getColorByType = (type: string) => {
     let color = "";

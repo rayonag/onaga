@@ -10,23 +10,9 @@ import Settings from "./views/settings/settings";
 import Add from "./views/settings/addBoss";
 import AddQuiz from "./views/settings/addQuiz";
 import supabase from "./common/supabase";
-// Create a context to hold the beta/records value
-const PageContext = React.createContext<{ page: Page; setPage: React.Dispatch<React.SetStateAction<any>> | null }>({ page: "home", setPage: null });
-export const usePage = () => useContext(PageContext);
-export type Page = "battle" | "home" | "game" | "settings" | "addBoss" | "addQuiz";
-const PlayerContext = React.createContext<any>({});
-export const usePlayer = () => useContext(PlayerContext);
-const BossContext = React.createContext<any>({});
-export const useBoss = () => useContext(BossContext);
+import { BossContext, PlayerContext, PageContext } from "./common/exports";
+import type { Page } from "./common/exports";
 
-export const fetchBoss = async () => {
-    let { data: boss, error } = await supabase.from("boss").select("*");
-    return boss;
-};
-export const fetchPlayer = async () => {
-    let { data: player, error } = await supabase.from("player").select("*");
-    return player;
-};
 const Page: React.FC = () => {
     // Use the useContext hook to access the beta/records value
     const [betaRecords, setBetaRecords] = useState<any>({ records, bossId: 0 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { useBoss, usePage } from "../../page";
+import { useBoss, usePage } from "../../common/exports";
 
 const Game = () => {
     const { boss, setBoss, currentBoss, setCurrentBoss } = useBoss();
