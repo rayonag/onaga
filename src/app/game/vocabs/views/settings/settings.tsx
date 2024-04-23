@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { usePage } from "../../page";
+import { usePage } from "../../common/exports";
 
 const Settings = () => {
     const { setPage } = usePage();
