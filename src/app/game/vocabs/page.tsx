@@ -70,7 +70,7 @@ const Page: React.FC = () => {
         <BossContext.Provider value={{ boss, setBoss, currentBoss, setCurrentBoss }}>
             <PlayerContext.Provider value={{ player, setPlayer }}>
                 <PageContext.Provider value={{ page, setPage }}>
-                    <div className="h-screen overflow-scroll pb-14">
+                    <div className={`max-h-[100vh] h-[100vh] pb-14 ${page == "game" && "overflow-scroll"}`}>
                         <div className="page-container">
                             <header className="navbar">{/* Add your navigation links here */}</header>
                             <main className="content">{/* Add your page content here */}</main>
@@ -82,8 +82,8 @@ const Page: React.FC = () => {
                         {page == "addQuiz" && <AddQuiz />}
                         {page == "game" && <Game />}
                         {page == "battle" && <Battle />}
-                        <Navbar page={page} setPage={setPage} />
                     </div>
+                    <Navbar page={page} setPage={setPage} />
                 </PageContext.Provider>
             </PlayerContext.Provider>
         </BossContext.Provider>
