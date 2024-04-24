@@ -156,7 +156,7 @@ const AddQuiz = () => {
                     </option>
                 ))}
             </select>
-            <div>
+            <div className="overflow-hidden">
                 <input
                     value={score || ""}
                     onChange={(e) => {
