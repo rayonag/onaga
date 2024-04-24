@@ -130,6 +130,10 @@ const AddQuiz = () => {
     useEffect(() => {
         setShowResult(false);
     }, [type, level, score]);
+    useEffect(() => {
+        // Disable body scroll
+        document.body.style.overflow = "hidden";
+    }, [showResult]);
     return (
         <div className="h-screen flex flex-col justify-center items-center text-center">
             <select value={type || ""} onChange={(e) => setType(e.currentTarget.value)} className="w-40 max-w-[80%] p-2 m-2 text-xl rounded-full">
