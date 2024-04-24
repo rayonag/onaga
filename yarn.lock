@@ -965,6 +965,11 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
+"@capacitor/haptics@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/haptics/-/haptics-6.0.0.tgz#4ff29ca16173c28d50ab6a227bc4cb8091df6e1d"
+  integrity sha512-z2TmB+pTbd98Il2I1xpZGClCFwORxxP2m9f1a0rh70c2ubj2atVyZctgxrx1fuoExZTNGSxHaylWfrmjmtelVg==
+
 "@ducanh2912/next-pwa@^10.2.6":
   version "10.2.6"
   resolved "https://registry.yarnpkg.com/@ducanh2912/next-pwa/-/next-pwa-10.2.6.tgz#69ac5dca032161dbac5893bab08f9c0e22380150"
