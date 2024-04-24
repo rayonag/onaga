@@ -61,10 +61,10 @@ const Page: React.FC = () => {
         // Disable body scroll
         document.body.style.overflow = "hidden";
 
-        return () => {
-            // Re-enable body scroll on cleanup
-            document.body.style.overflow = "";
-        };
+        // return () => {
+        //     // Re-enable body scroll on cleanup
+        //     document.body.style.overflow = "";
+        // };
     }, []);
     return (
         <BossContext.Provider value={{ boss, setBoss, currentBoss, setCurrentBoss }}>
