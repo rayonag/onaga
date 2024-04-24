@@ -1,8 +1,7 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Game from "./views/game/game";
-import { records } from "./beta/records";
 import Battle from "./views/game/battle";
 import Home from "./views/home/home";
 import Navbar from "./components/navbar";
@@ -11,15 +10,14 @@ import Add from "./views/settings/addBoss";
 import AddQuiz from "./views/settings/addQuiz";
 import supabase from "./common/supabase";
 import { BossContext, PlayerContext, PageContext } from "./common/exports";
+
 import type { Page } from "./common/exports";
 
 const Page: React.FC = () => {
-    // Use the useContext hook to access the beta/records value
-    const [betaRecords, setBetaRecords] = useState<any>({ records, bossId: 0 });
     const [player, setPlayer] = useState<any>();
     const [boss, setBoss] = useState<any>();
     const [currentBoss, setCurrentBoss] = useState<any>();
-    const [page, setPage] = useState<Page>("addQuiz");
+    const [page, setPage] = useState<Page>("home");
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
@@ -63,7 +61,7 @@ const Page: React.FC = () => {
         <BossContext.Provider value={{ boss, setBoss, currentBoss, setCurrentBoss }}>
             <PlayerContext.Provider value={{ player, setPlayer }}>
                 <PageContext.Provider value={{ page, setPage }}>
-                    <div className="min-h-screen">
+                    <div className="h-screen">
                         <div className="page-container">
                             <header className="navbar">{/* Add your navigation links here */}</header>
                             <main className="content">{/* Add your page content here */}</main>
