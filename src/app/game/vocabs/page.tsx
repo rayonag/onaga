@@ -44,7 +44,7 @@ const Page: React.FC = () => {
     console.log("boss", boss);
     useEffect(() => {
         (async () => {
-            let { data: boss, error } = await supabase.from("boss").select("*");
+            let { data: boss, error } = await supabase.from("boss").select("*").order("id", { ascending: true });
             setBoss(boss);
         })();
     }, []);
