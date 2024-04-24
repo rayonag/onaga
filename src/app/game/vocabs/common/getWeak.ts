@@ -34,6 +34,8 @@ const getWeak = (type: string) => {
             return ["ほのお", "かくとう", "じめん"];
         case "フェアリー":
             return ["どく", "はがね"];
+        default:
+            return [];
     }
 };
 export default getWeak;

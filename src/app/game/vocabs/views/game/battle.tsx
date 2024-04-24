@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import "./style.css";
 import LeftArrow from "../../components/icons/LeftArrow";
@@ -113,8 +113,8 @@ const Battle = () => {
     const AttackField = ({ score }: { score: { key: number } }) => {
         // sort the record by score, if it's 0 then goes to the end, else remains the same
         const sortedScore = Object.entries(score).sort((a, b) => {
-            if (a[1] == 0) return 1;
-            if (b[1] == 0) return -1;
+            if (a[1] == 0 || a[1] == null) return 1;
+            if (b[1] == 0 || b[1] == null) return -1;
             return 0;
         });
         console.log("sortedScore", sortedScore);
@@ -134,8 +134,10 @@ const Battle = () => {
         value = value || 0;
         const onTap = () => {
             if (value == 0) return;
-            const newScore = currentScore - ratio;
-            if (newScore < 0) return;
+            let thisRatio = Number(ratio);
+            const newScore = currentScore - thisRatio;
+            if (newScore < 0) thisRatio = currentScore;
+            if (currentHp - ratio < 0) thisRatio = currentHp;
             if (currentHp <= 0) return;
             const shakeImage = () => {
                 const image = document.getElementById("boss-image");
@@ -147,8 +149,8 @@ const Battle = () => {
                 }
             };
             shakeImage();
-            const newHp = currentHp - ratio < 0 ? 0 : currentHp - ratio;
-            setCurrentScore(currentScore - ratio);
+            const newHp = currentHp - thisRatio;
+            setCurrentScore(currentScore - thisRatio);
             setCurrentHp(newHp);
             const updatedBosses = boss.map((boss: any) => {
                 if (boss.id === record.id) {
@@ -157,7 +159,7 @@ const Battle = () => {
                 return boss;
             });
             setBoss(updatedBosses);
-            setPlayer({ ...player, [toEng(type)]: currentScore - ratio });
+            setPlayer({ ...player, [toEng(type)]: currentScore - thisRatio });
             if (newHp <= 0) {
                 setIsComplete(true);
             }
@@ -173,35 +175,47 @@ const Battle = () => {
         );
     };
     const RatioButton = () => {
+        const [isOpen, setIsOpen] = useState(false);
+        const handleClick = () => {
+            setIsOpen(isOpen ? false : true);
+        };
         return (
-            <div className="absolute top-[-20px] right-0 flex justify-center text-sm items-center">
-                <div className={`m-1 px-1 flex rounded-full `}>
-                    <div
-                        className={`px-1 ${ratio == 1 ? "bg-gray-300" : "bg-gray-500"}`}
-                        onTouchEndCapture={() => {
-                            setRatio(1);
-                        }}
-                    >
-                        x1
-                    </div>
-                    <div
-                        className={`px-1 ${ratio == 5 ? "bg-gray-300" : "bg-gray-500"}`}
-                        onTouchEndCapture={() => {
-                            setRatio(5);
-                        }}
-                    >
-                        x5
-                    </div>
-                    <div
-                        className={`px-1 ${ratio == 10 ? "bg-gray-300" : "bg-gray-500"}`}
-                        onTouchEndCapture={() => {
-                            setRatio(10);
-                        }}
-                    >
-                        x10
+            <>
+                <div className={`absolute top-[-15px] right-8 flex justify-center text-md items-center transform transition-all duration-200 ease-out ${!isOpen ? "translate-x-10 opacity-0" : "translate-x-0 opacity-100"}`}>
+                    <div className={`m-1 px-1 flex rounded-full`}>
+                        <div
+                            className={`px-2 rounded-l-md ${ratio == 1 ? "bg-gray-300" : "bg-gray-500"}`}
+                            onTouchEndCapture={() => {
+                                setRatio(1);
+                                setIsOpen(false);
+                            }}
+                        >
+                            ×1
+                        </div>
+                        <div
+                            className={`px-2 ${ratio == 5 ? "bg-gray-300" : "bg-gray-500"}`}
+                            onTouchEndCapture={() => {
+                                setRatio(5);
+                                setIsOpen(false);
+                            }}
+                        >
+                            ×5
+                        </div>
+                        <div
+                            className={`px-1 rounded-r-md ${ratio == 10 ? "bg-gray-300" : "bg-gray-500"}`}
+                            onTouchEndCapture={() => {
+                                setRatio(10);
+                                setIsOpen(false);
+                            }}
+                        >
+                            ×10
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div onClick={handleClick} className={`absolute top-[-11px] right-0 flex justify-center bg-gray-300 rounded-lg px-1 text-md items-center`}>
+                    ×{ratio}
+                </div>
+            </>
         );
     };
     useEffect(() => {
@@ -234,7 +248,7 @@ const Battle = () => {
             <section>
                 <div className="max-h-[40vh] overflow-auto p-2 bg-stone-200">
                     {player && (
-                        <div className="relative border-8 border-dotted border-blue-200 flex flex-wrap w-full justify-evenly text-center">
+                        <div className="relative pt-4 border-8 border-dotted border-blue-200 flex flex-wrap w-full justify-evenly text-center">
                             <RatioButton />
                             <AttackField score={player} />
                         </div>

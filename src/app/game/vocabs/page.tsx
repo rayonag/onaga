@@ -6,7 +6,7 @@ import Battle from "./views/game/battle";
 import Home from "./views/home/home";
 import Navbar from "./components/navbar";
 import Settings from "./views/settings/settings";
-import Add from "./views/settings/addBoss";
+//import Add from "./views/settings/addBoss";
 import AddQuiz from "./views/settings/addQuiz";
 import supabase from "./common/supabase";
 import { BossContext, PlayerContext, PageContext } from "./common/exports";
@@ -57,6 +57,15 @@ const Page: React.FC = () => {
         })();
     }, []);
     console.log("player", player);
+    useEffect(() => {
+        // Disable body scroll
+        document.body.style.overflow = "hidden";
+
+        return () => {
+            // Re-enable body scroll on cleanup
+            document.body.style.overflow = "";
+        };
+    }, []);
     return (
         <BossContext.Provider value={{ boss, setBoss, currentBoss, setCurrentBoss }}>
             <PlayerContext.Provider value={{ player, setPlayer }}>
@@ -69,7 +78,7 @@ const Page: React.FC = () => {
                         </div>
                         {page == "home" && <Home />}
                         {page == "settings" && <Settings />}
-                        {page == "addBoss" && <Add />}
+                        {/* {page == "addBoss" && <Add />} */}
                         {page == "addQuiz" && <AddQuiz />}
                         {page == "game" && <Game />}
                         {page == "battle" && <Battle />}

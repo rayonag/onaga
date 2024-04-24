@@ -59,9 +59,9 @@ const Game = () => {
                         >
                             <div>
                                 {record.hp <= 0 && <div className="w-full h-40 absolute bg-black bg-opacity-40 text-5xl flex justify-center items-center text-center italic text-white">COMPLETE</div>}
-                                <div className="p-5 border h-40 border-b-gray-400 flex items-center">
+                                <div className="p-5 border h-40 border-b-gray-400 flex">
                                     <div className="w-[70%]">
-                                        <div className="text-2xl">{record.name}</div>
+                                        <div className="text-3xl">{record.name}</div>
                                         <div>
                                             <span className="italic">Reward: </span>
                                             {record.reward}
@@ -71,8 +71,8 @@ const Game = () => {
                                         </div>
                                     </div>
                                     <div className="w-[30%]">
-                                        <div className="border border-neutral-600 rounded-lg flex justify-center items-center">
-                                            <img className="h-24 w-24 rounded-lg bg-theme3" src={record.imageup} alt={record.name} />
+                                        <div className=" rounded-lg flex justify-center">
+                                            <img className="h-28 w-28 rounded-lg bg-theme3" src={record.imageup} alt={record.name} />
                                         </div>
                                         <DueDate due={record.due} />
                                     </div>
