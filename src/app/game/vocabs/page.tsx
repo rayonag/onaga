@@ -70,7 +70,7 @@ const Page: React.FC = () => {
         <BossContext.Provider value={{ boss, setBoss, currentBoss, setCurrentBoss }}>
             <PlayerContext.Provider value={{ player, setPlayer }}>
                 <PageContext.Provider value={{ page, setPage }}>
-                    <div className="h-screen">
+                    <div className="h-screen overflow-scroll pb-14">
                         <div className="page-container">
                             <header className="navbar">{/* Add your navigation links here */}</header>
                             <main className="content">{/* Add your page content here */}</main>
