@@ -1,8 +1,8 @@
 {
-    "theme_color": "#1e3a8a",
-    "background_color": "#1e3a8a",
+    "theme_color": "#01688D",
+    "background_color": "#E2D7D6",
     "display": "standalone",
-    "scope": "/",
+    "scope": "/game/",
     "start_url": "/game/vocabs",
     "name": "Vocabs!",
     "short_name": "Vocabs!",
