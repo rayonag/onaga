@@ -6,12 +6,12 @@ import Battle from "./views/game/battle";
 import Home from "./views/home/home";
 import Navbar from "./components/navbar";
 import Settings from "./views/settings/settings";
-//import Add from "./views/settings/addBoss";
-import AddQuiz from "./views/settings/addQuiz";
 import supabase from "./common/supabase";
-import { BossContext, PlayerContext, PageContext } from "./common/exports";
+import { BossContext, PlayerContext, PageContext } from "./common/contexts";
 
-import type { Page } from "./common/exports";
+import type { Page } from "./common/contexts";
+import SettingBoss from "./views/settings/settingBoss";
+import SettingQuiz from "./views/settings/settingQuiz";
 
 const Page: React.FC = () => {
     const [player, setPlayer] = useState<any>();
@@ -35,6 +35,7 @@ const Page: React.FC = () => {
             // update supabase
             await Promise.all(
                 boss.map((b: any) => {
+                    console.log("b", b);
                     return supabase.from("boss").update(b).eq("id", b.id);
                 })
             );
@@ -78,8 +79,8 @@ const Page: React.FC = () => {
                         </div>
                         {page == "home" && <Home />}
                         {page == "settings" && <Settings />}
-                        {/* {page == "addBoss" && <Add />} */}
-                        {page == "addQuiz" && <AddQuiz />}
+                        {page == "settingBoss" && <SettingBoss />}
+                        {page == "settingQuiz" && <SettingQuiz />}
                         {page == "game" && <Game />}
                         {page == "battle" && <Battle />}
                     </div>

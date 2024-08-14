@@ -3,9 +3,10 @@ import { getColorByType } from "../game/battle";
 import CountUp from "react-countup";
 import getWeak from "../../common/getWeak";
 import toEng from "../../common/toEng";
-import { useBoss, usePage, usePlayer } from "../../common/exports";
+import { useBoss, usePage, usePlayer } from "../../common/contexts";
+import Attack from "../game/attack";
 
-const AddQuiz = () => {
+const SettingQuiz = () => {
     const [score, setScore] = useState<number | null>(null);
     const [type, setType] = useState<string | null>(null);
     const [level, setLevel] = useState<string | null>(null);
@@ -13,7 +14,7 @@ const AddQuiz = () => {
     const [showResult, setShowResult] = useState<boolean>(false);
     const [result, setResult] = useState<any>(null);
     const { player, setPlayer } = usePlayer();
-    const { boss } = useBoss();
+    const { boss, setBoss } = useBoss();
     const { page, setPage } = usePage();
     if (!setPage) return null;
     useEffect(() => {
@@ -174,7 +175,8 @@ const AddQuiz = () => {
                 Add Quiz Result
             </div>
             {showResult && <Result />}
+            <Attack score={100} />
         </div>
     );
 };
-export default AddQuiz;
+export default SettingQuiz;

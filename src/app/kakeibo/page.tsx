@@ -9,6 +9,8 @@ import Who from "./components/Who";
 import Input from "./components/Input";
 import Payment from "./components/Payment";
 import Loading from "./components/Loading";
+import App from "./components/swiper/Swiper";
+import SwiperWrapper from "./components/swiper/Swiper";
 
 const Kakeibo = () => {
     function getCurrentDate() {
@@ -43,6 +45,9 @@ const Kakeibo = () => {
 
     const snapPoints = [0, -600, -1200]; // Snap points for each section
 
+    const handleTouchStart = (e: React.TouchEvent) => {
+        e.stopPropagation();
+    };
     return (
         <div className="h-full py-5">
             <iframe
@@ -53,6 +58,7 @@ const Kakeibo = () => {
                     redirect();
                 }}
             />
+
             <form
                 onSubmit={() => {
                     setIsLoading(true);
@@ -64,39 +70,26 @@ const Kakeibo = () => {
                 className={`${isLoading ? "blur-lg" : ""}`}
             >
                 <div className="text-center">
-                    <motion.div
-                        drag="x"
-                        dragConstraints={{ left: 0, right: 1200 }}
-                        dragElastic={0.5}
-                        onDragEnd={(_, info) => {
-                            controls.stop();
-                            const nearestSnap = snapPoints.reduce((prev, curr) => (Math.abs(curr - info.point.x) < Math.abs(prev - info.point.x) ? curr : prev));
-                            console.log(nearestSnap);
-                            controls.start({ x: nearestSnap });
-                        }}
-                        animate={controls}
-                        className="text-xl flex w-[300vw]"
-                        style={{ x }}
-                    >
-                        <div className="w-[100vw] h-full">
-                            <Who name={name} setName={setName} />
+                    <SwiperWrapper>
+                        <div className="w-[100vw] h-screen">
+                            <Who name={name} setName={setName} onTouchStart={handleTouchStart} />
                             <Currency currency={currency} setCurrency={setCurrency} />
                             <Numkeys amount={amount} setAmount={setAmount} />
                             <input className="bg-slate-500" type="date" name="entry.1377508283" defaultValue={getCurrentDate()} />
                         </div>
-                        <div className="w-[100vw] h-full">
-                            <IncomeExpense incomeExpense={incomeExpense} setIncomeExpense={setIncomeExpense} />
+                        <div className="w-[100vw] h-screen">
+                            <IncomeExpense incomeExpense={incomeExpense} setIncomeExpense={setIncomeExpense} onTouchStart={handleTouchStart} />
                             <Payment payment={payment} setPayment={setPayment} />
                             <Type type={type} setType={setType} incomeExpense={incomeExpense} />
                         </div>
-                        <div className="w-[100vw] h-full">
+                        <div className="w-[100vw] h-screen">
                             <Input value={where} setValue={setWhere} placeholder="Where?" />
                             <Input value={memo} setValue={setMemo} placeholder="Add Memo" />
                             <button className="bg-cyan-600 w-28 h-12 text-white rounded-full text-2xl" type="submit" value="Submit">
                                 Submit
                             </button>
                         </div>
-                    </motion.div>
+                    </SwiperWrapper>
                     <div className="hidden">
                         <input className="hidden" defaultValue={name} name="entry.2013839616" />
                         <input className="hidden" defaultValue={currency} name="entry.1036151169" />

@@ -2,7 +2,7 @@ import Link from "next/link";
 import HomeIcon from "./icons/HomeIcon";
 import SettingsIcon from "./icons/SettingsIcon";
 import { Dispatch, FC, SetStateAction } from "react";
-import type { Page } from "../common/exports";
+import type { Page } from "../common/contexts";
 import GameIcon from "./icons/GameIcon";
 
 type NavbarProps = {

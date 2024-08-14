@@ -5,9 +5,10 @@ import { roboto_mono } from "@/app/fonts";
 type WhoProps = {
     name: string;
     setName: React.Dispatch<React.SetStateAction<string>>;
+    onTouchStart?: (e: React.TouchEvent) => void;
 };
 
-const Who: FC<WhoProps> = ({ name, setName }) => {
+const Who: FC<WhoProps> = ({ name, setName, onTouchStart }) => {
     const [touched, setTouched] = useState("");
     const x = useMotionValue(0);
     const opacity = useTransform(x, [-100, 0, 100], [0, 1, 0]);
@@ -22,6 +23,7 @@ const Who: FC<WhoProps> = ({ name, setName }) => {
     return (
         <div className={divStyle}>
             <motion.div
+                onTouchStart={onTouchStart}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }} // Allow dragging within the container
                 dragElastic={0.5} // Add a bit of elasticity to the drag

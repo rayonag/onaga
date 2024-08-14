@@ -1,5 +1,5 @@
 import React from "react";
-import { useBoss, usePage } from "../../common/exports";
+import { useBoss, usePage } from "../../common/contexts";
 
 const Game = () => {
     const { boss, setBoss, currentBoss, setCurrentBoss } = useBoss();
@@ -29,9 +29,10 @@ const Game = () => {
         const diff = dueDate.getTime() - currentDate.getTime();
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const min = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         let dues = "";
-        if (days < 0) {
-            dues = "";
+        if (days < 1) {
+            dues += `${hours} hours ${min} min`;
         } else {
             if (days == 1) {
                 dues = `${days} day `;
@@ -49,36 +50,47 @@ const Game = () => {
             {boss &&
                 boss.map((record: any) => {
                     return (
-                        <div
-                            key={record.id}
-                            onClick={() => {
-                                if (record.hp <= 0) return;
-                                setPage("battle");
-                                setCurrentBoss(record.id);
-                            }}
-                        >
-                            <div>
-                                {record.hp <= 0 && <div className="w-full h-40 absolute bg-black bg-opacity-40 text-5xl flex justify-center items-center text-center italic text-white">COMPLETE</div>}
-                                <div className="p-5 border h-40 border-b-gray-400 flex">
-                                    <div className="w-[70%]">
-                                        <div className="text-3xl">{record.name}</div>
-                                        <div>
-                                            <span className="italic">Reward: </span>
-                                            {record.reward}
+                        <>
+                            {new Date(record.due) > new Date() && (
+                                <div
+                                    key={record.id}
+                                    // detail page disabled
+                                    //
+                                    // onClick={() => {
+                                    //     if (record.hp <= 0) return;
+                                    //     setPage("battle");
+                                    //     setCurrentBoss(record.id);
+                                    // }}
+                                    onClick={() => {
+                                        if (record.hp <= 0) return;
+                                        setPage("battle");
+                                        setCurrentBoss(record.id);
+                                    }}
+                                >
+                                    <div className="relative">
+                                        {record.hp <= 0 && <div className="absolute inset-0 w-full h-40 bg-black bg-opacity-40 text-5xl flex justify-center items-center text-center italic text-white">COMPLETE</div>}
+                                        <div className="p-5 border h-40 border-b-gray-400 flex">
+                                            <div className="w-[70%]">
+                                                <div className="text-3xl">{record.name}</div>
+                                                <div>
+                                                    <span className="italic">Reward: </span>
+                                                    {record.reward}
+                                                </div>
+                                                <div>
+                                                    <Hpbar hp={record.hp} maxHp={record.maxHp} />
+                                                </div>
+                                            </div>
+                                            <div className="w-[30%]">
+                                                <div className=" rounded-lg flex justify-center">
+                                                    <img className="h-28 w-28 rounded-lg bg-theme3" src={record.imageup} alt={record.name} />
+                                                </div>
+                                                <DueDate due={record.due} />
+                                            </div>
                                         </div>
-                                        <div>
-                                            <Hpbar hp={record.hp} maxHp={record.maxHp} />
-                                        </div>
-                                    </div>
-                                    <div className="w-[30%]">
-                                        <div className=" rounded-lg flex justify-center">
-                                            <img className="h-28 w-28 rounded-lg bg-theme3" src={record.imageup} alt={record.name} />
-                                        </div>
-                                        <DueDate due={record.due} />
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            )}
+                        </>
                     );
                 })}
         </div>

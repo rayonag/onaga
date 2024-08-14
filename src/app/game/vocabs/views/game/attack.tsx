@@ -1,64 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 
 import "./style.css";
 import LeftArrow from "../../components/icons/LeftArrow";
 import toJp from "../../common/toJp";
 import toEng from "../../common/toEng";
-import { usePlayer, useBoss, usePage, refreshBoss } from "../../common/contexts";
-import SettingQuiz from "../settings/settingQuiz";
-import supabase from "../../common/supabase";
+import { usePlayer, useBoss, usePage } from "../../common/contexts";
+import { getColorByType } from "./battle";
 
-export const getColorByType = (type: string) => {
-    let color = "";
-    switch (type) {
-        case "ほのお":
-            color = "bg-red-500";
-            break;
-        case "みず":
-            color = "bg-blue-500";
-            break;
-        case "くさ":
-            color = "bg-green-500";
-            break;
-        case "でんき":
-            color = "bg-yellow-500";
-            break;
-        case "こおり":
-            color = "bg-blue-300";
-            break;
-        case "かくとう":
-            color = "bg-red-300";
-            break;
-        case "どく":
-            color = "bg-purple-500";
-            break;
-        case "じめん":
-            color = "bg-yellow-300";
-            break;
-        case "ひこう":
-            color = "bg-blue-500";
-            break;
-        case "エスパー":
-            color = "bg-purple-300";
-            break;
-        case "むし":
-            color = "bg-green-300";
-            break;
-        case "いわ":
-            color = "bg-gray-500";
-            break;
-        case "ゴースト":
-            color = "bg-purple-500";
-            break;
-        case "ドラゴン":
-            color = "bg-red-500";
-            break;
-        default:
-            color = "bg-gray-500";
-    }
-    return color;
+type AttackProps = {
+    score: any;
 };
-const Battle = () => {
+const Attack: FC<AttackProps> = ({ score }) => {
     const { player, setPlayer } = usePlayer();
     const { boss, setBoss, currentBoss } = useBoss();
     console.log("boss", boss);
@@ -226,91 +178,6 @@ const Battle = () => {
             setPage("game");
         }
     }, [isComplete]);
-
-    const [isAttacking, setIsAttacking] = useState(false);
-
-    const AddQuiz = () => {
-        const [section, setSection] = useState(0);
-        const [level, setLevel] = useState<string>("");
-        const [score, setScore] = useState<number | null>(null);
-        const ratio = (() => {
-            if (level === "א") return 1;
-            if (level === "ב") return 1.1;
-            if (level === "ג") return 1.2;
-            return 1;
-        })();
-        const handleSection = (section: number, level: string) => {
-            setSection(section), setLevel(level);
-        };
-        const handleAdd = async () => {
-            if (!level || !score) return;
-            if (score < 0 || score > 100) return alert("Invalid score");
-            if (!window.confirm("Save Quiz Result?")) return;
-            const { data: error } = await supabase.from("quiz").insert([{ name: record.name, level: level, score: score }]);
-            if (error) return alert("Failed to add quiz result");
-            setIsAttacking(true);
-            const newHp = Math.floor(currentHp - score * ratio);
-            const { data: error2 } = await supabase.from("boss").update({ hp: newHp }).eq("id", record.id);
-            console.log("error2", error2);
-            if (error2) return alert("Failed to add quiz result");
-            setScore(null);
-            setLevel("");
-            //setCurrentHp(newHp);
-            if (newHp <= 0) {
-                setIsComplete(true);
-            }
-            refreshBoss(setBoss);
-            setIsAttacking(false);
-            setPage("game");
-        };
-        return (
-            <>
-                {section === 0 && (
-                    <div className="flex flex-col justify-center items-center">
-                        <div className="btn-theme" onClick={() => handleSection(1, "א")}>
-                            א
-                        </div>
-                        <div className="btn-theme" onClick={() => handleSection(1, "ב")}>
-                            ב
-                        </div>
-                        <div className="btn-theme" onClick={() => handleSection(1, "ג")}>
-                            ג
-                        </div>
-                    </div>
-                )}
-                {section === 1 && (
-                    <div className="flex justify-center items-center">
-                        <div onClick={() => setSection(0)} className="absolute left-20 content-center h-full w-10">
-                            <LeftArrow />
-                        </div>
-                        <div>
-                            <div>{level}</div>
-                            <div className="overflow-hidden">
-                                <input
-                                    value={score || ""}
-                                    onChange={(e) => {
-                                        if (parseInt(e.currentTarget.value) > 100) return;
-                                        setScore(parseInt(e.currentTarget.value));
-                                    }}
-                                    className="w-40 max-w-[80%] m-2 p-2 rounded-full text-xl text-center"
-                                    type="number"
-                                    inputMode="numeric"
-                                    placeholder="Enter Score"
-                                />
-                                <span className="absolute h-5 w-8">×{ratio.toFixed(1)}</span>
-                            </div>
-                            <div>
-                                <button className="btn-theme" onClick={handleAdd}>
-                                    Save Quiz Result
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-                {section === 2 && <div className="flex flex-col justify-center items-center"></div>}
-            </>
-        );
-    };
     return (
         <>
             <section>
@@ -318,7 +185,6 @@ const Battle = () => {
                     <LeftArrow size={35} />
                 </div>
                 <div className="rounded-lg flex flex-col justify-center items-center m-1">
-                    {isAttacking && <img src="/path-to-your-animation.gif" alt="Attack animation" />}
                     <div className="text-2xl">{record.name}</div>
                     <img className="h-[40vh] max-h-[40vh]" id="boss-image" src={record.image} alt={record.name} />
                     <div className="w-[30%]">
@@ -333,19 +199,7 @@ const Battle = () => {
                     </div>
                 </div>
             </section>
-            <section>
-                <div className="max-h-[40vh] overflow-auto p-2 bg-stone-200">
-                    {player && (
-                        <div className="relative py-4 border-8 border-dotted border-blue-200 flex flex-wrap w-full justify-evenly text-center">
-                            {/* <SettingQuiz /> */}
-                            {/* <RatioButton />
-                            <AttackField score={player} /> */}
-                            <AddQuiz />
-                        </div>
-                    )}
-                </div>
-            </section>
         </>
     );
 };
-export default Battle;
+export default Attack;

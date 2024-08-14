@@ -5,9 +5,10 @@ import { roboto_mono } from "@/app/fonts";
 type IncomeExpenseProps = {
     incomeExpense: string;
     setIncomeExpense: React.Dispatch<React.SetStateAction<string>>;
+    ontouchStart?: (e: React.TouchEvent) => void;
 };
 
-const IncomeExpense: FC<IncomeExpenseProps> = ({ incomeExpense, setIncomeExpense }) => {
+const IncomeExpense: FC<IncomeExpenseProps> = ({ incomeExpense, setIncomeExpense, ontouchStart }) => {
     const [touched, setTouched] = useState("");
     const x = useMotionValue(0);
     const opacity = useTransform(x, [-100, 0, 100], [0, 1, 0]);
@@ -22,6 +23,7 @@ const IncomeExpense: FC<IncomeExpenseProps> = ({ incomeExpense, setIncomeExpense
     return (
         <div className={divStyle}>
             <motion.div
+                onTouchStart={ontouchStart}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }} // Allow dragging within the container
                 dragElastic={0.5} // Add a bit of elasticity to the drag
