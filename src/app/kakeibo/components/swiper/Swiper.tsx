@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC, ReactNode, useState } from "react";
 // Swiperモジュール
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -14,11 +14,18 @@ import "./styles.css";
 import { Navigation, Pagination } from "swiper/modules";
 
 const SwiperWrapper = (props: { children: ReactNode[] }) => {
+    const [swiperEnabled, setSwiperEnabled] = useState(true);
+    const handleTouchStart = () => {
+        setSwiperEnabled(false);
+    };
+    const handleTouchEnd = () => {
+        setSwiperEnabled(true);
+    };
     return (
         <>
             <Swiper
                 //dir="rtl"
-                navigation={true}
+                navigation={swiperEnabled}
                 pagination={{
                     clickable: true,
                 }}

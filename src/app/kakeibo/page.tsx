@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { motion, useAnimation, useMotionValue } from "framer-motion";
 import Numkeys from "./components/Numkeys";
 import Currency from "./components/Currency";
@@ -11,6 +11,7 @@ import Payment from "./components/Payment";
 import Loading from "./components/Loading";
 import App from "./components/swiper/Swiper";
 import SwiperWrapper from "./components/swiper/Swiper";
+import { PacmanLoader } from "react-spinners";
 
 const Kakeibo = () => {
     function getCurrentDate() {
@@ -25,7 +26,7 @@ const Kakeibo = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const redirect = () => {
         if (isSubmitted) {
-            alert("record is saved");
+            alert("Submitted successfully!");
             window.location.reload();
         }
     };
@@ -40,16 +41,21 @@ const Kakeibo = () => {
     const [memo, setMemo] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
-    const controls = useAnimation();
-    const x = useMotionValue(-1200);
-
-    const snapPoints = [0, -600, -1200]; // Snap points for each section
 
     const handleTouchStart = (e: React.TouchEvent) => {
         e.stopPropagation();
     };
+    const override: CSSProperties = {
+        display: "block",
+        position: "absolute",
+        top: "50%",
+        left: "15%",
+        margin: "0 auto",
+        // add animation to move pacmadn
+        animation: "move 4s ease-out infinite",
+    };
     return (
-        <div className="h-full py-5">
+        <div className="h-full">
             <iframe
                 name="hidden_iframe"
                 className="hidden"
@@ -73,12 +79,11 @@ const Kakeibo = () => {
                     <SwiperWrapper>
                         <div className="w-[100vw] h-screen">
                             <Who name={name} setName={setName} onTouchStart={handleTouchStart} />
-                            <Currency currency={currency} setCurrency={setCurrency} />
-                            <Numkeys amount={amount} setAmount={setAmount} />
+                            <Numkeys amount={amount} setAmount={setAmount} currency={currency} setCurrency={setCurrency} />
                             <input className="bg-slate-500" type="date" name="entry.1377508283" defaultValue={getCurrentDate()} />
                         </div>
                         <div className="w-[100vw] h-screen">
-                            <IncomeExpense incomeExpense={incomeExpense} setIncomeExpense={setIncomeExpense} onTouchStart={handleTouchStart} />
+                            <IncomeExpense incomeExpense={incomeExpense} setIncomeExpense={setIncomeExpense} ontouchStart={handleTouchStart} />
                             <Payment payment={payment} setPayment={setPayment} />
                             <Type type={type} setType={setType} incomeExpense={incomeExpense} />
                         </div>
@@ -102,7 +107,7 @@ const Kakeibo = () => {
                     </div>
                 </div>
             </form>
-            {isLoading && <Loading />}
+            {isLoading && <PacmanLoader color="#00BFFF" cssOverride={override} loading={isLoading} size={50} />}
         </div>
     );
 };

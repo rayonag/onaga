@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FC, useState } from "react";
+import { useSwiper } from "swiper/react";
 
 type TypeProps = {
     type: string;
@@ -10,12 +11,14 @@ const Type: FC<TypeProps> = ({ type, setType, incomeExpense }) => {
     const handleOnClick = (val: string) => {
         setType(val);
     };
-    const [touched, setTouched] = useState("");
+    const [touched, setTouched] = useState<number | string>("");
     const buttonStyle = (val: string) => `${touched == val ? "bg-gray-300 " : val == type ? "bg-cyan-600 " : "bg-gray-400 "} m-3 w-24 h-24 text-white rounded-lg justify-center text-xl shadow-md transition-colors`;
-    const divStyle = "flex flex-wrap justify-center m-2";
+    const divStyle = "flex flex-wrap justify-center items-center m-2";
 
     const incomeTypes = ["BFP Gift", "Offerings", "Other"];
     const expenseTypes = ["Grocery", "Daily", "Hang out", "Dating", "Apartment", "Transportation", "Studies", "Medical", "Offerings", "Other"];
+    const nextButtonStyle = (num: number) => `${touched == num ? "bg-gray-300 " : "bg-cyan-600 "} mx-2 w-20 h-20 text-white rounded-full justify-center text-5xl shadow-md transition-colors`;
+    const swiper = useSwiper();
     return (
         <div className={divStyle}>
             {incomeExpense == "Income" &&
@@ -36,6 +39,9 @@ const Type: FC<TypeProps> = ({ type, setType, incomeExpense }) => {
                         </button>
                     </div>
                 ))}
+            <button className={nextButtonStyle(100)} type="button" onTouchStart={() => setTouched(100)} onTouchEnd={() => setTouched(-1)} onClick={() => swiper.slideNext()}>
+                <div>→</div>
+            </button>
         </div>
     );
 };

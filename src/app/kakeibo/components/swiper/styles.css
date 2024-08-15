@@ -21,15 +21,34 @@
     align-items: center;
 }
 
-.swiper-slide img {
+/* .swiper-slide img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
+} */
 
 .swiper-button-prev,
 .swiper-button-next,
 .swiper-button-disabled {
     display: none;
+}
+
+/* pacman movement */
+@keyframes move {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(200px) rotate(0deg);
+    }
+    50% {
+        transform: translateX(200px) rotate(180deg);
+    }
+    75% {
+        transform: translateX(0) rotate(180deg);
+    }
+    100% {
+        transform: translateX(0) rotate(0deg);
+    }
 }
