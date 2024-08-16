@@ -248,7 +248,23 @@ const Battle = () => {
             if (!window.confirm("Save Quiz Result?")) return;
             const { data: error } = await supabase.from("quiz").insert([{ name: record.name, level: level, score: score }]);
             if (error) return alert("Failed to add quiz result");
-            setIsAttacking(true);
+            const attackAudio = new Audio(getAudio(level)); // Directly reference the file path
+            const shakeImage = async () => {
+                const image = document.getElementById("boss-image");
+                if (image) {
+                    image.classList.add("shake");
+                    attackAudio.play(); // Play the attack sound
+                    await new Promise((resolve) =>
+                        setTimeout(() => {
+                            attackAudio.pause();
+                            resolve("");
+                        }, 500)
+                    );
+                    setIsAttacking(false);
+                    setPage("game");
+                }
+            };
+            await shakeImage();
             const newHp = Math.floor(currentHp - score * ratio);
             const { data: error2 } = await supabase.from("boss").update({ hp: newHp }).eq("id", record.id);
             console.log("error2", error2);
@@ -260,8 +276,13 @@ const Battle = () => {
                 setIsComplete(true);
             }
             refreshBoss(setBoss);
-            setIsAttacking(false);
-            setPage("game");
+        };
+        const getAudio = (level: string) => {
+            console.log("level", level);
+            if (level === "א") return `/effects/sound/打撃${Math.floor(Math.random() * 5) + 1}.mp3`;
+            //if (level === "ב") return `/effects/sound/打撃${Math.floor(Math.random() * 5) + 1}.mp3`;
+            if (level === "ג") return `/effects/sound/会心の一撃${Math.floor(Math.random() * 3) + 1}.mp3`;
+            return `/effects/sound/打撃${Math.floor(Math.random() * 5) + 1}.mp3`;
         };
         return (
             <>
@@ -318,7 +339,6 @@ const Battle = () => {
                     <LeftArrow size={35} />
                 </div>
                 <div className="rounded-lg flex flex-col justify-center items-center m-1">
-                    {isAttacking && <img src="/path-to-your-animation.gif" alt="Attack animation" />}
                     <div className="text-2xl">{record.name}</div>
                     <img className="h-[40vh] max-h-[40vh]" id="boss-image" src={record.image} alt={record.name} />
                     <div className="w-[30%]">
