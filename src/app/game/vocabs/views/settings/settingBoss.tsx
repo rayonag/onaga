@@ -9,9 +9,9 @@ import { refreshBoss, useBoss } from "../../common/contexts";
 const getDueDate = () => {
     const date = new Date();
     const day = date.getDay();
-    const nextSaturday = day < 6 ? 6 - day : 7;
-    date.setDate(date.getDate() + nextSaturday);
-    date.setHours(19, 0, 0, 0); //summer time 考慮するか
+    const nextFriday = day < 5 ? 5 - day : 7 - (day - 5);
+    date.setDate(date.getDate() + nextFriday);
+    date.setHours(16, 0, 0, 0); //summer time 考慮するか
     return date.toISOString().slice(0, 16);
 };
 // setting boss component
