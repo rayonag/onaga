@@ -77,22 +77,24 @@ const Kakeibo = () => {
             >
                 <div className="text-center">
                     <SwiperWrapper>
-                        <div className="w-[100vw] h-screen">
+                        <div className="w-[100vw] h-screen pt-10">
                             <Who name={name} setName={setName} onTouchStart={handleTouchStart} />
                             <Numkeys amount={amount} setAmount={setAmount} currency={currency} setCurrency={setCurrency} />
                             <input className="bg-slate-500" type="date" name="entry.1377508283" defaultValue={getCurrentDate()} />
                         </div>
-                        <div className="w-[100vw] h-screen">
+                        <div className="w-[100vw] h-screen pt-10">
                             <IncomeExpense incomeExpense={incomeExpense} setIncomeExpense={setIncomeExpense} ontouchStart={handleTouchStart} />
                             <Payment payment={payment} setPayment={setPayment} />
                             <Type type={type} setType={setType} incomeExpense={incomeExpense} />
                         </div>
-                        <div className="w-[100vw] h-screen">
+                        <div className="w-[100vw] h-screen pt-10">
                             <Input value={where} setValue={setWhere} placeholder="Where?" />
                             <Input value={memo} setValue={setMemo} placeholder="Add Memo" />
-                            <button className="bg-cyan-600 w-28 h-12 text-white rounded-full text-2xl" type="submit" value="Submit">
-                                Submit
-                            </button>
+                            <div>
+                                <button className="bg-cyan-600 w-28 h-12 text-white rounded-full text-2xl m-10" type="submit" value="Submit">
+                                    Submit
+                                </button>
+                            </div>
                         </div>
                     </SwiperWrapper>
                     <div className="hidden">
