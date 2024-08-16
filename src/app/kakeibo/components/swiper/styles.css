@@ -37,18 +37,9 @@
 /* pacman movement */
 @keyframes move {
     0% {
-        transform: translateX(0);
-    }
-    25% {
-        transform: translateX(200px) rotate(0deg);
-    }
-    50% {
-        transform: translateX(200px) rotate(180deg);
-    }
-    75% {
-        transform: translateX(0) rotate(180deg);
+        transform: translateX(-200px);
     }
     100% {
-        transform: translateX(0) rotate(0deg);
+        transform: translateX(400px);
     }
 }

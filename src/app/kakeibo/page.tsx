@@ -1,15 +1,11 @@
 "use client";
 import React, { CSSProperties, useState } from "react";
-import { motion, useAnimation, useMotionValue } from "framer-motion";
 import Numkeys from "./components/Numkeys";
-import Currency from "./components/Currency";
 import IncomeExpense from "./components/IncomeExpense";
 import Type from "./components/Type";
 import Who from "./components/Who";
 import Input from "./components/Input";
 import Payment from "./components/Payment";
-import Loading from "./components/Loading";
-import App from "./components/swiper/Swiper";
 import SwiperWrapper from "./components/swiper/Swiper";
 import { PacmanLoader } from "react-spinners";
 
@@ -52,7 +48,7 @@ const Kakeibo = () => {
         left: "15%",
         margin: "0 auto",
         // add animation to move pacmadn
-        animation: "move 4s ease-out infinite",
+        animation: "move 3s linear infinite",
     };
     return (
         <div className="h-full">
@@ -80,7 +76,7 @@ const Kakeibo = () => {
                         <div className="w-[100vw] h-screen pt-10">
                             <Who name={name} setName={setName} onTouchStart={handleTouchStart} />
                             <Numkeys amount={amount} setAmount={setAmount} currency={currency} setCurrency={setCurrency} />
-                            <input className="bg-slate-500" type="date" name="entry.1377508283" defaultValue={getCurrentDate()} />
+                            <input className="bg-slate-500 text-white p-1" type="date" name="entry.1377508283" defaultValue={getCurrentDate()} />
                         </div>
                         <div className="w-[100vw] h-screen pt-10">
                             <IncomeExpense incomeExpense={incomeExpense} setIncomeExpense={setIncomeExpense} ontouchStart={handleTouchStart} />
@@ -109,7 +105,11 @@ const Kakeibo = () => {
                     </div>
                 </div>
             </form>
-            {isLoading && <PacmanLoader color="#00BFFF" cssOverride={override} loading={isLoading} size={50} />}
+            {isLoading && (
+                <div className="absolute top-0 left-0 self-center h-screen w-[80%] mx-[10%] overflow-hidden">
+                    <PacmanLoader color="#00BFFF" cssOverride={override} loading={isLoading} size={50} />
+                </div>
+            )}
         </div>
     );
 };
