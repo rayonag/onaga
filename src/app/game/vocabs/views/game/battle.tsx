@@ -354,7 +354,7 @@ const Battle = () => {
         };
         return (
             <>
-                {section === 0 && (
+                {/* {section === 0 && (
                     <div className="flex flex-col justify-center items-center">
                         <div className="btn-theme" onClick={() => handleSection(1, "א")}>
                             א
@@ -366,14 +366,14 @@ const Battle = () => {
                             ג
                         </div>
                     </div>
-                )}
-                {section === 1 && (
+                )} */}
+                {section === 0 && (
                     <div className="flex justify-center items-center">
-                        <div onClick={() => setSection(0)} className="absolute left-20 content-center h-full w-10">
+                        {/* <div onClick={() => setSection(0)} className="absolute left-20 content-center h-full w-10">
                             <LeftArrow />
-                        </div>
+                        </div> */}
                         <div>
-                            <div>{level}</div>
+                            {/* <div>{level}</div> */}
                             <div className="overflow-hidden">
                                 <input
                                     value={score || ""}
@@ -386,7 +386,7 @@ const Battle = () => {
                                     inputMode="numeric"
                                     placeholder="Enter Score"
                                 />
-                                <span className="absolute h-5 w-8">×{ratio.toFixed(1)}</span>
+                                {/* <span className="absolute h-5 w-8">×{ratio.toFixed(1)}</span> */}
                             </div>
                             <div>
                                 <button className="btn-theme" onClick={handleAdd}>
