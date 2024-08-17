@@ -39,7 +39,7 @@ const SettingBoss = () => {
         if (!currentBoss) return;
         if (!isCurrent) {
             setName("");
-            setMaxHp(1000);
+            setMaxHp(currentBoss.maxHp);
             setReward("");
             setDue(getDueDate());
         } else {
