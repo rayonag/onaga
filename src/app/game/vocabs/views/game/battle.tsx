@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import "./style.css";
 import LeftArrow from "../../components/icons/LeftArrow";
@@ -7,6 +7,8 @@ import toEng from "../../common/toEng";
 import { usePlayer, useBoss, usePage, refreshBoss } from "../../common/contexts";
 import SettingQuiz from "../settings/settingQuiz";
 import supabase from "../../common/supabase";
+import useSound from "use-sound";
+import Image from "next/image";
 
 export const getColorByType = (type: string) => {
     let color = "";
@@ -58,6 +60,51 @@ export const getColorByType = (type: string) => {
     }
     return color;
 };
+const Hpbar = ({ hp, maxHp }: { hp: number; maxHp: number }) => {
+    const [displayedHP, setDisplayedHP] = useState(hp);
+
+    const hpPercent = useMemo(() => (displayedHP / maxHp) * 100, [displayedHP, maxHp]);
+    const hpColor = useMemo(() => {
+        if (hpPercent > 50) return "bg-green-500";
+        if (hpPercent > 25) return "bg-yellow-500";
+        return "bg-red-500";
+    }, [hpPercent]);
+
+    const animateHPChange = (newHP: number) => {
+        const totalDuration = 1500; // Total duration in ms
+        const hpChange = Math.abs(displayedHP - newHP);
+        const steps = hpChange; // Number of steps based on HP change
+        const intervalTime = totalDuration / steps; // Interval time per step
+
+        const interval = setInterval(() => {
+            setDisplayedHP((prevHP) => {
+                if (prevHP < newHP) {
+                    return Math.min(prevHP + 1, newHP);
+                } else if (prevHP > newHP) {
+                    return Math.max(prevHP - 1, newHP);
+                } else {
+                    clearInterval(interval);
+                    return prevHP;
+                }
+            });
+        }, intervalTime); // Dynamic interval time for ease-in effect
+    };
+
+    useEffect(() => {
+        animateHPChange(hp);
+    }, [hp]);
+
+    return (
+        <div className={`w-full h-8 flex`}>
+            <div className="w-44 h-8 bg-gray-300 rounded-3xl text-white relative">
+                <span className="absolute w-44 h-8 px-5 text-center flex justify-center items-center">
+                    <span className="text-white">HP: {displayedHP}</span>/{maxHp}
+                </span>
+                <div className={`h-full ${hpColor} rounded-l-3xl ${hpPercent > 90 && "rounded-r-3xl"}`} style={{ width: `${hpPercent}%` }}></div>
+            </div>
+        </div>
+    );
+};
 const Battle = () => {
     const { player, setPlayer } = usePlayer();
     const { boss, setBoss, currentBoss } = useBoss();
@@ -74,22 +121,7 @@ const Battle = () => {
     const [isComplete, setIsComplete] = useState(false);
     // hp bar component with number of hp and max hp and the progress bar to show the hp
     // css is by tailwind
-    const Hpbar = ({ hp, maxHp }: { hp: number; maxHp: number }) => {
-        const hpPercent = (hp / maxHp) * 100;
-        const hpColor = hpPercent > 50 ? "bg-green-500" : hpPercent > 25 ? "bg-yellow-500" : "bg-red-500";
-        const hpTextColor = "text-white";
-        //hpPercent > 50 ? "text-green-500" : hpPercent > 25 ? "text-yellow-500" : hpPercent > 0 ? "text-red-500" : "text-black";
-        return (
-            <div className={`w-full h-8 flex`}>
-                <div className="w-44 h-8 bg-gray-300 rounded-3xl text-white">
-                    <span className="absolute w-44 h-8 px-5 text-center flex justify-center items-center">
-                        {<span className={`${hpTextColor}`}>HP:{hp}</span>}/{maxHp}
-                    </span>
-                    <div className={`h-full ${hpColor} rounded-l-3xl ${(hp / maxHp) * 100 > 90 && "rounded-r-3xl"}`} style={{ width: `${(hp / maxHp) * 100}%` }}></div>
-                </div>
-            </div>
-        );
-    };
+
     // return due date number of days and hours if it is not null and not negative with 'Remaining: ' prefix
     const DueDate = ({ due }: { due: string }) => {
         const dueDate = new Date(due);
@@ -248,41 +280,77 @@ const Battle = () => {
             if (!window.confirm("Save Quiz Result?")) return;
             const { data: error } = await supabase.from("quiz").insert([{ name: record.name, level: level, score: score }]);
             if (error) return alert("Failed to add quiz result");
-            const attackAudio = new Audio(getAudio(level)); // Directly reference the file path
+            const isCrit = Math.random() < 0.1;
+            const playAttackAudio = getAudio(isCrit ? "crit" : level); // Directly reference the file path
             const shakeImage = async () => {
                 const image = document.getElementById("boss-image");
                 if (image) {
                     image.classList.add("shake");
-                    attackAudio.play(); // Play the attack sound
+                    playAttackAudio(); // Play the attack sound
                     await new Promise((resolve) =>
                         setTimeout(() => {
-                            attackAudio.pause();
                             resolve("");
-                        }, 500)
+                        }, 3000)
                     );
                     setIsAttacking(false);
                     setPage("game");
                 }
             };
-            await shakeImage();
-            const newHp = Math.floor(currentHp - score * ratio);
+            const newHp = Math.floor(currentHp - (isCrit ? score * 2 : score) * ratio);
             const { data: error2 } = await supabase.from("boss").update({ hp: newHp }).eq("id", record.id);
+            refreshBoss(setBoss);
+            await shakeImage();
             console.log("error2", error2);
             if (error2) return alert("Failed to add quiz result");
+            await new Promise(async (resolve) => {
+                if (isCrit) {
+                    alert("Critical Hit!");
+                    await setTimeout(() => {}, 1500);
+                    resolve("");
+                }
+            });
             setScore(null);
             setLevel("");
             //setCurrentHp(newHp);
             if (newHp <= 0) {
                 setIsComplete(true);
             }
-            refreshBoss(setBoss);
         };
+        const [playEffect1] = useSound("/effects/sound/打撃1.mp3");
+        const [playEffect2] = useSound("/effects/sound/打撃2.mp3");
+        const [playEffect3] = useSound("/effects/sound/打撃3.mp3");
+        const [playEffect4] = useSound("/effects/sound/打撃4.mp3");
+        const [playEffect5] = useSound("/effects/sound/打撃5.mp3");
+        const [playEffect6] = useSound("/effects/sound/会心の一撃1.mp3");
+        const [playEffect7] = useSound("/effects/sound/会心の一撃2.mp3");
+        const [playEffect8] = useSound("/effects/sound/会心の一撃3.mp3");
+        const [playEffect9] = useSound("/effects/sound/火炎魔法1.mp3");
+
         const getAudio = (level: string) => {
-            console.log("level", level);
-            if (level === "א") return `/effects/sound/打撃${Math.floor(Math.random() * 5) + 1}.mp3`;
-            //if (level === "ב") return `/effects/sound/打撃${Math.floor(Math.random() * 5) + 1}.mp3`;
-            if (level === "ג") return `/effects/sound/会心の一撃${Math.floor(Math.random() * 3) + 1}.mp3`;
-            return `/effects/sound/打撃${Math.floor(Math.random() * 5) + 1}.mp3`;
+            if (level == "crit") return playEffect9;
+            if (level === "א") {
+                const random = Math.floor(Math.random() * 5) + 1;
+                if (random === 1) return playEffect1;
+                if (random === 2) return playEffect2;
+                if (random === 3) return playEffect3;
+                if (random === 4) return playEffect4;
+                if (random === 5) return playEffect5;
+            }
+            if (level === "ב") {
+                const random = Math.floor(Math.random() * 5) + 1;
+                if (random === 1) return playEffect1;
+                if (random === 2) return playEffect2;
+                if (random === 3) return playEffect3;
+                if (random === 4) return playEffect4;
+                if (random === 5) return playEffect5;
+            }
+            if (level === "ג") {
+                const random = Math.floor(Math.random() * 3) + 1;
+                if (random === 1) return playEffect6;
+                if (random === 2) return playEffect7;
+                if (random === 3) return playEffect8;
+            }
+            return playEffect1;
         };
         return (
             <>
