@@ -47,5 +47,11 @@ const defaultBosses = [
         imgSrc: "https://bioaqexzzrwwrutpwikr.supabase.co/storage/v1/object/sign/images/boss/boss8.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvYm9zcy9ib3NzOC5wbmciLCJpYXQiOjE3MTM5NDAwNzQsImV4cCI6MTc0NTQ3NjA3NH0.oSvxVLqc0Ze8LtaulhfoQ931IKWNuQIU1k0EZd3uurc&t=2024-04-24T06%3A27%3A55.368Z",
         imgUpSrc: "https://bioaqexzzrwwrutpwikr.supabase.co/storage/v1/object/sign/images/boss/boss8up.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvYm9zcy9ib3NzOHVwLnBuZyIsImlhdCI6MTcxMzk0MDA4MSwiZXhwIjoxNzQ1NDc2MDgxfQ.G6qGqO_5_uqcSVgrImETP-A71_e7ll37xgrmmVcAJJA&t=2024-04-24T06%3A28%3A02.247Z",
     },
+    {
+        id: 9,
+        type: "grass",
+        imgSrc: "https://bioaqexzzrwwrutpwikr.supabase.co/storage/v1/object/sign/images/boss/boss8.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvYm9zcy9ib3NzOC5wbmciLCJpYXQiOjE3MTM5NDAwNzQsImV4cCI6MTc0NTQ3NjA3NH0.oSvxVLqc0Ze8LtaulhfoQ931IKWNuQIU1k0EZd3uurc&t=2024-04-24T06%3A27%3A55.368Z",
+        imgUpSrc: "https://bioaqexzzrwwrutpwikr.supabase.co/storage/v1/object/sign/images/boss/boss8up.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvYm9zcy9ib3NzOHVwLnBuZyIsImlhdCI6MTcxMzk0MDA4MSwiZXhwIjoxNzQ1NDc2MDgxfQ.G6qGqO_5_uqcSVgrImETP-A71_e7ll37xgrmmVcAJJA&t=2024-04-24T06%3A28%3A02.247Z",
+    },
 ];
 export default defaultBosses;

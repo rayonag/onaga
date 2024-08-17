@@ -70,7 +70,7 @@ const SettingBoss = () => {
             <div className="flex justify-center h-10">
                 {boss.map((b: any) => (
                     <div onClick={() => setBossId(b.id)} className={`relative w-10 h-10 border border-solid ${currentBoss.id == b.id ? "border-blue-500" : ""}`}>
-                        <Image loading="eager" className="px-1" alt="boss image" fill sizes="(max-width: 768px) 100vw, 150px" src={b.imageup} />
+                        <Image loading="eager" className="px-1" alt="boss image" fill sizes="(max-width: 768px) 100vw, 200px" src={b.imageup} />
                     </div>
                 ))}
             </div>
@@ -84,7 +84,7 @@ const SettingBoss = () => {
                 </div>
                 <div>
                     <div className="flex justify-center h-72">
-                        <Image loading="eager" className="m-2" alt="boss image" width={150} height={150} src={currentBoss.image} />
+                        <Image loading="eager" className="m-2" alt="boss image" width={300} height={300} src={currentBoss.image} />
                     </div>
                 </div>
                 <div className="px-5 flex items-center h-full" onClick={() => handleArrow("right")}>
@@ -96,7 +96,7 @@ const SettingBoss = () => {
             </div>
             <div className="flex ml-16 mb-2">
                 <span className={`content-center mr-1 w-14 `}>HP:</span>
-                <input value={maxHp} onChange={(e) => setMaxHp(parseInt(e.currentTarget.value))} className={`max-w-[35%] p-2 rounded-full text-center ${isCurrent ? "opacity-50" : ""}`} disabled={isCurrent} type="number" inputMode="numeric" placeholder="Max HP" />
+                <input value={maxHp} disabled={true} onChange={(e) => setMaxHp(parseInt(e.currentTarget.value))} className={`max-w-[35%] p-2 rounded-full text-center ${isCurrent ? "opacity-50" : ""}`} type="number" inputMode="numeric" placeholder="Max HP" />
             </div>
             <div className="flex ml-16 mb-2">
                 <span className="content-center mr-1 w-14">Name:</span>
