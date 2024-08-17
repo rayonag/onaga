@@ -263,25 +263,25 @@ const Battle = () => {
 
     const AddQuiz = () => {
         const [section, setSection] = useState(0);
-        const [level, setLevel] = useState<string>("");
+        // const [level, setLevel] = useState<string>("");
         const [score, setScore] = useState<number | null>(null);
-        const ratio = (() => {
-            if (level === "א") return 1;
-            if (level === "ב") return 1.1;
-            if (level === "ג") return 1.2;
-            return 1;
-        })();
-        const handleSection = (section: number, level: string) => {
-            setSection(section), setLevel(level);
-        };
+        // const ratio = (() => {
+        //     if (level === "א") return 1;
+        //     if (level === "ב") return 1.1;
+        //     if (level === "ג") return 1.2;
+        //     return 1;
+        // })();
+        // const handleSection = (section: number, level: string) => {
+        //     setSection(section), setLevel(level);
+        // };
         const handleAdd = async () => {
-            if (!level || !score) return;
+            if (!score) return;
             if (score < 0 || score > 100) return alert("Invalid score");
             if (!window.confirm("Save Quiz Result?")) return;
-            const { data: error } = await supabase.from("quiz").insert([{ name: record.name, level: level, score: score }]);
+            const { data: error } = await supabase.from("quiz").insert([{ name: record.name, score: score }]);
             if (error) return alert("Failed to add quiz result");
             const isCrit = Math.random() < 0.1;
-            const playAttackAudio = getAudio(isCrit ? "crit" : level); // Directly reference the file path
+            const playAttackAudio = getAudio(isCrit ? "crit" : ""); // Directly reference the file path
             const shakeImage = async () => {
                 const image = document.getElementById("boss-image");
                 if (image) {
@@ -310,7 +310,7 @@ const Battle = () => {
                 }
             });
             setScore(null);
-            setLevel("");
+            // setLevel("");
             //setCurrentHp(newHp);
             if (newHp <= 0) {
                 setIsComplete(true);
@@ -328,28 +328,15 @@ const Battle = () => {
 
         const getAudio = (level: string) => {
             if (level == "crit") return playEffect9;
-            if (level === "א") {
-                const random = Math.floor(Math.random() * 5) + 1;
-                if (random === 1) return playEffect1;
-                if (random === 2) return playEffect2;
-                if (random === 3) return playEffect3;
-                if (random === 4) return playEffect4;
-                if (random === 5) return playEffect5;
-            }
-            if (level === "ב") {
-                const random = Math.floor(Math.random() * 5) + 1;
-                if (random === 1) return playEffect1;
-                if (random === 2) return playEffect2;
-                if (random === 3) return playEffect3;
-                if (random === 4) return playEffect4;
-                if (random === 5) return playEffect5;
-            }
-            if (level === "ג") {
-                const random = Math.floor(Math.random() * 3) + 1;
-                if (random === 1) return playEffect6;
-                if (random === 2) return playEffect7;
-                if (random === 3) return playEffect8;
-            }
+            const random = Math.floor(Math.random() * 8) + 1;
+            if (random === 1) return playEffect1;
+            if (random === 2) return playEffect2;
+            if (random === 3) return playEffect3;
+            if (random === 4) return playEffect4;
+            if (random === 5) return playEffect5;
+            if (random === 6) return playEffect6;
+            if (random === 7) return playEffect7;
+            if (random === 8) return playEffect8;
             return playEffect1;
         };
         return (
