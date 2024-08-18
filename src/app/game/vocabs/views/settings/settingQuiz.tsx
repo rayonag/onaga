@@ -3,8 +3,9 @@ import { getColorByType } from "../game/battle";
 import CountUp from "react-countup";
 import getWeak from "../../common/getWeak";
 import toEng from "../../common/toEng";
-import { useBoss, usePage, usePlayer } from "../../common/contexts";
+import { useBoss, usePlayer } from "../../common/contexts";
 import Attack from "../game/attack";
+import usePageStore from "@/zustand/page";
 
 const SettingQuiz = () => {
     const [score, setScore] = useState<number | null>(null);
@@ -15,7 +16,7 @@ const SettingQuiz = () => {
     const [result, setResult] = useState<any>(null);
     const { player, setPlayer } = usePlayer();
     const { boss, setBoss } = useBoss();
-    const { page, setPage } = usePage();
+    const setPage = usePageStore((state) => state.setPage);
     if (!setPage) return null;
     useEffect(() => {
         if (level) {

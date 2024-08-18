@@ -4,8 +4,9 @@ import "./style.css";
 import LeftArrow from "../../components/icons/LeftArrow";
 import toJp from "../../common/toJp";
 import toEng from "../../common/toEng";
-import { usePlayer, useBoss, usePage } from "../../common/contexts";
+import { usePlayer, useBoss } from "../../common/contexts";
 import { getColorByType } from "./battle";
+import usePageStore from "@/zustand/page";
 
 type AttackProps = {
     score: any;
@@ -14,7 +15,7 @@ const Attack: FC<AttackProps> = ({ score }) => {
     const { player, setPlayer } = usePlayer();
     const { boss, setBoss, currentBoss } = useBoss();
     console.log("boss", boss);
-    const { setPage } = usePage();
+    const setPage = usePageStore((state) => state.setPage);
     if (setPlayer === null) return null;
     else if (boss == null || setBoss == null) return null;
     else if (setPage === null) return null;
