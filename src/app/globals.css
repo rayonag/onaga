@@ -50,3 +50,98 @@ body {
 .bg-theme6 {
     @apply bg-[#B69C87];
 }
+
+/* treasure */
+/* Add this CSS to your global styles or a CSS module */
+.fixed {
+    position: fixed;
+}
+
+.inset-0 {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.bg-opacity-50 {
+    background-opacity: 0.5;
+}
+
+.flex {
+    display: flex;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.z-50 {
+    z-index: 50;
+}
+
+.relative {
+    position: relative;
+}
+
+.bg-white {
+    background-color: white;
+}
+
+.p-4 {
+    padding: 1rem;
+}
+
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.animate-treasure {
+    animation: treasure-animation 1s ease-in-out forwards;
+}
+
+@keyframes treasure-animation {
+    0% {
+        transform: scale(0.2);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* light beam */
+.light-beam {
+    position: absolute;
+    top: -6rem;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 70%);
+
+    animation: light-beam-animation 0.7s ease-in-out forwards;
+}
+
+@keyframes light-beam-animation {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}

@@ -1,10 +1,11 @@
+import usePage, { Page } from "@/zustand/page";
 import Image from "next/image";
-import { Page, usePage } from "../../common/contexts";
 import { FC } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 const Settings = () => {
-    const { setPage } = usePage();
-    if (setPage === null) return null;
+    const { page, setPage } = usePage(useShallow((state) => ({ page: state.page, setPage: state.setPage })));
+
     type SettingPageProps = {
         page: Page;
         text: string;
@@ -18,8 +19,8 @@ const Settings = () => {
     );
 
     return (
-        <div className="flex h-[90vh] justify-center text-center items-center">
-            <SettingPage page="settingBoss" text="Boss" imageSrc="bossBG" />
+        <div className="flex h-screen justify-center text-center items-center">
+            <SettingPage page="settingBoss" text="Boss" imageSrc="boss_onepiece/bossBG" />
             {/* <SettingPage page="settingQuiz" text="Quiz" imageSrc="Q" /> */}
         </div>
     );

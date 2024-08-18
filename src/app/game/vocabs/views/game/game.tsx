@@ -1,9 +1,11 @@
+import usePage from "@/zustand/page";
 import React from "react";
-import { useBoss, usePage } from "../../common/contexts";
+import { useShallow } from "zustand/react/shallow";
+import { useBoss } from "../../common/contexts";
 
 const Game = () => {
     const { boss, setBoss, currentBoss, setCurrentBoss } = useBoss();
-    const { setPage } = usePage();
+    const setPage = usePage((state) => state.setPage);
     if (setBoss === null) return null;
     else if (setPage === null) return null;
     console.log("boss", boss);
@@ -51,7 +53,7 @@ const Game = () => {
                 boss.map((record: any) => {
                     return (
                         <>
-                            {new Date(record.due) > new Date() && (
+                            {new Date(record.due) > new Date() && record.hp > 0 && (
                                 <div
                                     key={record.id}
                                     // detail page disabled
@@ -68,7 +70,7 @@ const Game = () => {
                                     }}
                                 >
                                     <div className="relative">
-                                        {record.hp <= 0 && <div className="absolute inset-0 w-full h-40 bg-black bg-opacity-40 text-5xl flex justify-center items-center text-center italic text-white">COMPLETE</div>}
+                                        {/* {record.hp <= 0 && <div className="absolute inset-0 w-full h-40 bg-black bg-opacity-40 text-5xl flex justify-center items-center text-center italic text-white">COMPLETE</div>} */}
                                         <div className="p-5 border h-40 border-b-gray-400 flex">
                                             <div className="w-[70%]">
                                                 <div className="text-3xl">{record.name}</div>

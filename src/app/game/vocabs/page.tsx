@@ -6,20 +6,22 @@ import Battle from "./views/game/battle";
 import Home from "./views/home/home";
 import Navbar from "./components/navbar";
 import Settings from "./views/settings/settings";
-import supabase from "./common/supabase";
-import { BossContext, PlayerContext, PageContext } from "./common/contexts";
+import supabase from "../../../supabase";
+import { BossContext, PlayerContext } from "./common/contexts";
 
-import type { Page } from "./common/contexts";
 import SettingBoss from "./views/settings/settingBoss";
 import SettingQuiz from "./views/settings/settingQuiz";
+import Rewards from "./views/home/rewards";
+import usePage from "@/zustand/page";
 
 const Page: React.FC = () => {
     const [player, setPlayer] = useState<any>();
     const [boss, setBoss] = useState<any>();
     const [currentBoss, setCurrentBoss] = useState<any>();
-    const [page, setPage] = useState<Page>("home");
+    const page = usePage((state) => state.page);
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
+    console.log("page", page);
     useEffect(() => {
         if (timeoutId) clearTimeout(timeoutId);
         const id = setTimeout(async () => {
@@ -70,22 +72,21 @@ const Page: React.FC = () => {
     return (
         <BossContext.Provider value={{ boss, setBoss, currentBoss, setCurrentBoss }}>
             <PlayerContext.Provider value={{ player, setPlayer }}>
-                <PageContext.Provider value={{ page, setPage }}>
-                    <div className={`max-h-[100vh] h-[100vh] pb-14 ${page == "game" && "overflow-scroll"}`}>
-                        <div className="page-container">
-                            <header className="navbar">{/* Add your navigation links here */}</header>
-                            <main className="content">{/* Add your page content here */}</main>
-                            <footer className="footer">{/* Add your footer content here */}</footer>
-                        </div>
-                        {page == "home" && <Home />}
-                        {page == "settings" && <Settings />}
-                        {page == "settingBoss" && <SettingBoss />}
-                        {page == "settingQuiz" && <SettingQuiz />}
-                        {page == "game" && <Game />}
-                        {page == "battle" && <Battle />}
+                <div className={`max-h-[100vh] h-[100vh] pb-14 ${(page == "game" || page == "rewards") && "overflow-scroll"}`}>
+                    <div className="page-container">
+                        <header className="navbar">{/* Add your navigation links here */}</header>
+                        <main className="content">{/* Add your page content here */}</main>
+                        <footer className="footer">{/* Add your footer content here */}</footer>
                     </div>
-                    <Navbar page={page} setPage={setPage} />
-                </PageContext.Provider>
+                    {page == "home" && <Home />}
+                    {page == "rewards" && <Rewards />}
+                    {page == "settings" && <Settings />}
+                    {page == "settingBoss" && <SettingBoss />}
+                    {page == "settingQuiz" && <SettingQuiz />}
+                    {page == "game" && <Game />}
+                    {page == "battle" && <Battle />}
+                </div>
+                <Navbar />
             </PlayerContext.Provider>
         </BossContext.Provider>
     );

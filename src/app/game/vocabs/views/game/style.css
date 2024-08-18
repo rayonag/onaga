@@ -47,3 +47,18 @@
         transform: translate(1px, -2px) rotate(-1deg);
     }
 }
+
+/* critical hit */
+.crit:after {
+    /* add :before div with text 'hello' */
+    content: "Critical Hit!";
+    color: red;
+    font-size: 2em;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* animation: critical-hit 0.5s; */
+}

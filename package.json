@@ -18,8 +18,10 @@
         "react-countup": "^6.5.3",
         "react-dom": "^18",
         "react-spinners": "^0.14.1",
+        "react-swipeable-list": "^1.9.3",
         "supabase": "^1.163.2",
-        "use-sound": "^4.0.3"
+        "use-sound": "^4.0.3",
+        "zustand": "^4.5.5"
     },
     "devDependencies": {
         "@types/node": "^20",
