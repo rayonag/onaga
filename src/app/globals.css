@@ -11,6 +11,12 @@
 :root {
     --vh: 100vh;
 }
+body {
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+    font-family: var(--font-inter), var(--font-abril), "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+    overflow: hidden;
+}
 .app-container {
     height: calc(var(--vh, 1vh) * 100);
     overflow: hidden;
@@ -29,13 +35,6 @@
         --background-end-rgb: 0, 0, 0;
     }
 } */
-
-body {
-    color: rgb(var(--foreground-rgb));
-    background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
-    font-family: var(--font-inter), var(--font-abril), "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-    overflow: hidden;
-}
 
 .btn {
     @apply rounded-full px-4 py-2 m-2 w-40 max-w-[80%] self-center;
