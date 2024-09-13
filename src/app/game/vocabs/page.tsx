@@ -59,15 +59,27 @@ const Page: React.FC = () => {
             setPlayer(data[0]);
         })();
     }, []);
-    console.log("player", player);
+    // set height of the viewport, not to be messed when input is focused
     useEffect(() => {
-        // Disable body scroll
+        const setVh = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty("--vh", `${vh}px`);
+        };
+
+        setVh();
+        window.addEventListener("resize", setVh);
+
+        return () => {
+            window.removeEventListener("resize", setVh);
+        };
+    }, []);
+
+    useEffect(() => {
         document.body.style.overflow = "hidden";
 
-        // return () => {
-        //     // Re-enable body scroll on cleanup
-        //     document.body.style.overflow = "";
-        // };
+        return () => {
+            document.body.style.overflow = "";
+        };
     }, []);
     return (
         <BossContext.Provider value={{ boss, setBoss, currentBoss, setCurrentBoss }}>

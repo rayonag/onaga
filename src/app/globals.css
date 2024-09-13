@@ -8,6 +8,15 @@
     --background-end-rgb: 255, 255, 255;
 }
 
+:root {
+    --vh: 100vh;
+}
+
+.page-container {
+    height: calc(var(--vh, 1vh) * 100);
+    overflow: hidden;
+}
+
 /* @media (prefers-color-scheme: dark) {
     :root {
         --foreground-rgb: 255, 255, 255;
