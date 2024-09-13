@@ -84,19 +84,21 @@ const Page: React.FC = () => {
     return (
         <BossContext.Provider value={{ boss, setBoss, currentBoss, setCurrentBoss }}>
             <PlayerContext.Provider value={{ player, setPlayer }}>
-                <div className="page-container">
-                    <header className="navbar">{/* Add your navigation links here */}</header>
-                    <main className="content">{/* Add your page content here */}</main>
-                    <footer className="footer">{/* Add your footer content here */}</footer>
-                    {page == "home" && <Home />}
-                    {page == "rewards" && <Rewards />}
-                    {page == "settings" && <Settings />}
-                    {page == "settingBoss" && <SettingBoss />}
-                    {page == "settingQuiz" && <SettingQuiz />}
-                    {page == "game" && <Game />}
-                    {page == "battle" && <Battle />}
-                    <Navbar />{" "}
+                <div className="app-container">
+                    <div className="page-container">
+                        <header className="navbar">{/* Add your navigation links here */}</header>
+                        <main className="content">{/* Add your page content here */}</main>
+                        <footer className="footer">{/* Add your footer content here */}</footer>
+                        {page == "home" && <Home />}
+                        {page == "rewards" && <Rewards />}
+                        {page == "settings" && <Settings />}
+                        {page == "settingBoss" && <SettingBoss />}
+                        {page == "settingQuiz" && <SettingQuiz />}
+                        {page == "game" && <Game />}
+                        {page == "battle" && <Battle />}{" "}
+                    </div>
                 </div>
+                <Navbar />
             </PlayerContext.Provider>
         </BossContext.Provider>
     );

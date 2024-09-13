@@ -11,10 +11,15 @@
 :root {
     --vh: 100vh;
 }
-
-.page-container {
+.app-container {
     height: calc(var(--vh, 1vh) * 100);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.page-container {
+    flex: 1;
+    overflow-y: auto;
 }
 
 /* @media (prefers-color-scheme: dark) {
