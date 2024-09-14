@@ -15,7 +15,6 @@ const getDueDate = () => {
     return date.toISOString().slice(0, 16);
 };
 // setting boss component
-const bossLength = defaultBosses.length;
 const SettingBoss = () => {
     const [bossId, setBossId] = useState<number>(1);
     const [name, setName] = useState<string>("");
@@ -23,6 +22,7 @@ const SettingBoss = () => {
     const [reward, setReward] = useState<string>("");
     const [due, setDue] = useState<string>(getDueDate());
     const { boss, setBoss } = useBoss();
+    const bossLength = boss.length;
     // boss
     const currentBoss = boss.find((b: any) => b.id === bossId);
     const isCurrent = new Date(currentBoss.due) > new Date();
@@ -67,15 +67,18 @@ const SettingBoss = () => {
     };
     const ImageUpCarosel = () => {
         return (
-            <div className="flex justify-center h-10">
-                {boss.map((b: any) => (
-                    <div onClick={() => setBossId(b.id)} className={`relative w-10 h-10 border border-solid ${currentBoss.id == b.id ? "border-blue-500" : ""}`}>
-                        <Image loading="eager" className="px-1" alt="boss image" fill sizes="(max-width: 768px) 100vw, 200px" src={b.imageup} />
+            <div className="flex flex-wrap justify-center h-24 w-[90%]">
+                {boss.map((b: any, index: number) => (
+                    <div className="w-[11%] px-1">
+                        <div onClick={() => setBossId(b.id)} className={`relative w-12 h-12 border border-solid ${currentBoss.id == b.id ? "border-blue-500" : ""}`}>
+                            <Image loading="eager" className="px-1" alt="boss image" fill sizes="(max-width: 768px) 100vw, 200px" src={b.imageup} />
+                        </div>
                     </div>
                 ))}
             </div>
         );
     };
+
     return (
         <div className="flex flex-col justify-between text-center">
             <div className="flex justify-center m-2 h-64 text-center items-center">
@@ -91,12 +94,12 @@ const SettingBoss = () => {
                     <RightArrow />
                 </div>
             </div>
-            <div>
+            <div className="flex justify-center">
                 <ImageUpCarosel />
             </div>
             <div className="flex ml-16 mb-2">
                 <span className={`content-center mr-1 w-14 `}>HP:</span>
-                <input value={maxHp} disabled={true} onChange={(e) => setMaxHp(parseInt(e.currentTarget.value))} className={`max-w-[35%] p-2 rounded-full text-center ${isCurrent ? "opacity-50" : ""}`} type="number" inputMode="numeric" placeholder="Max HP" />
+                <div className={`max-w-[35%] p-2 rounded-full text-2xl font-mono font-bold text-center ${isCurrent ? "opacity-50" : ""}`}>{currentBoss.maxHp}</div>
             </div>
             <div className="flex ml-16 mb-2">
                 <span className="content-center mr-1 w-14">Name:</span>
