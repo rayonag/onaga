@@ -308,7 +308,7 @@ const Battle = () => {
         );
     };
     const attack = async (score: number) => {
-        const isCrit = Math.random() < 0.05;
+        const isCrit = Math.random() < 0.15;
         const playAttackAudio = getAudio(isCrit); // Directly reference the file path
         const shakeImage = async () => {
             const image = document.getElementById("boss-image");
