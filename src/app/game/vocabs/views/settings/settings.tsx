@@ -12,7 +12,7 @@ const Settings = () => {
         imageSrc: string;
     };
     const SettingPage: FC<SettingPageProps> = ({ page, text, imageSrc }) => (
-        <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/4 w-2/5" onClick={() => setPage(page)}>
+        <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/4 w-48" onClick={() => setPage(page)}>
             <Image className="absolute opacity-40" src={`/vocabs/${imageSrc}.png`} alt={imageSrc} width={150} height={150} />
             <span className="text-2xl z-10">{text}</span>
         </div>

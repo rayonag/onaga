@@ -5,6 +5,7 @@ import { useShallow } from "zustand/react/shallow";
 import { LeadingActions, SwipeableList, SwipeableListItem, SwipeAction, TrailingActions, Type } from "react-swipeable-list";
 import "react-swipeable-list/dist/styles.css";
 import TrashIcon from "../../components/icons/TrashIcon";
+import useGoldStore from "@/zustand/game/vocabs/gold";
 interface Reward {
     id: number;
     reward: string;
@@ -24,9 +25,21 @@ const Rewards = () => {
             addReward: state.addReward,
         }))
     );
+    const { gold, plusGold, getGold, minusGold } = useGoldStore(
+        useShallow((state) => ({
+            gold: state.gold,
+            getGold: state.getGold,
+            plusGold: state.plusGold,
+            minusGold: state.minusGold,
+        }))
+    );
+
     useEffect(() => {
         getRewards();
     }, [getRewards]);
+    useEffect(() => {
+        getGold();
+    }, [getGold]);
     const closeModal = () => {
         setIsModalOpen(false);
         setSelectedReward(null);
@@ -63,10 +76,13 @@ const Rewards = () => {
         setSelectedReward(id);
         setIsModalOpen(true);
         console.log("treasureOpen", treasureOpen);
+        plusGold(parseInt(rewards.find((r) => r.id == id)?.reward || "0"));
         setTimeout(() => {
             setTreasureOpen(true);
             setTimeout(() => {
                 setTreasureReveal(true);
+                deleteReward(id);
+                getGold();
             }, 1500);
         }, 2000);
     };
@@ -74,16 +90,19 @@ const Rewards = () => {
     const [treasureReveal, setTreasureReveal] = useState(false);
     return (
         <>
-            <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/8 w-2/5">
-                <span className="text-2xl z-10">Rewards</span>
+            <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/8 w-48">
+                <span className="text-2xl z-10">TOTAL: ₪{gold}</span>
             </div>
+            {/* <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/8 w-48">
+                <span className="text-2xl z-10">Rewards</span>
+            </div> */}
             <div className="flex flex-col justify-center items-center m-2 bg-theme2 rounded-lg text-white max-h-fit">
                 {rewards && (
                     <SwipeableList threshold={0.4} fullSwipe={true} type={Type.IOS}>
                         {rewards.map((r, index) => (
                             <SwipeableListItem className="" key={r.id} leadingActions={leadingActions(r.id)} trailingActions={trailingActions(r.id)}>
                                 <div key={index} className="border-b-2 border-double flex flex-col justify-center items-center bg-theme6 text-white h-1/4 w-full">
-                                    <div className="text-2xl z-10">{r.reward}</div>
+                                    <div className="text-2xl z-10">₪{r.reward}</div>
                                     <div className="">
                                         <Image src={`/vocabs/treasure/treasure_yellow.png`} alt={r.reward} width={100} height={100} />
                                     </div>
@@ -106,7 +125,9 @@ const Rewards = () => {
                     {treasureReveal && (
                         <div className="relative bg-white p-4 rounded-lg" onClick={(e) => e.stopPropagation()}>
                             <div className="text-center flex animate-bounce">
-                                <span className="text-2xl">{rewards.find((r) => r.id == selectedReward)?.reward}</span>
+                                <span className="text-2xl">
+                                    <Image src={`/vocabs/treasure/coins.png`} alt={"Coin"} width={100} height={100} />₪{rewards.find((r) => r.id == selectedReward)?.reward}
+                                </span>
                                 <div className="light-beam"></div>
                             </div>
                         </div>

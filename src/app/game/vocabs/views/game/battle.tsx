@@ -174,7 +174,7 @@ const Battle = () => {
     //     else color = getColorByType(type);
     //     console.log("key22", value);
     //     return (
-    //         <div onTouchEndCapture={onTap} className={`m-1 p-4 text-sm rounded-full w-2/5 ${color}`}>
+    //         <div onTouchEndCapture={onTap} className={`m-1 p-4 text-sm rounded-full w-48 ${color}`}>
     //             {type}: ({value})
     //         </div>
     //     );

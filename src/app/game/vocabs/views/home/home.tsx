@@ -19,13 +19,17 @@ const Home = () => {
             {/* <div onClick={handleClick} className="btn-theme">
                 Coming Soon...
             </div> */}
-            {/* <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/4 w-2/5" onClick={() => setPage(page)}>
+            {/* <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/4 w-48" onClick={() => setPage(page)}>
                 <Image className="absolute opacity-40" src={`/vocabs/${imageSrc}.png`} alt={imageSrc} width={150} height={150} />
                 <span className="text-2xl z-10">{text}</span>
             </div> */}
-            <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/4 w-2/5" onClick={() => setPage("rewards")}>
+            <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/4 w-48" onClick={() => setPage("rewards")}>
                 <Image className="absolute opacity-40" src={`/vocabs/treasure/treasure_open.png`} alt={"Reward"} width={150} height={150} />
                 <span className="text-2xl z-10">Rewards</span>
+            </div>{" "}
+            <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/4 w-48" onClick={() => setPage("shop")}>
+                <Image className="absolute opacity-40" src={`/vocabs/treasure/shop.png`} alt={"Reward"} width={150} height={150} />
+                <span className="text-2xl z-10">Shop</span>
             </div>
         </div>
     );

@@ -69,8 +69,8 @@ const SettingBoss = () => {
         return (
             <div className="flex flex-wrap justify-center h-24 w-[90%]">
                 {boss.map((b: any, index: number) => (
-                    <div className="w-[11%] px-1">
-                        <div onClick={() => setBossId(b.id)} className={`relative w-12 h-12 border border-solid ${currentBoss.id == b.id ? "border-blue-500" : ""}`}>
+                    <div className="w-[10%] px-1">
+                        <div onClick={() => setBossId(b.id)} className={`relative w-11 h-11 border border-solid ${currentBoss.id == b.id ? "border-blue-500" : ""}`}>
                             <Image loading="eager" className="px-1" alt="boss image" fill sizes="(max-width: 768px) 100vw, 200px" src={b.imageup} />
                         </div>
                     </div>
@@ -107,7 +107,9 @@ const SettingBoss = () => {
             </div>
             <div className="flex ml-16 mb-2">
                 <span className="content-center mr-1 w-14">Reward:</span>
-                <input value={reward} onChange={(e) => setReward(e.currentTarget.value)} className={`max-w-[80%] p-2 rounded-full text-center ${isCurrent ? "opacity-50" : ""}`} disabled={isCurrent} type="text" placeholder="Reward" />
+                <div className={`max-w-[35%] p-2 rounded-full text-2xl font-mono font-bold text-center ${isCurrent ? "opacity-50" : ""}`}>
+                    {currentBoss.reward} <span className="font-normal">Gold</span>
+                </div>
             </div>
             <div className="flex ml-16 mb-2">
                 <span className="content-center mr-1 w-14">Due:</span>

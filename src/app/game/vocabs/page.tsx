@@ -13,6 +13,7 @@ import SettingBoss from "./views/settings/settingBoss";
 import SettingQuiz from "./views/settings/settingQuiz";
 import Rewards from "./views/home/rewards";
 import usePage from "@/zustand/page";
+import Shop from "./views/home/shop";
 
 const Page: React.FC = () => {
     const [player, setPlayer] = useState<any>();
@@ -95,7 +96,8 @@ const Page: React.FC = () => {
                         {page == "settingBoss" && <SettingBoss />}
                         {page == "settingQuiz" && <SettingQuiz />}
                         {page == "game" && <Game />}
-                        {page == "battle" && <Battle />}{" "}
+                        {page == "battle" && <Battle />}
+                        {page == "shop" && <Shop />}
                     </div>
                 </div>
                 <Navbar />
