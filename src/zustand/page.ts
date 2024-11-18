@@ -8,7 +8,10 @@ interface countState {
 
 const usePageStore = create<countState>((set) => ({
     page: "home",
-    setPage: (page: Page) => set({ page }),
+    setPage: (page: Page) => {
+        document.body.style.overflow = "hidden";
+        set({ page });
+    },
 }));
 
 export default usePageStore;
