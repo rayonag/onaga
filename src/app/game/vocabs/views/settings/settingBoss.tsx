@@ -57,7 +57,7 @@ const SettingBoss = () => {
                 name: name,
                 maxHp: maxHp,
                 hp: maxHp,
-                reward: reward,
+                // reward: reward,
                 due: new Date(due).toISOString(),
             })
             .eq("id", bossId);

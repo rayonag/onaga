@@ -308,7 +308,7 @@ const Battle = () => {
         );
     };
     const attack = async (score: number) => {
-        const isCrit = Math.random() < 0.15;
+        const isCrit = Math.random() < 0.2;
         const playAttackAudio = getAudio(isCrit); // Directly reference the file path
         const shakeImage = async () => {
             const image = document.getElementById("boss-image");
@@ -321,7 +321,7 @@ const Battle = () => {
                         image.classList.remove("shake");
                         if (isCrit) image.parentElement?.classList.remove("crit");
                         resolve("");
-                    }, 500)
+                    }, 250)
                 );
                 //setIsAttacking(false);
                 //setPage("game");
@@ -344,21 +344,21 @@ const Battle = () => {
     const [playEffect3] = useSound("/effects/sound/打撃3.mp3");
     const [playEffect4] = useSound("/effects/sound/打撃4.mp3");
     const [playEffect5] = useSound("/effects/sound/打撃5.mp3");
-    // const [playEffect6] = useSound("/effects/sound/会心の一撃1.mp3");
-    // const [playEffect7] = useSound("/effects/sound/会心の一撃2.mp3");
-    // const [playEffect8] = useSound("/effects/sound/会心の一撃3.mp3");
+    const [playEffect6] = useSound("/effects/sound/会心の一撃1.mp3");
+    const [playEffect7] = useSound("/effects/sound/会心の一撃2.mp3");
+    const [playEffect8] = useSound("/effects/sound/会心の一撃3.mp3");
     const [playEffect9] = useSound("/effects/sound/火炎魔法1.mp3");
     const getAudio = (isCrit: boolean) => {
         if (isCrit) return playEffect9;
-        const random = Math.floor(Math.random() * 5) + 1;
+        const random = Math.floor(Math.random() * 8) + 1;
         if (random === 1) return playEffect1;
         if (random === 2) return playEffect2;
         if (random === 3) return playEffect3;
         if (random === 4) return playEffect4;
         if (random === 5) return playEffect5;
-        // if (random === 6) return playEffect6;
-        // if (random === 7) return playEffect7;
-        // if (random === 8) return playEffect8;
+        if (random === 6) return playEffect6;
+        if (random === 7) return playEffect7;
+        if (random === 8) return playEffect8;
         return playEffect1;
     };
 
