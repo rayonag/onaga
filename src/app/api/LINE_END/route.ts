@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
         const { to, messages } = body;
 
         if (!to || !messages) {
-            return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+            return NextResponse.json({ message: "Missing required fields" }, { status: 200 });
         }
 
         const channelAccessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
