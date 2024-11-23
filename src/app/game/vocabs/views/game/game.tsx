@@ -48,7 +48,7 @@ const Game = () => {
         return <div className="text-xs text-red-500">{dues}</div>;
     };
     return (
-        <div>
+        <div className="pb-20">
             {boss &&
                 boss.map((record: any) => {
                     return (

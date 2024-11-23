@@ -87,17 +87,16 @@ const Page: React.FC = () => {
             <PlayerContext.Provider value={{ player, setPlayer }}>
                 <div className="app-container">
                     <div className="page-container">
-                        <header className="navbar">{/* Add your navigation links here */}</header>
-                        <main className="content">{/* Add your page content here */}</main>
-                        <footer className="footer">{/* Add your footer content here */}</footer>
-                        {page == "home" && <Home />}
-                        {page == "rewards" && <Rewards />}
-                        {page == "settings" && <Settings />}
-                        {page == "settingBoss" && <SettingBoss />}
-                        {page == "settingQuiz" && <SettingQuiz />}
                         {page == "game" && <Game />}
                         {page == "battle" && <Battle />}
                         {page == "shop" && <Shop />}
+                        {page == "settingBoss" && <SettingBoss />}
+                    </div>
+                    <div>
+                        {page == "home" && <Home />}
+                        {page == "rewards" && <Rewards />}
+                        {page == "settings" && <Settings />}
+                        {page == "settingQuiz" && <SettingQuiz />}
                     </div>
                 </div>
                 <Navbar />

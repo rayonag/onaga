@@ -5,6 +5,7 @@ import { useShallow } from "zustand/react/shallow";
 import { LeadingActions, SwipeableList, SwipeableListItem, SwipeAction, TrailingActions, Type } from "react-swipeable-list";
 import "react-swipeable-list/dist/styles.css";
 import TrashIcon from "../../components/icons/TrashIcon";
+import SendMessage from "./test";
 interface Reward {
     id: number;
     reward: string;
@@ -74,7 +75,10 @@ const Shop = () => {
     const [treasureReveal, setTreasureReveal] = useState(false);
     return (
         <>
-            <div className="flex flex-col h-screen justify-center text-center items-center">
+            <div style={{ backgroundPosition: "center", backgroundSize: "cover", backgroundImage: `url('/vocabs/bg/bg-shop.png')` }} className="overflow-hidden flex flex-col h-screen justify-center text-center items-center">
+                <div>
+                    <SendMessage />
+                </div>
                 <table className="table-auto">
                     <thead>
                         <tr>

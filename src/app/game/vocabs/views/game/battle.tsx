@@ -13,6 +13,8 @@ import useAutoFocus from "../../hooks/useAutoFocus";
 import HpBar from "../../components/HpBar";
 import usePage from "@/zustand/page";
 import useRewardStore from "@/zustand/game/vocabs/rewards";
+import useStreakStore from "@/zustand/game/vocabs/streak";
+import { DateTime } from "luxon";
 
 export const getColorByType = (type: string) => {
     let color = "";
@@ -78,6 +80,7 @@ const Battle = () => {
     const [currentHp, setCurrentHp] = useState(record.hp);
     const [ratio, setRatio] = useState<1 | 5 | 10>(1);
     const [isComplete, setIsComplete] = useState(false);
+    const { handleStreak } = useStreakStore();
     // hp bar component with number of hp and max hp and the progress bar to show the hp
     // css is by tailwind
     const addReward = useRewardStore((state) => state.addReward);
@@ -252,6 +255,7 @@ const Battle = () => {
             const { data: error } = await supabase.from("quiz").insert([{ name: record.name, score: score }]);
             if (error) return alert("Failed to add quiz result");
             await attack(score);
+            await handleStreak();
             setScore(null);
             // setLevel("");
             //setCurrentHp(newHp);
@@ -308,7 +312,7 @@ const Battle = () => {
         );
     };
     const attack = async (score: number) => {
-        const isCrit = Math.random() < 0.2;
+        const isCrit = Math.random() < 0.05;
         const playAttackAudio = getAudio(isCrit); // Directly reference the file path
         const shakeImage = async () => {
             const image = document.getElementById("boss-image");
@@ -327,8 +331,30 @@ const Battle = () => {
                 //setPage("game");
             }
         };
+        const today = DateTime.now().weekdayShort;
         const newHp = Math.floor(currentHp - (isCrit ? score * 2 : score) * ratio);
         const { data: error2 } = await supabase.from("boss").update({ hp: newHp }).eq("id", record.id);
+        // reset when in new week
+        const promiseArray: any = [];
+        const { data: quiz, error } = await supabase.from("quiz").select("*");
+        console.log("currentBoss.due", currentBoss.due);
+        // if (new Date(quiz?.find((q: any) => q.id == 1).due) < new Date()) {
+        Array.from(Array(18).keys()).forEach((index) =>
+            promiseArray.push(
+                supabase
+                    .from("quiz")
+                    .update({ Sat: null, Sun: null, Mon: null, Tue: null, Wed: null, Thu: null, Fri: null })
+                    .eq("id", index + 1)
+            )
+        );
+        // update due to the current week
+        promiseArray.push(supabase.from("quiz").update({ due: record.due }).eq("id", 1));
+        await Promise.all(promiseArray);
+        //}
+        const { data: error4 } = await supabase
+            .from("quiz")
+            .update({ [today]: newHp })
+            .eq("id", record.id);
         refreshBoss(setBoss);
         await shakeImage();
         console.log("error2", error2);

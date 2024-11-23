@@ -80,7 +80,7 @@ const SettingBoss = () => {
     };
 
     return (
-        <div className="flex flex-col justify-between text-center">
+        <div className="flex flex-col justify-between text-center pb-20">
             <div className="flex justify-center m-2 h-64 text-center items-center">
                 <div className="px-5 flex items-center h-full" onClick={() => handleArrow("left")}>
                     <LeftArrow />

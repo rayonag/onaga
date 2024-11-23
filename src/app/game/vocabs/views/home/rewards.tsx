@@ -6,6 +6,7 @@ import { LeadingActions, SwipeableList, SwipeableListItem, SwipeAction, Trailing
 import "react-swipeable-list/dist/styles.css";
 import TrashIcon from "../../components/icons/TrashIcon";
 import useGoldStore from "@/zustand/game/vocabs/gold";
+import usePageStore from "@/zustand/page";
 interface Reward {
     id: number;
     reward: string;
@@ -33,6 +34,7 @@ const Rewards = () => {
             minusGold: state.minusGold,
         }))
     );
+    const setPage = usePageStore((state) => state.setPage);
 
     useEffect(() => {
         getRewards();
@@ -89,14 +91,14 @@ const Rewards = () => {
     const [treasureOpen, setTreasureOpen] = useState(false);
     const [treasureReveal, setTreasureReveal] = useState(false);
     return (
-        <>
+        <div style={{ backgroundPosition: "center", backgroundSize: "cover", backgroundImage: `url('/vocabs/bg/bg-home.webp')` }} className="overflow-hidden flex flex-col h-screen justify-center text-center items-center">
             <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/8 w-48">
                 <span className="text-2xl z-10">TOTAL: ₪{gold}</span>
             </div>
             {/* <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/8 w-48">
                 <span className="text-2xl z-10">Rewards</span>
             </div> */}
-            <div className="flex flex-col justify-center items-center m-2 bg-theme2 rounded-lg text-white max-h-fit">
+            <div className="overflow-scroll flex flex-col justify-center items-center m-2 bg-theme2 rounded-lg text-white max-h-[60vh] w-[90vw]">
                 {rewards && (
                     <SwipeableList threshold={0.4} fullSwipe={true} type={Type.IOS}>
                         {rewards.map((r, index) => (
@@ -134,7 +136,12 @@ const Rewards = () => {
                     )}
                 </div>
             )}
-        </>
+            <div className="flex justify-center mb-14">
+                <button className="text-2xl flex justify-center items-center font-bold m-2 bg-theme2 !bg-opacity-70 rounded-full text-white h-16 w-48" onClick={() => setPage("shop")}>
+                    交換する！
+                </button>
+            </div>
+        </div>
     );
 };
 
