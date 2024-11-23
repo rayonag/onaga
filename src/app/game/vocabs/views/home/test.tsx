@@ -6,7 +6,7 @@ const SendMessage = () => {
     const [to, setTo] = useState("");
     const [message1, setMessage1] = useState("");
     const [message2, setMessage2] = useState("");
-    const [response, setResponse] = useState(null);
+    const [response, setResponse] = useState<any>("null");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
