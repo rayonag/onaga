@@ -93,7 +93,7 @@ const Rewards = () => {
     return (
         <div style={{ backgroundPosition: "center", backgroundSize: "cover", backgroundImage: `url('/vocabs/bg/bg-home.webp')` }} className="overflow-hidden flex flex-col h-screen justify-center text-center items-center">
             <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/8 w-48">
-                <span className="text-2xl z-10">TOTAL: ₪{gold}</span>
+                <span className="text-2xl z-10">TOTAL: {gold} Gold</span>
             </div>
             {/* <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/8 w-48">
                 <span className="text-2xl z-10">Rewards</span>
@@ -104,7 +104,7 @@ const Rewards = () => {
                         {rewards.map((r, index) => (
                             <SwipeableListItem className="" key={r.id} leadingActions={leadingActions(r.id)} trailingActions={trailingActions(r.id)}>
                                 <div key={index} className="border-b-2 border-double flex flex-col justify-center items-center bg-theme6 text-white h-1/4 w-full">
-                                    <div className="text-2xl z-10">₪{r.reward}</div>
+                                    <div className="text-2xl z-10">{r.reward} Gold</div>
                                     <div className="">
                                         <Image src={`/vocabs/treasure/treasure_yellow.png`} alt={r.reward} width={100} height={100} />
                                     </div>
@@ -128,7 +128,8 @@ const Rewards = () => {
                         <div className="relative bg-white p-4 rounded-lg" onClick={(e) => e.stopPropagation()}>
                             <div className="text-center flex animate-bounce">
                                 <span className="text-2xl">
-                                    <Image src={`/vocabs/treasure/coins.png`} alt={"Coin"} width={100} height={100} />₪{rewards.find((r) => r.id == selectedReward)?.reward}
+                                    <Image src={`/vocabs/treasure/coins.png`} alt={"Coin"} width={100} height={100} />
+                                    {rewards.find((r) => r.id == selectedReward)?.reward} Gold
                                 </span>
                                 <div className="light-beam"></div>
                             </div>

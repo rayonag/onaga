@@ -6,6 +6,7 @@ import { LeadingActions, SwipeableList, SwipeableListItem, SwipeAction, Trailing
 import "react-swipeable-list/dist/styles.css";
 import TrashIcon from "../../components/icons/TrashIcon";
 import SendMessage from "./test";
+import useGoldStore from "@/zustand/game/vocabs/gold";
 interface Reward {
     id: number;
     reward: string;
@@ -25,57 +26,19 @@ const Shop = () => {
             addReward: state.addReward,
         }))
     );
+    const gold = useGoldStore((state) => state.gold);
     useEffect(() => {
         getRewards();
     }, [getRewards]);
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setSelectedReward(null);
-        setTreasureReveal(false);
-        setTreasureOpen(false);
-    };
-    const trailingActions = (id: number) => (
-        <TrailingActions>
-            <SwipeAction
-                destructive={true}
-                onClick={() => {
-                    deleteReward(id);
-                }}
-            >
-                <div className="flex flex-col justify-center items-center bg-theme2 w-20 h-full text-white ">
-                    <TrashIcon color="red" size={36} />
-                    <span className="text-2xl z-10 mb-6">Delete</span>
-                </div>
-            </SwipeAction>
-        </TrailingActions>
-    );
-    const leadingActions = (id: number) => (
-        <LeadingActions>
-            <SwipeAction destructive={true} onClick={() => openReward(id)}>
-                <div className="flex flex-col justify-center items-center bg-theme3 w-20 h-full text-white ">
-                    <Image className="mt-3" src={`/vocabs/treasure/treasure_open.png`} alt={"Open"} width={100} height={100} />
-                    <span className="text-2xl z-10">Open</span>
-                </div>
-            </SwipeAction>
-        </LeadingActions>
-    );
-    const openReward = (id: number) => {
-        console.log("open reward", id);
-        setSelectedReward(id);
-        setIsModalOpen(true);
-        console.log("treasureOpen", treasureOpen);
-        setTimeout(() => {
-            setTreasureOpen(true);
-            setTimeout(() => {
-                setTreasureReveal(true);
-            }, 1500);
-        }, 2000);
-    };
-    const [treasureOpen, setTreasureOpen] = useState(false);
-    const [treasureReveal, setTreasureReveal] = useState(false);
+
+    const handleSubmit = () => {};
+
     return (
         <>
-            <div style={{ backgroundPosition: "center", backgroundSize: "cover", backgroundImage: `url('/vocabs/bg/bg-shop.png')` }} className="overflow-hidden flex flex-col h-screen justify-center text-center items-center">
+            <div style={{ backgroundPosition: "center", backgroundSize: "cover", backgroundImage: `url('/vocabs/bg/bg-shop.png')` }} className="overflow-hidden flex flex-col h-screen justify-center text-center items-center text-white">
+                <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/8 w-48">
+                    <span className="text-2xl z-10">TOTAL: {gold} Gold</span>
+                </div>
                 <div>
                     <SendMessage />
                 </div>
@@ -87,20 +50,27 @@ const Shop = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr onClick={() => setSelectedReward(0)}>
                             <td className="border px-4 py-2">Ramen</td>
-                            <td className="border px-4 py-2">30NIS</td>
+                            <td className="border px-4 py-2">30 Gold</td>
                         </tr>
-                        <tr>
+                        <tr onClick={() => setSelectedReward(1)}>
                             <td className="border px-4 py-2">Cafe Coffee</td>
-                            <td className="border px-4 py-2">20NIS</td>
+                            <td className="border px-4 py-2">20 Gold</td>
                         </tr>
-                        <tr>
+                        <tr onClick={() => setSelectedReward(2)}>
                             <td className="border px-4 py-2">Movie Night</td>
-                            <td className="border px-4 py-2">70NIS</td>
+                            <td className="border px-4 py-2">70 Gold</td>
+                        </tr>
+                        <tr onClick={() => setSelectedReward(3)}>
+                            <td className="border px-4 py-2">50 Shekels</td>
+                            <td className="border px-4 py-2">100 Gold</td>
                         </tr>
                     </tbody>
                 </table>
+                <button className="flex justify-center items-center font-bold m-2 bg-theme2 !bg-opacity-70 rounded-full text-white h-16 w-48" onClick={() => handleSubmit()}>
+                    <span className="text-2xl z-10">旦那に申請する</span>
+                </button>
             </div>
         </>
     );

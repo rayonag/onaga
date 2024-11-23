@@ -1,25 +1,26 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    if (req.method !== "POST") {
-        return res.status(405).json({ message: "Method not allowed" });
-    }
+export async function GET(req: NextRequest) {
+    return new NextResponse("Hello, this is the LINE API route", {
+        status: 200,
+    });
+}
 
-    const { events } = req.body;
-
-    if (!events || events.length === 0) {
-        return res.status(400).json({ message: "No events found in request body" });
-    }
-
-    const channelAccessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
-
-    if (!channelAccessToken) {
-        return res.status(500).json({ message: "Missing channel access token" });
-    }
-
+export async function POST(req: NextRequest) {
     try {
-        const event = events[0];
-        const userId = event.source.userId;
+        const body = await req.json();
+        const { to, messages } = body;
+
+        if (!to || !messages) {
+            return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+        }
+
+        const channelAccessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
+
+        if (!channelAccessToken) {
+            return NextResponse.json({ message: "Missing channel access token" }, { status: 500 });
+        }
 
         const response = await fetch("https://api.line.me/v2/bot/message/push", {
             method: "POST",
@@ -28,26 +29,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 Authorization: `Bearer ${channelAccessToken}`,
             },
             body: JSON.stringify({
-                to: userId,
-                messages: [
-                    {
-                        type: "text",
-                        text: `Hello, your user ID is ${userId}`,
-                    },
-                ],
+                to,
+                messages,
             }),
         });
 
         if (!response.ok) {
             const errorData = await response.json();
-            return res.status(response.status).json({ message: "Error from LINE API", error: errorData });
+            return NextResponse.json({ message: "Error from LINE API", error: errorData }, { status: response.status });
         }
 
         const data = await response.json();
-        return res.status(200).json({ message: "Message sent successfully", data });
+        return NextResponse.json({ message: "Message sent successfully", data }, { status: 200 });
     } catch (error) {
-        return res.status(500).json({ message: "Internal server error", error });
+        return NextResponse.json({ message: "Internal server error", error }, { status: 500 });
     }
-};
-
-export default handler;
+}
