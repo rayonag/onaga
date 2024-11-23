@@ -10,9 +10,9 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { to, messages } = body;
+        const { eventData } = body;
 
-        if (!to || !messages) {
+        if (!eventData) {
             return NextResponse.json({ message: "Missing required fields" }, { status: 200 });
         }
 
@@ -29,8 +29,17 @@ export async function POST(req: NextRequest) {
                 Authorization: `Bearer ${channelAccessToken}`,
             },
             body: JSON.stringify({
-                to,
-                messages,
+                to: eventData.source.userId,
+                messages: [
+                    {
+                        type: "text",
+                        text: "Hello, world1",
+                    },
+                    {
+                        type: "text",
+                        text: "Hello, world2",
+                    },
+                ],
             }),
         });
 
