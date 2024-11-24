@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import sgMail from "@sendgrid/mail";
 
 export async function GET(req: NextRequest) {
-    console.log("process.env.SENDGRID_API_KEY", process.env.SENDGRID_API_KEY);
+    //console.log("process.env.SENDGRID_API_KEY", process.env.SENDGRID_API_KEY);
     sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
     const res = sgMail.send({
         to: "onaga.ray@gmail.com",
