@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
         text: "Hello, world",
     });
     console.log("res", res);
-    return new NextResponse("Hello, this is the LINE API route" + process.env.SENDGRID_API_KEY, {
+    return new NextResponse("Hello, this is the LINE API route" + process.env.SENDGRID_API_KEY + JSON.stringify(res), {
         status: 200,
     });
 }

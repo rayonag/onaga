@@ -31,7 +31,15 @@ const Shop = () => {
         getRewards();
     }, [getRewards]);
 
-    const handleSubmit = () => {};
+    const handleSubmit = async () => {
+        const eventData = {
+            source: {
+                userId: 2000877546,
+            },
+        };
+        const res = await fetch("/api/LINE_END");
+        console.log("res", res);
+    };
 
     return (
         <>
