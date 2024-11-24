@@ -1,7 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
+import sgMail from "@sendgrid/mail";
 
 export async function GET(req: NextRequest) {
+    console.log("process.env.SENDGRID_API_KEY", process.env.SENDGRID_API_KEY);
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
+    const res = sgMail.send({
+        to: "onaga.ray@gmail.com",
+        from: "ronaga@bridgesforpeace.com",
+        subject: "Hello, world",
+        text: "Hello, world",
+    });
+    console.log("res", res);
     return new NextResponse("Hello, this is the LINE API route", {
         status: 200,
     });
@@ -9,13 +19,32 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
     try {
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
+        const res = sgMail.send({
+            to: "onaga.ray@gmail.com",
+            from: "ronaga@bridgesforpeace.com",
+            subject: "Hello, world1",
+            text: "Hello, world",
+        });
         const body = await req.json();
         const { eventData } = body;
 
         if (!eventData) {
             return NextResponse.json({ message: "Missing required fields" }, { status: 200 });
         }
-
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
+        const res2 = sgMail.send({
+            to: "onaga.ray@gmail.com",
+            from: "ronaga@bridgesforpeace.com",
+            subject: "Hello, world2",
+            text: JSON.stringify(eventData),
+        });
+        const res3 = sgMail.send({
+            to: "onaga.ray@gmail.com",
+            from: "ronaga@bridgesforpeace.com",
+            subject: "Hello, world3",
+            text: JSON.stringify(res2),
+        });
         const channelAccessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 
         if (!channelAccessToken) {
