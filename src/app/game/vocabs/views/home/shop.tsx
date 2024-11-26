@@ -15,6 +15,12 @@ interface Reward {
 interface Props {
     rewards: Reward[];
 }
+const Rewards = [
+    { name: "Ramen", price: 30 },
+    { name: "Cafe Coffee", price: 20 },
+    { name: "Movie Night", price: 70 },
+    { name: "50 Shekels", price: 100 },
+];
 const Shop = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedReward, setSelectedReward] = useState<number | null>(null);
@@ -27,29 +33,48 @@ const Shop = () => {
         }))
     );
     const gold = useGoldStore((state) => state.gold);
+    const minusGold = useGoldStore((state) => state.minusGold);
     useEffect(() => {
         getRewards();
     }, [getRewards]);
 
     const handleSubmit = async () => {
-        const eventData = {
-            source: {
-                userId: 2000877546,
-            },
+        if (selectedReward === null) return;
+        if (!gold) return;
+        if (parseInt(gold) < Rewards[selectedReward].price) return alert("ゴールドが足りないよ");
+
+        const payload = {
+            prise: Rewards[selectedReward].name,
         };
-        const res = await fetch("/api/LINE_END");
-        console.log("res", res);
+
+        try {
+            const res = await fetch("/api/LINE", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await res.json();
+            console.log("Response from API:", data);
+            if (data.message) {
+                const res2 = minusGold(Rewards[selectedReward].price);
+            }
+        } catch (error) {
+            console.error("Error sending message:", error);
+        }
     };
 
     return (
         <>
             <div style={{ backgroundPosition: "center", backgroundSize: "cover", backgroundImage: `url('/vocabs/bg/bg-shop.png')` }} className="overflow-hidden flex flex-col h-screen justify-center text-center items-center text-white">
-                <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/8 w-48">
+                <div className="flex justify-center items-center m-2 bg-theme6 rounded-lg text-white h-1/8 w-48">
                     <span className="text-2xl z-10">TOTAL: {gold} Gold</span>
                 </div>
-                <div>
+                {/* <div>
                     <SendMessage />
-                </div>
+                </div> */}
                 <table className="table-auto">
                     <thead>
                         <tr>
@@ -58,26 +83,16 @@ const Shop = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr onClick={() => setSelectedReward(0)}>
-                            <td className="border px-4 py-2">Ramen</td>
-                            <td className="border px-4 py-2">30 Gold</td>
-                        </tr>
-                        <tr onClick={() => setSelectedReward(1)}>
-                            <td className="border px-4 py-2">Cafe Coffee</td>
-                            <td className="border px-4 py-2">20 Gold</td>
-                        </tr>
-                        <tr onClick={() => setSelectedReward(2)}>
-                            <td className="border px-4 py-2">Movie Night</td>
-                            <td className="border px-4 py-2">70 Gold</td>
-                        </tr>
-                        <tr onClick={() => setSelectedReward(3)}>
-                            <td className="border px-4 py-2">50 Shekels</td>
-                            <td className="border px-4 py-2">100 Gold</td>
-                        </tr>
+                        {Rewards.map((reward, index) => (
+                            <tr key={index} className={`${selectedReward == index ? "bg-theme3" : ""}`} onClick={() => setSelectedReward(index)}>
+                                <td className="border px-4 py-2">{reward.name}</td>
+                                <td className="border px-4 py-2">{reward.price} Gold</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
-                <button className="flex justify-center items-center font-bold m-2 bg-theme2 !bg-opacity-70 rounded-full text-white h-16 w-48" onClick={() => handleSubmit()}>
-                    <span className="text-2xl z-10">旦那に申請する</span>
+                <button className="flex justify-center items-center font-bold m-2 bg-theme2 !bg-opacity-70 rounded-full mt-8 text-white h-12 w-48" onClick={() => handleSubmit()}>
+                    <span className="text-xl z-10">旦那に申請する</span>
                 </button>
             </div>
         </>

@@ -10,17 +10,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { to, messages } = body;
-
-        if (!to || !messages) {
-            return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
-        }
-
+        const { prise } = body;
         const channelAccessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
-
-        if (!channelAccessToken) {
-            return NextResponse.json({ message: "Missing channel access token" }, { status: 500 });
-        }
 
         const response = await fetch("https://api.line.me/v2/bot/message/push", {
             method: "POST",
@@ -29,8 +20,13 @@ export async function POST(req: NextRequest) {
                 Authorization: `Bearer ${channelAccessToken}`,
             },
             body: JSON.stringify({
-                to,
-                messages,
+                to: "Uec7f366c3f655ac9026b975b924a2b4d", // hard-coded user ID
+                messages: [
+                    {
+                        type: "text",
+                        text: `奥さんが${prise}を申請したよ。\nすごいね！大好きな奥さんに忘れずにご褒美をあげよう！`,
+                    },
+                ],
             }),
         });
 
