@@ -38,13 +38,13 @@ const LineChartForWeek = () => {
                         }
                         return;
                     }
-                    d[key] = (d[key] / this_boss.maxHp) * 100 > 0 ? 100 - (d[key] / this_boss.maxHp) * 100 : 0;
+                    d[key] = (d[key] / this_boss.maxHp) * 100 > 0 ? (100 - (d[key] / this_boss.maxHp) * 100).toFixed(0) : 0;
                 });
                 return d;
             });
-            newGraphData = newGraphData.filter((d: any, index: number) => {
-                return noQuiz.findIndex((q: any) => q.id == index) == -1;
-            });
+            // newGraphData = newGraphData.filter((d: any, index: number) => {
+            //     return noQuiz.findIndex((q: any) => q.id == index) == -1;
+            // });
             setGraphData(newGraphData);
         })();
     }, [data, quiz, boss]);
@@ -83,34 +83,13 @@ const LineChartForWeek = () => {
             >
                 <>
                     {/* <CartesianGrid strokeDasharray="3 3" /> */}
-                    <XAxis dataKey="day" />
+                    <XAxis dataKey="day" domain={["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"]} />
                     <YAxis domain={[0, 100]} />
                     <Tooltip />
                     <Legend />
-                    {/* <Line type="monotone" dataKey="maxHp" stroke="#8884d8" /> */}
                     {presentBoss.map((b: any) => {
                         return <Line type="monotone" name={b.name} dataKey={b.id} stroke={colors[b.id - 1]} />;
                     })}
-                    {/* <Line type="monotone" dataKey="1" stroke="#8884d8" />
-                    <Line type="monotone" dataKey="2" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="3" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="4" stroke="#82ca9d" />
-
-                    <Line type="monotone" dataKey="5" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="6" stroke="#82ca9d" />
-      
-                    <Line type="monotone" dataKey="7" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="8" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="9" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="10" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="11" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="12" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="13" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="14" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="15" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="16" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="17" stroke="#82ca9d" />
-                    <Line type="monotone" dataKey="18" stroke="#82ca9d" /> */}
                 </>
             </LineChart>
         </ResponsiveContainer>

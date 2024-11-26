@@ -34,8 +34,10 @@ const Shop = () => {
     );
     const gold = useGoldStore((state) => state.gold);
     const minusGold = useGoldStore((state) => state.minusGold);
+    const getGold = useGoldStore((state) => state.getGold);
     useEffect(() => {
         getRewards();
+        getGold();
     }, [getRewards]);
 
     const handleSubmit = async () => {
@@ -61,20 +63,22 @@ const Shop = () => {
             if (data.message) {
                 const res2 = minusGold(Rewards[selectedReward].price);
             }
+            updateAll();
         } catch (error) {
             console.error("Error sending message:", error);
         }
     };
+    const updateAll = () => {
+        getRewards();
+        getGold();
+    };
 
     return (
-        <>
+        <div>
             <div style={{ backgroundPosition: "center", backgroundSize: "cover", backgroundImage: `url('/vocabs/bg/bg-shop.png')` }} className="overflow-hidden flex flex-col h-screen justify-center text-center items-center text-white">
                 <div className="flex justify-center items-center m-2 bg-theme6 rounded-lg text-white h-1/8 w-48">
                     <span className="text-2xl z-10">TOTAL: {gold} Gold</span>
                 </div>
-                {/* <div>
-                    <SendMessage />
-                </div> */}
                 <table className="table-auto">
                     <thead>
                         <tr>
@@ -95,7 +99,7 @@ const Shop = () => {
                     <span className="text-xl z-10">旦那に申請する</span>
                 </button>
             </div>
-        </>
+        </div>
     );
 };
 

@@ -76,7 +76,7 @@ const Game = () => {
                                                 <div className="text-3xl">{record.name}</div>
                                                 <div>
                                                     <span className="italic">Reward: </span>
-                                                    {record.reward}
+                                                    {record.reward} Gold
                                                 </div>
                                                 <div>
                                                     <Hpbar hp={record.hp} maxHp={record.maxHp} />

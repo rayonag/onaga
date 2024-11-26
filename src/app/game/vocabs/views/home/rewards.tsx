@@ -48,21 +48,21 @@ const Rewards = () => {
         setTreasureReveal(false);
         setTreasureOpen(false);
     };
-    const trailingActions = (id: number) => (
-        <TrailingActions>
-            <SwipeAction
-                destructive={true}
-                onClick={() => {
-                    deleteReward(id);
-                }}
-            >
-                <div className="flex flex-col justify-center items-center bg-theme2 w-20 h-full text-white ">
-                    <TrashIcon color="red" size={36} />
-                    <span className="text-2xl z-10 mb-6">Delete</span>
-                </div>
-            </SwipeAction>
-        </TrailingActions>
-    );
+    // const trailingActions = (id: number) => (
+    //     <TrailingActions>
+    //         <SwipeAction
+    //             destructive={true}
+    //             onClick={() => {
+    //                 deleteReward(id);
+    //             }}
+    //         >
+    //             <div className="flex flex-col justify-center items-center bg-theme2 w-20 h-full text-white ">
+    //                 <TrashIcon color="red" size={36} />
+    //                 <span className="text-2xl z-10 mb-6">Delete</span>
+    //             </div>
+    //         </SwipeAction>
+    //     </TrailingActions>
+    // );
     const leadingActions = (id: number) => (
         <LeadingActions>
             <SwipeAction destructive={true} onClick={() => openReward(id)}>
@@ -102,7 +102,7 @@ const Rewards = () => {
                 {rewards && (
                     <SwipeableList threshold={0.4} fullSwipe={true} type={Type.IOS}>
                         {rewards.map((r, index) => (
-                            <SwipeableListItem className="" key={r.id} leadingActions={leadingActions(r.id)} trailingActions={trailingActions(r.id)}>
+                            <SwipeableListItem className="" key={r.id} leadingActions={leadingActions(r.id)}>
                                 <div key={index} className="border-b-2 border-double flex flex-col justify-center items-center bg-theme6 text-white h-1/4 w-full">
                                     <div className="text-2xl z-10">{r.reward} Gold</div>
                                     <div className="">

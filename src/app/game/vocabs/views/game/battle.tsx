@@ -338,19 +338,19 @@ const Battle = () => {
         const promiseArray: any = [];
         const { data: quiz, error } = await supabase.from("quiz").select("*");
         console.log("currentBoss.due", currentBoss.due);
-        // if (new Date(quiz?.find((q: any) => q.id == 1).due) < new Date()) {
-        Array.from(Array(18).keys()).forEach((index) =>
-            promiseArray.push(
-                supabase
-                    .from("quiz")
-                    .update({ Sat: null, Sun: null, Mon: null, Tue: null, Wed: null, Thu: null, Fri: null })
-                    .eq("id", index + 1)
-            )
-        );
-        // update due to the current week
-        promiseArray.push(supabase.from("quiz").update({ due: record.due }).eq("id", 1));
-        await Promise.all(promiseArray);
-        //}
+        if (new Date(quiz?.find((q: any) => q.id == 1).due) < new Date()) {
+            Array.from(Array(18).keys()).forEach((index) =>
+                promiseArray.push(
+                    supabase
+                        .from("quiz")
+                        .update({ Sat: null, Sun: null, Mon: null, Tue: null, Wed: null, Thu: null, Fri: null })
+                        .eq("id", index + 1)
+                )
+            );
+            // update due to the current week
+            promiseArray.push(supabase.from("quiz").update({ due: record.due }).eq("id", 1));
+            await Promise.all(promiseArray);
+        }
         const { data: error4 } = await supabase
             .from("quiz")
             .update({ [today]: newHp })
@@ -402,7 +402,7 @@ const Battle = () => {
                     </div>
                     <div>
                         <span className="italic">Reward: </span>
-                        {record.reward}
+                        {record.reward} Gold
                     </div>
                     <div>
                         <HpBar hp={record.hp} maxHp={record.maxHp} />
