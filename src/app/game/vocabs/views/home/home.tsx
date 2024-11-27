@@ -36,7 +36,7 @@ const Home = () => {
             <div className="rounded-lg bg-white bg-opacity-30 p-2 relative flex justify-center items-center h-2/4 w-4/5">
                 <Example />
             </div>
-            <button className="flex justify-center items-center font-bold m-2 bg-theme2 !bg-opacity-70 rounded-full text-white h-16 w-48" onClick={() => setPage("rewards")}>
+            <button className="flex justify-center items-center font-bold m-2 bg-theme2 !bg-opacity-90 rounded-full text-white h-16 w-48" onClick={() => setPage("rewards")}>
                 {/* <Image className="absolute opacity-40" src={`/vocabs/treasure/treasure_open.png`} alt={"Reward"} width={150} height={150} /> */}
                 <span className="text-2xl z-10">お宝をあける</span>
             </button>

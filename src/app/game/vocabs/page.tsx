@@ -77,11 +77,10 @@ const Page: React.FC = () => {
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
-
         return () => {
             document.body.style.overflow = "";
         };
-    }, []);
+    }, [page]);
     return (
         <BossContext.Provider value={{ boss, setBoss, currentBoss, setCurrentBoss }}>
             <PlayerContext.Provider value={{ player, setPlayer }}>

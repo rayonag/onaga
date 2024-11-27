@@ -38,7 +38,7 @@ const LineChartForWeek = () => {
                         }
                         return;
                     }
-                    d[key] = (d[key] / this_boss.maxHp) * 100 > 0 ? (100 - (d[key] / this_boss.maxHp) * 100).toFixed(0) : 0;
+                    d[key] = (d[key] / this_boss.maxHp) * 100 >= 0 ? Math.round(100 - (d[key] / this_boss.maxHp) * 100) : 0;
                 });
                 return d;
             });
@@ -88,7 +88,7 @@ const LineChartForWeek = () => {
                     <Tooltip />
                     <Legend />
                     {presentBoss.map((b: any) => {
-                        return <Line type="monotone" name={b.name} dataKey={b.id} stroke={colors[b.id - 1]} />;
+                        return <Line type="monotone" strokeWidth={1.6} isAnimationActive={false} name={b.name} dataKey={b.id} stroke={colors[b.id - 1]} />;
                     })}
                 </>
             </LineChart>
