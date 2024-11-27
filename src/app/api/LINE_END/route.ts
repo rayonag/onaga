@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     });
     console.log("res", res);
     const client = new line.messagingApi.MessagingApiClient({
-        channelAccessToken: "QVoOGRhBELfvPm5AbscJ5XUsIxZlkG+4gqxp+21yTU4rZ3ppM+rkjTH42ZbfOjW+gTbLBsO1dylO6E9eI3golVmRqnpeBPiK4e1kP2Glu2vil9m04RNBPpeRZq0Sqy1kAE9yw1Sm2XBHsYbLsvP6PgdB04t89/1O/w1cDnyilFU=",
+        channelAccessToken: process.env.CHANNEL_TOKEN as string,
     });
     line.middleware({
         channelSecret: "9288af5cc951aaa9cd410f344f8b45a4",
