@@ -34,7 +34,7 @@ const SettingBoss = () => {
         }
     };
 
-    window.prompt("hi");
+    //window.prompt("hi");
     useEffect(() => {
         if (!boss) return;
         if (!currentBoss) return;
