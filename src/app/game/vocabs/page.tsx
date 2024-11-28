@@ -10,7 +10,7 @@ import supabase from "../../../supabase";
 import { BossContext, PlayerContext } from "./common/contexts";
 
 import SettingBoss from "./views/settings/settingBoss";
-import SettingQuiz from "./views/settings/settingQuiz";
+// import SettingQuiz from "./views/settings/settingQuiz";
 import Rewards from "./views/home/rewards";
 import usePage from "@/zustand/page";
 import Shop from "./views/home/shop";
@@ -95,7 +95,7 @@ const Page: React.FC = () => {
                         {page == "home" && <Home />}
                         {page == "rewards" && <Rewards />}
                         {page == "settings" && <Settings />}
-                        {page == "settingQuiz" && <SettingQuiz />}
+                        {/* {page == "settingQuiz" && <SettingQuiz />} */}
                     </div>
                 </div>
                 <Navbar />
