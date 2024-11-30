@@ -89,7 +89,6 @@ const Page: React.FC = () => {
                     <div className="page-container">
                         {page == "game" && <Game />}
                         {page == "battle" && <Battle />}
-                        {page == "shop" && <Shop />}
                         {page == "settingBoss" && <SettingBoss />}
                     </div>
                     <div>
@@ -97,6 +96,7 @@ const Page: React.FC = () => {
                         {page == "rewards" && <Rewards />}
                         {page == "settings" && <Settings />}
                         {page == "settingQuiz" && <SettingQuiz />}
+                        {page == "shop" && <Shop />}
                     </div>
                 </div>
                 <Navbar />
