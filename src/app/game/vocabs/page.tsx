@@ -94,12 +94,8 @@ const Page: React.FC = () => {
                         {page == "home" && <Home />}
                         {page == "rewards" && <Rewards />}
                         {page == "settings" && <Settings />}
-<<<<<<< HEAD
-                        {page == "settingQuiz" && <SettingQuiz />}
-                        {page == "shop" && <Shop />}
-=======
                         {/* {page == "settingQuiz" && <SettingQuiz />} */}
->>>>>>> b686cb35c3d6a598bd55f90e609031f5f56cf1e4
+                        {page == "shop" && <Shop />}
                     </div>
                 </div>
                 <Navbar />
