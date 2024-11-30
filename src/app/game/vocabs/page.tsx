@@ -10,7 +10,7 @@ import supabase from "../../../supabase";
 import { BossContext, PlayerContext } from "./common/contexts";
 
 import SettingBoss from "./views/settings/settingBoss";
-import SettingQuiz from "./views/settings/settingQuiz";
+// import SettingQuiz from "./views/settings/settingQuiz";
 import Rewards from "./views/home/rewards";
 import usePage from "@/zustand/page";
 import Shop from "./views/home/shop";
@@ -77,11 +77,10 @@ const Page: React.FC = () => {
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
-
         return () => {
             document.body.style.overflow = "";
         };
-    }, []);
+    }, [page]);
     return (
         <BossContext.Provider value={{ boss, setBoss, currentBoss, setCurrentBoss }}>
             <PlayerContext.Provider value={{ player, setPlayer }}>
@@ -95,8 +94,12 @@ const Page: React.FC = () => {
                         {page == "home" && <Home />}
                         {page == "rewards" && <Rewards />}
                         {page == "settings" && <Settings />}
+<<<<<<< HEAD
                         {page == "settingQuiz" && <SettingQuiz />}
                         {page == "shop" && <Shop />}
+=======
+                        {/* {page == "settingQuiz" && <SettingQuiz />} */}
+>>>>>>> b686cb35c3d6a598bd55f90e609031f5f56cf1e4
                     </div>
                 </div>
                 <Navbar />

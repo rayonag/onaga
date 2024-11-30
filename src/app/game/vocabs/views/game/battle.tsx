@@ -2,70 +2,14 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import "./style.css";
 import LeftArrow from "../../components/icons/LeftArrow";
-import toJp from "../../common/toJp";
-import toEng from "../../common/toEng";
 import { usePlayer, useBoss, refreshBoss } from "../../common/contexts";
-import SettingQuiz from "../settings/settingQuiz";
 import supabase from "../../../../../supabase";
 import useSound from "use-sound";
-import Image from "next/image";
-import useAutoFocus from "../../hooks/useAutoFocus";
 import HpBar from "../../components/HpBar";
 import usePage from "@/zustand/page";
 import useRewardStore from "@/zustand/game/vocabs/rewards";
 import useStreakStore from "@/zustand/game/vocabs/streak";
 import { DateTime } from "luxon";
-
-export const getColorByType = (type: string) => {
-    let color = "";
-    switch (type) {
-        case "ほのお":
-            color = "bg-red-500";
-            break;
-        case "みず":
-            color = "bg-blue-500";
-            break;
-        case "くさ":
-            color = "bg-green-500";
-            break;
-        case "でんき":
-            color = "bg-yellow-500";
-            break;
-        case "こおり":
-            color = "bg-blue-300";
-            break;
-        case "かくとう":
-            color = "bg-red-300";
-            break;
-        case "どく":
-            color = "bg-purple-500";
-            break;
-        case "じめん":
-            color = "bg-yellow-300";
-            break;
-        case "ひこう":
-            color = "bg-blue-500";
-            break;
-        case "エスパー":
-            color = "bg-purple-300";
-            break;
-        case "むし":
-            color = "bg-green-300";
-            break;
-        case "いわ":
-            color = "bg-gray-500";
-            break;
-        case "ゴースト":
-            color = "bg-purple-500";
-            break;
-        case "ドラゴン":
-            color = "bg-red-500";
-            break;
-        default:
-            color = "bg-gray-500";
-    }
-    return color;
-};
 
 const Battle = () => {
     const { player, setPlayer } = usePlayer();
@@ -118,114 +62,6 @@ const Battle = () => {
         }
         return <div className="text-xs text-red-500">{dues}</div>;
     };
-    // const AttackField = ({ score }: { score: { key: number } }) => {
-    //     // sort the record by score, if it's 0 then goes to the end, else remains the same
-    //     const sortedScore = Object.entries(score).sort((a, b) => {
-    //         if (a[1] == 0 || a[1] == null) return 1;
-    //         if (b[1] == 0 || b[1] == null) return -1;
-    //         return 0;
-    //     });
-    //     console.log("sortedScore", sortedScore);
-    //     const field = sortedScore.map((score) => {
-    //         console.log("key", score);
-    //         if (score[0] == "id") return <></>;
-    //         return (
-    //             <>
-    //                 <Button type={toJp(score[0])} value={score[1]} />
-    //             </>
-    //         );
-    //     });
-    //     return <>{field}</>;
-    // };
-    // const Button = ({ type, value }: { type: string; value: number }) => {
-    //     const [currentScore, setCurrentScore] = useState(value);
-    //     value = value || 0;
-    //     const onTap = () => {
-    //         if (value == 0) return;
-    //         let thisRatio = Number(ratio);
-    //         const newScore = currentScore - thisRatio;
-    //         if (newScore < 0) thisRatio = currentScore;
-    //         if (currentHp - ratio < 0) thisRatio = currentHp;
-    //         if (currentHp <= 0) return;
-    //         const shakeImage = () => {
-    //             const image = document.getElementById("boss-image");
-    //             if (image) {
-    //                 image.classList.add("shake");
-    //                 setTimeout(() => {
-    //                     image.classList.remove("shake");
-    //                 }, 250);
-    //             }
-    //         };
-    //         shakeImage();
-    //         const newHp = currentHp - thisRatio;
-    //         setCurrentScore(currentScore - thisRatio);
-    //         setCurrentHp(newHp);
-    //         const updatedBosses = boss.map((boss: any) => {
-    //             if (boss.id === record.id) {
-    //                 return { ...boss, hp: newHp };
-    //             }
-    //             return boss;
-    //         });
-    //         setBoss(updatedBosses);
-    //         setPlayer({ ...player, [toEng(type)]: currentScore - thisRatio });
-    //         if (newHp <= 0) {
-    //             setIsComplete(true);
-    //         }
-    //     };
-    //     let color = "";
-    //     if (value == 0) color = "bg-gray-500";
-    //     else color = getColorByType(type);
-    //     console.log("key22", value);
-    //     return (
-    //         <div onTouchEndCapture={onTap} className={`m-1 p-4 text-sm rounded-full w-48 ${color}`}>
-    //             {type}: ({value})
-    //         </div>
-    //     );
-    // };
-    // const RatioButton = () => {
-    //     const [isOpen, setIsOpen] = useState(false);
-    //     const handleClick = () => {
-    //         setIsOpen(isOpen ? false : true);
-    //     };
-    //     return (
-    //         <>
-    //             <div className={`absolute top-[-15px] right-8 flex justify-center text-md items-center transform transition-all duration-200 ease-out ${!isOpen ? "translate-x-10 opacity-0" : "translate-x-0 opacity-100"}`}>
-    //                 <div className={`m-1 px-1 flex rounded-full`}>
-    //                     <div
-    //                         className={`px-2 rounded-l-md ${ratio == 1 ? "bg-gray-300" : "bg-gray-500"}`}
-    //                         onTouchEndCapture={() => {
-    //                             setRatio(1);
-    //                             setIsOpen(false);
-    //                         }}
-    //                     >
-    //                         ×1
-    //                     </div>
-    //                     <div
-    //                         className={`px-2 ${ratio == 5 ? "bg-gray-300" : "bg-gray-500"}`}
-    //                         onTouchEndCapture={() => {
-    //                             setRatio(5);
-    //                             setIsOpen(false);
-    //                         }}
-    //                     >
-    //                         ×5
-    //                     </div>
-    //                     <div
-    //                         className={`px-1 rounded-r-md ${ratio == 10 ? "bg-gray-300" : "bg-gray-500"}`}
-    //                         onTouchEndCapture={() => {
-    //                             setRatio(10);
-    //                             setIsOpen(false);
-    //                         }}
-    //                     >
-    //                         ×10
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //             <div onClick={handleClick} className={`absolute top-[-11px] right-0 flex justify-center bg-gray-300 rounded-lg px-1 text-md items-center`}>
-    //                 ×{ratio}
-    //             </div>
-    //         </>
-    //     );
-    // };
     useEffect(() => {
         if (isComplete) {
             alert("おめでとう！ボスを倒して報酬をゲットしたよ！");
@@ -233,21 +69,8 @@ const Battle = () => {
         }
     }, [isComplete]);
 
-    //const [isAttacking, setIsAttacking] = useState(false);
-
     const AddQuiz = () => {
-        //const [section, setSection] = useState(0);
-        // const [level, setLevel] = useState<string>("");
         const [score, setScore] = useState<number | null>(null);
-        // const ratio = (() => {
-        //     if (level === "א") return 1;
-        //     if (level === "ב") return 1.1;
-        //     if (level === "ג") return 1.2;
-        //     return 1;
-        // })();
-        // const handleSection = (section: number, level: string) => {
-        //     setSection(section), setLevel(level);
-        // };
         const handleAdd = async () => {
             if (!score) return;
             if (score < 0 || score > 100) return alert("Invalid score");
@@ -263,26 +86,8 @@ const Battle = () => {
 
         return (
             <>
-                {/* {section === 0 && (
-                    <div className="flex flex-col justify-center items-center">
-                        <div className="btn-theme" onClick={() => handleSection(1, "א")}>
-                            א
-                        </div>
-                        <div className="btn-theme" onClick={() => handleSection(1, "ב")}>
-                            ב
-                        </div>
-                        <div className="btn-theme" onClick={() => handleSection(1, "ג")}>
-                            ג
-                        </div>
-                    </div>
-                )} */}
-                {/* {section === 0 && ( */}
                 <div className="flex justify-center items-center">
-                    {/* <div onClick={() => setSection(0)} className="absolute left-20 content-center h-full w-10">
-                            <LeftArrow />
-                        </div> */}
                     <div>
-                        {/* <div>{level}</div> */}
                         <div className="overflow-hidden">
                             <input
                                 autoFocus
@@ -295,9 +100,7 @@ const Battle = () => {
                                 type="number"
                                 inputMode="numeric"
                                 placeholder="Enter Score"
-                                //ref={inputRef}
                             />
-                            {/* <span className="absolute h-5 w-8">×{ratio.toFixed(1)}</span> */}
                         </div>
                         <div>
                             <button className="btn-theme" onClick={handleAdd}>
@@ -306,8 +109,6 @@ const Battle = () => {
                         </div>
                     </div>
                 </div>
-                {/* )} */}
-                {/* {section === 2 && <div className="flex flex-col justify-center items-center"></div>} */}
             </>
         );
     };
@@ -332,7 +133,8 @@ const Battle = () => {
             }
         };
         const today = DateTime.now().weekdayShort;
-        const newHp = Math.floor(currentHp - (isCrit ? score * 2 : score) * ratio);
+        const damage = Math.floor((isCrit ? score * 2 : score) * ratio);
+        const newHp = currentHp - damage >= 0 ? currentHp - damage : 0;
         const { data: error2 } = await supabase.from("boss").update({ hp: newHp }).eq("id", record.id);
         // reset when in new week
         const promiseArray: any = [];
@@ -351,6 +153,7 @@ const Battle = () => {
             promiseArray.push(supabase.from("quiz").update({ due: record.due }).eq("id", 1));
             await Promise.all(promiseArray);
         }
+        // update quiz, store current hp each day
         const { data: error4 } = await supabase
             .from("quiz")
             .update({ [today]: newHp })
@@ -359,7 +162,7 @@ const Battle = () => {
         await shakeImage();
         console.log("error2", error2);
         if (error2) return alert("Failed to update boss");
-        if (newHp <= 0) {
+        if (newHp == 0) {
             await addReward(record.reward);
             setIsComplete(true);
         }

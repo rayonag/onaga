@@ -7,6 +7,7 @@ import "react-swipeable-list/dist/styles.css";
 import TrashIcon from "../../components/icons/TrashIcon";
 import useGoldStore from "@/zustand/game/vocabs/gold";
 import usePageStore from "@/zustand/page";
+import ArrowLeft from "./ArrowLeft";
 interface Reward {
     id: number;
     reward: string;
@@ -92,6 +93,11 @@ const Rewards = () => {
     const [treasureReveal, setTreasureReveal] = useState(false);
     return (
         <div style={{ backgroundPosition: "center", backgroundSize: "cover", backgroundImage: `url('/vocabs/bg/bg-home.webp')` }} className="overflow-hidden flex flex-col h-screen justify-center text-center items-center">
+            <div onClick={() => setPage("home")} className="absolute top-10 left-0 flex items-center justify-center ml-5 bg-orange-600 bg-opacity-50 rounded-full text-white h-12 w-12">
+                <span className="">
+                    <ArrowLeft />
+                </span>
+            </div>
             <div className="flex justify-center items-center m-2 bg-theme2 rounded-lg text-white h-1/8 w-48">
                 <span className="text-2xl z-10">TOTAL: {gold} Gold</span>
             </div>
@@ -138,7 +144,7 @@ const Rewards = () => {
                 </div>
             )}
             <div className="flex justify-center mb-14">
-                <button className="text-2xl flex justify-center items-center font-bold m-2 bg-theme2 !bg-opacity-70 rounded-full text-white h-16 w-48" onClick={() => setPage("shop")}>
+                <button className="text-2xl flex justify-center items-center font-bold m-2 bg-theme2 !bg-opacity-90 rounded-full text-white h-16 w-48" onClick={() => setPage("shop")}>
                     交換する！
                 </button>
             </div>
