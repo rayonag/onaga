@@ -155,7 +155,7 @@ const Battle = () => {
                 promiseArray.push(
                     supabase
                         .from("quiz")
-                        .update({ Sat: null, Sun: null, Mon: null, Tue: null, Wed: null, Thu: null, Fri: null })
+                        .update({ Sat: boss[index].maxHp, Sun: null, Mon: null, Tue: null, Wed: null, Thu: null, Fri: null })
                         .eq("id", index + 1)
                 )
             );
