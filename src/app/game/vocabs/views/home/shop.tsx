@@ -18,8 +18,8 @@ interface Props {
     rewards: Reward[];
 }
 const Rewards = [
-    { name: "Ramen", price: 30 },
     { name: "Cafe Coffee", price: 20 },
+    { name: "Ramen", price: 30 },
     { name: "Movie Night", price: 70 },
     { name: "50 Shekels", price: 100 },
 ];
