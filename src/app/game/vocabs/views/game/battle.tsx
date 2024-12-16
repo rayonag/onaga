@@ -11,19 +11,18 @@ import useRewardStore from "@/zustand/game/vocabs/rewards";
 import useStreakStore from "@/zustand/game/vocabs/streak";
 import { DateTime } from "luxon";
 
-const [playEffect1] = useSound("/effects/sound/打撃1.mp3");
-const [playEffect2] = useSound("/effects/sound/打撃2.mp3");
-const [playEffect3] = useSound("/effects/sound/打撃3.mp3");
-const [playEffect4] = useSound("/effects/sound/打撃4.mp3");
-const [playEffect5] = useSound("/effects/sound/打撃5.mp3");
-const [playEffect6] = useSound("/effects/sound/会心の一撃1.mp3");
-const [playEffect7] = useSound("/effects/sound/会心の一撃2.mp3");
-const [playEffect8] = useSound("/effects/sound/会心の一撃3.mp3");
-const [playEffect9] = useSound("/effects/sound/火炎魔法1.mp3");
-
 const Battle = () => {
     const { player, setPlayer } = usePlayer();
     const { boss, setBoss, currentBoss } = useBoss();
+    const [playEffect1] = useSound("/effects/sound/打撃1.mp3");
+    const [playEffect2] = useSound("/effects/sound/打撃2.mp3");
+    const [playEffect3] = useSound("/effects/sound/打撃3.mp3");
+    const [playEffect4] = useSound("/effects/sound/打撃4.mp3");
+    const [playEffect5] = useSound("/effects/sound/打撃5.mp3");
+    const [playEffect6] = useSound("/effects/sound/会心の一撃1.mp3");
+    const [playEffect7] = useSound("/effects/sound/会心の一撃2.mp3");
+    const [playEffect8] = useSound("/effects/sound/会心の一撃3.mp3");
+    const [playEffect9] = useSound("/effects/sound/火炎魔法1.mp3");
     console.log("boss", boss);
     const setPage = usePage((state) => state.setPage);
     if (setPlayer === null) return null;

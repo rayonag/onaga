@@ -9,20 +9,8 @@ import SendMessage from "./test";
 import useGoldStore from "@/zustand/game/vocabs/gold";
 import ArrowLeft from "./ArrowLeft";
 import usePageStore from "@/zustand/page";
-interface Reward {
-    id: number;
-    reward: string;
-}
+import useShopStore from "@/zustand/game/vocabs/shop";
 
-interface Props {
-    rewards: Reward[];
-}
-const Rewards = [
-    { name: "Cafe Coffee", price: 20 },
-    { name: "Ramen", price: 30 },
-    { name: "Movie Night", price: 70 },
-    { name: "50 Shekels", price: 100 },
-];
 const Shop = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedReward, setSelectedReward] = useState<number | null>(null);
@@ -34,21 +22,37 @@ const Shop = () => {
             addReward: state.addReward,
         }))
     );
+    const { shop, getShop, increasePrice } = useShopStore(
+        useShallow((state) => ({
+            shop: state.shop.sort((a, b) => a.id - b.id),
+            getShop: state.getShop,
+            increasePrice: state.increasePrice,
+        }))
+    );
     const setPage = usePageStore((state) => state.setPage);
     const gold = useGoldStore((state) => state.gold);
     const minusGold = useGoldStore((state) => state.minusGold);
     const getGold = useGoldStore((state) => state.getGold);
+
     useEffect(() => {
         getRewards();
-        getGold();
     }, [getRewards]);
+    useEffect(() => {
+        getShop();
+    }, [getShop]);
+    useEffect(() => {
+        getGold();
+    }, [getGold]);
 
     const handleSubmit = async () => {
         if (selectedReward === null) return;
-        if (!gold || parseInt(gold) < Rewards[selectedReward].price) return alert("ゴールドが足りないよ");
+        if (!shop) return alert("Something went wrong");
+        const selectedItem = shop.find((item) => item.id == selectedReward);
+        if (!selectedItem) return alert("Something went wrong");
+        if (!gold || parseInt(gold) < selectedItem?.price) return alert("ゴールドが足りないよ");
 
         const payload = {
-            prise: Rewards[selectedReward].name,
+            prise: selectedItem.item,
         };
 
         try {
@@ -63,8 +67,9 @@ const Shop = () => {
             const data = await res.json();
             console.log("Response from API:", data);
             if (data.message) {
-                const res2 = minusGold(Rewards[selectedReward].price);
+                const res2 = minusGold(selectedItem.price);
             }
+            increasePrice(selectedItem.price, selectedItem.id);
             updateAll();
             alert("旦那に申請したよ！");
         } catch (error) {
@@ -95,10 +100,10 @@ const Shop = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {Rewards.map((reward, index) => (
-                            <tr key={index} className={`${selectedReward == index ? "bg-theme3" : ""}`} onClick={() => setSelectedReward(index)}>
-                                <td className="border px-4 py-2">{reward.name}</td>
-                                <td className="border px-4 py-2">{reward.price} Gold</td>
+                        {shop.map((item) => (
+                            <tr key={item.id} className={`${selectedReward == item.id ? "bg-theme3" : ""}`} onClick={() => setSelectedReward(item.id)}>
+                                <td className="border px-4 py-2">{item.item}</td>
+                                <td className="border px-4 py-2">{item.price} Gold</td>
                             </tr>
                         ))}
                     </tbody>
