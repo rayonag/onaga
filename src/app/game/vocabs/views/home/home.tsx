@@ -63,13 +63,13 @@ const Home = () => {
             </div> */}
             {/* <div className="absolute bottom-16 right-2 m-2 bg-orange-600 rounded-full h-32 w-32" onClick={() => encourageMe()}></div> */}
             {/* <div className="absolute bottom-16 left-2 m-2 bg-green-600 text-white rounded-full h-32 w-32">{encourageMessages[encourageIndex]}</div> */}
-            <div className="absolute top-10 flex items-center justify-center text-3xl m-2 bg-orange-600 bg-opacity-50 rounded-full text-white h-12 w-60" onClick={() => setPage("game")}>
+            {/* <div className="absolute top-10 flex items-center justify-center text-3xl m-2 bg-orange-600 bg-opacity-50 rounded-full text-white h-12 w-60" onClick={() => setPage("game")}>
                 <span className="font-sans font-bold text-white">
                     <p>
                         {streak} day{streak && streak > 1 && "s"} streak
                     </p>
                 </span>
-            </div>
+            </div> */}
             <div className="rounded-lg bg-white bg-opacity-30 p-2 relative flex justify-center items-center h-2/4 w-4/5">
                 <Example />
             </div>

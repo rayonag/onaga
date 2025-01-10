@@ -5,14 +5,16 @@ import Image from "next/image";
 import defaultBosses from "../../common/utils/boss";
 import supabase from "../../../../../supabase";
 import { refreshBoss, useBoss } from "../../common/contexts";
+import { DateTime } from "luxon";
 
 const getDueDate = () => {
-    const date = new Date();
-    const day = date.getDay();
+    // do the same below with luxon. set local time as 16:00 then convert to UTC
+    const date = DateTime.now();
+    const day = date.weekday;
     const nextFriday = day < 5 ? 5 - day : 7 - (day - 5);
-    date.setDate(date.getDate() + nextFriday);
-    date.setHours(19, 0, 0, 0); //summer time 考慮するか
-    return date.toISOString().slice(0, 16);
+    date.plus({ days: nextFriday });
+    date.set({ hour: 16, minute: 0, second: 0, millisecond: 0 });
+    return date.toISO();
 };
 // setting boss component
 const SettingBoss = () => {

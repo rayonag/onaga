@@ -23,7 +23,7 @@ const Battle = () => {
     const [playEffect7] = useSound("/effects/sound/会心の一撃2.mp3");
     const [playEffect8] = useSound("/effects/sound/会心の一撃3.mp3");
     const [playEffect9] = useSound("/effects/sound/火炎魔法1.mp3");
-    console.log("boss", boss);
+    // console.log("boss", boss);
     const setPage = usePage((state) => state.setPage);
     if (setPlayer === null) return null;
     else if (boss == null || setBoss == null) return null;
@@ -123,13 +123,12 @@ const Battle = () => {
     };
     const attack = async (score: number) => {
         const isCrit = Math.random() < 0.05;
-        const playAttackAudio = getAudio(isCrit); // Directly reference the file path
         const shakeImage = async () => {
             const image = document.getElementById("boss-image");
             if (image) {
                 image.classList.add("shake");
                 if (isCrit) image.parentElement?.classList.add("crit");
-                playAttackAudio(); // Play the attack sound
+                handlePlaySound(isCrit); // Play the attack sound
                 await new Promise((resolve) =>
                     setTimeout(() => {
                         image.classList.remove("shake");
@@ -177,19 +176,56 @@ const Battle = () => {
         }
     };
 
-    const getAudio = (isCrit: boolean) => {
-        if (isCrit) return playEffect9;
+    const handlePlaySound = (isCrit: boolean) => {
+        if (isCrit) return playEffect9();
         const random = Math.floor(Math.random() * 8) + 1;
-        if (random === 1) return playEffect1;
-        if (random === 2) return playEffect2;
-        if (random === 3) return playEffect3;
-        if (random === 4) return playEffect4;
-        if (random === 5) return playEffect5;
-        if (random === 6) return playEffect6;
-        if (random === 7) return playEffect7;
-        if (random === 8) return playEffect8;
-        return playEffect1;
+        switch (random) {
+            case 1:
+                return playEffect1();
+            case 2:
+                return playEffect2();
+            case 3:
+                return playEffect3();
+            case 4:
+                return playEffect4();
+            case 5:
+                return playEffect5();
+            case 6:
+                return playEffect6();
+            case 7:
+                return playEffect7();
+            case 8:
+                return playEffect8();
+            default:
+                return playEffect1();
+        }
     };
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === "visible") {
+                // Resume the audio context when the tab becomes active
+                if (typeof window !== "undefined" && window.AudioContext) {
+                    const audioContext = new window.AudioContext();
+                    if (audioContext.state === "suspended") {
+                        audioContext.resume().then(() => {
+                            console.log("Audio context resumed");
+                            playEffect1();
+                        });
+                    } else {
+                        playEffect1();
+                    }
+                } else {
+                    playEffect1();
+                }
+            }
+        };
+
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+
+        return () => {
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+        };
+    }, [playEffect1]);
 
     return (
         <>
