@@ -70,7 +70,7 @@ const Home = () => {
                     </p>
                 </span>
             </div> */}
-            <div className="rounded-lg bg-white bg-opacity-30 p-2 relative flex justify-center items-center h-1/2 max-h-[300px] w-4/5 max-w-[300px]">
+            <div className="rounded-lg bg-white bg-opacity-30 p-2 relative flex justify-center items-center h-1/2 max-h-[500px] w-4/5 max-w-[350px]">
                 <LineChartForWeek />
             </div>
             <button className="flex justify-center items-center font-bold m-2 bg-theme2 !bg-opacity-90 rounded-full text-white h-16 w-48" onClick={() => setPage("rewards")}>
