@@ -31,10 +31,11 @@ const LineChartForWeek = () => {
                 Object.keys(d).forEach((key) => {
                     if (key === "day") return;
                     const this_boss = boss.find((g: any) => g.id === parseInt(key));
+                    if (key == "8") debugger;
                     if (!this_boss) return;
                     // get ratio
                     if (d[key] === null) {
-                        if (noQuiz.findIndex((q: any) => q.id == index) == -1) {
+                        if (noQuiz.findIndex((q: any) => q.id == index) > -1) {
                             // delete from obj
                             delete d[key];
                         } else if (

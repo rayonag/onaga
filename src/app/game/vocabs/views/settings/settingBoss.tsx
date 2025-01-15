@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import LeftArrow from "../../components/icons/LeftArrow";
 import RightArrow from "../../components/icons/RightArrow";
 import Image from "next/image";
-import defaultBosses from "../../common/utils/boss";
 import supabase from "../../../../../supabase";
 import { refreshBoss, useBoss } from "../../common/contexts";
 import { DateTime } from "luxon";
