@@ -3,7 +3,7 @@ import usePage from "@/zustand/page";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import useSound from "use-sound";
-import Example from "./LineChart";
+import LineChartForWeek from "./LineChart";
 import { DateTime } from "luxon";
 // import { parseCookies, setCookie } from "nookies";
 const Home = () => {
@@ -70,8 +70,8 @@ const Home = () => {
                     </p>
                 </span>
             </div> */}
-            <div className="rounded-lg bg-white bg-opacity-30 p-2 relative flex justify-center items-center h-2/4 w-4/5">
-                <Example />
+            <div className="rounded-lg bg-white bg-opacity-30 p-2 relative flex justify-center items-center h-1/2 max-h-[300px] w-4/5 max-w-[300px]">
+                <LineChartForWeek />
             </div>
             <button className="flex justify-center items-center font-bold m-2 bg-theme2 !bg-opacity-90 rounded-full text-white h-16 w-48" onClick={() => setPage("rewards")}>
                 {/* <Image className="absolute opacity-40" src={`/vocabs/treasure/treasure_open.png`} alt={"Reward"} width={150} height={150} /> */}

@@ -1,7 +1,6 @@
-import React, { PureComponent, useEffect, useState } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import React, { useEffect, useState } from "react";
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { useBoss } from "../../common/contexts";
-import { DateTime } from "luxon";
 import supabase from "@/supabase";
 import Star from "./Star";
 
@@ -108,7 +107,7 @@ const LineChartForWeek = () => {
     };
     return (
         <ResponsiveContainer width="100%" height="100%">
-            <LineChart width={500} height={500} data={graphData} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
+            <LineChart width={500} height={500} data={graphData} margin={{ top: 10, right: 30, left: -10, bottom: 5 }}>
                 <>
                     {/* <CartesianGrid strokeDasharray="3 3" /> */}
                     <XAxis dataKey="day" domain={["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"]} />
@@ -121,27 +120,6 @@ const LineChartForWeek = () => {
                 </>
             </LineChart>
         </ResponsiveContainer>
-        // <ResponsiveContainer width="100%" height="100%">
-        //     <LineChart
-        //         width={500}
-        //         height={300}
-        //         data={datad}
-        //         margin={{
-        //             top: 5,
-        //             right: 30,
-        //             left: 20,
-        //             bottom: 5,
-        //         }}
-        //     >
-        //         <CartesianGrid strokeDasharray="3 3" />
-        //         <XAxis dataKey="name" />
-        //         <YAxis />
-        //         <Tooltip />
-        //         <Legend />
-        //         <Line type="monotone" dataKey="pv" stroke="#8884d8" dot={<CustomizedDot />} />
-        //         <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-        //     </LineChart>
-        // </ResponsiveContainer>
     );
 };
 export default LineChartForWeek;
