@@ -2,23 +2,18 @@ import useStreakStore from "@/zustand/game/vocabs/streak";
 import usePage from "@/zustand/page";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import useSound from "use-sound";
+import { Howl, Howler } from "howler";
 import LineChartForWeek from "./LineChart";
 import { DateTime } from "luxon";
 // import { parseCookies, setCookie } from "nookies";
 const Home = () => {
     const [isAttacking, setIsAttacking] = useState(false);
-    const [play1] = useSound("/effects/sound/打撃1.mp3");
     const setPage = usePage((state) => state.setPage);
     const { streak, getStreak } = useStreakStore();
+
     useEffect(() => {
         getStreak();
     }, []);
-    const handleClick = async () => {
-        play1();
-        setIsAttacking(true);
-        await setTimeout(() => setIsAttacking(false), 500);
-    };
     const getGemini = async () => {
         // post request to get gemini
         const res = await fetch("/api/Gemini", { method: "POST", body: JSON.stringify({ name: "Gemini" }) });

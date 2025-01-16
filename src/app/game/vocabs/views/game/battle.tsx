@@ -10,19 +10,30 @@ import usePage from "@/zustand/page";
 import useRewardStore from "@/zustand/game/vocabs/rewards";
 import useStreakStore from "@/zustand/game/vocabs/streak";
 import { DateTime } from "luxon";
+import { Howl, Howler } from "howler";
+
+const effect1 = "/effects/sound/打撃1.mp3";
+const effect2 = "/effects/sound/打撃2.mp3";
+const effect3 = "/effects/sound/打撃3.mp3";
+const effect4 = "/effects/sound/打撃4.mp3";
+const effect5 = "/effects/sound/打撃5.mp3";
+const effect6 = "/effects/sound/会心の一撃1.mp3";
+const effect7 = "/effects/sound/会心の一撃2.mp3";
+const effect8 = "/effects/sound/会心の一撃3.mp3";
+const effect9 = "/effects/sound/火炎魔法1.mp3";
 
 const Battle = () => {
     const { player, setPlayer } = usePlayer();
     const { boss, setBoss, currentBoss } = useBoss();
-    const [playEffect1] = useSound("/effects/sound/打撃1.mp3");
-    const [playEffect2] = useSound("/effects/sound/打撃2.mp3");
-    const [playEffect3] = useSound("/effects/sound/打撃3.mp3");
-    const [playEffect4] = useSound("/effects/sound/打撃4.mp3");
-    const [playEffect5] = useSound("/effects/sound/打撃5.mp3");
-    const [playEffect6] = useSound("/effects/sound/会心の一撃1.mp3");
-    const [playEffect7] = useSound("/effects/sound/会心の一撃2.mp3");
-    const [playEffect8] = useSound("/effects/sound/会心の一撃3.mp3");
-    const [playEffect9] = useSound("/effects/sound/火炎魔法1.mp3");
+    // const [playEffect1] = useSound("/effects/sound/打撃1.mp3");
+    // const [playEffect2] = useSound("/effects/sound/打撃2.mp3");
+    // const [playEffect3] = useSound("/effects/sound/打撃3.mp3");
+    // const [playEffect4] = useSound("/effects/sound/打撃4.mp3");
+    // const [playEffect5] = useSound("/effects/sound/打撃5.mp3");
+    // const [playEffect6] = useSound("/effects/sound/会心の一撃1.mp3");
+    // const [playEffect7] = useSound("/effects/sound/会心の一撃2.mp3");
+    // const [playEffect8] = useSound("/effects/sound/会心の一撃3.mp3");
+    // const [playEffect9] = useSound("/effects/sound/火炎魔法1.mp3");
     // console.log("boss", boss);
     const setPage = usePage((state) => state.setPage);
     if (setPlayer === null) return null;
@@ -177,46 +188,37 @@ const Battle = () => {
     };
 
     const handlePlaySound = (isCrit: boolean) => {
-        if (isCrit) return playEffect9();
+        if (isCrit) return new Howl({ src: [effect9] }).play();
         const random = Math.floor(Math.random() * 8) + 1;
         switch (random) {
             case 1:
-                return playEffect1();
+                return new Howl({ src: [effect1] }).play();
             case 2:
-                return playEffect2();
+                return new Howl({ src: [effect2] }).play();
             case 3:
-                return playEffect3();
+                return new Howl({ src: [effect3] }).play();
             case 4:
-                return playEffect4();
+                return new Howl({ src: [effect4] }).play();
             case 5:
-                return playEffect5();
+                return new Howl({ src: [effect5] }).play();
             case 6:
-                return playEffect6();
+                return new Howl({ src: [effect6] }).play();
             case 7:
-                return playEffect7();
+                return new Howl({ src: [effect7] }).play();
             case 8:
-                return playEffect8();
+                return new Howl({ src: [effect8] }).play();
             default:
-                return playEffect1();
+                return new Howl({ src: [effect1] }).play();
         }
     };
     useEffect(() => {
         const handleVisibilityChange = () => {
             if (document.visibilityState === "visible") {
                 // Resume the audio context when the tab becomes active
-                if (typeof window !== "undefined" && window.AudioContext) {
-                    const audioContext = new window.AudioContext();
-                    if (audioContext.state === "suspended") {
-                        audioContext.resume().then(() => {
-                            console.log("Audio context resumed");
-                            playEffect1();
-                        });
-                    } else {
-                        playEffect1();
-                    }
-                } else {
-                    playEffect1();
-                }
+                Howler.ctx.resume().then(() => {
+                    console.log("Audio context resumed");
+                    //bgm.play();
+                });
             }
         };
 
@@ -225,7 +227,7 @@ const Battle = () => {
         return () => {
             document.removeEventListener("visibilitychange", handleVisibilityChange);
         };
-    }, [playEffect1]);
+    }, []);
 
     return (
         <>

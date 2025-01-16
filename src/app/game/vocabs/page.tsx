@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import Game from "./views/game/game";
 import Battle from "./views/game/battle";
@@ -22,6 +22,36 @@ const Page: React.FC = () => {
     const page = usePage((state) => state.page);
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
+    // あとで、Handlevisibility追加してみるか
+    const bgm = useMemo(
+        () =>
+            new Howl({
+                src: ["/bgm/jazz.mp3"],
+                volume: 0,
+                loop: true,
+            }),
+        []
+    );
+    useEffect(() => {
+        bgm.play();
+
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === "visible") {
+                // Resume the audio context when the tab becomes active
+                Howler.ctx.resume().then(() => {
+                    console.log("Audio context resumed");
+                    //bgm.play();
+                });
+            }
+        };
+
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+
+        return () => {
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+            bgm.stop();
+        };
+    }, [bgm]);
     console.log("page", page);
     useEffect(() => {
         if (timeoutId) clearTimeout(timeoutId);
