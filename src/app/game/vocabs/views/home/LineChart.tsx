@@ -30,36 +30,38 @@ const LineChartForWeek = () => {
                 Object.keys(d).forEach((key) => {
                     if (key === "day") return;
                     const this_boss = boss.find((g: any) => g.id === parseInt(key));
-                    if (key == "8") debugger;
                     if (!this_boss) return;
+                    //if (key == "8") debugger;
+                    const this_quiz = quiz.find((q: any) => q.id == key);
                     // get ratio
                     if (d[key] === null) {
-                        if (noQuiz.findIndex((q: any) => q.id == index) > -1) {
+                        if (noQuiz.findIndex((q: any) => q.id == key) > -1) {
                             // delete from obj
                             delete d[key];
                         } else if (
                             // if there's any entry for the week
-                            Object.keys(d).findIndex((q: any) => {
-                                if (key == "due" || key == "id") return false;
-                                return q[key] > 0;
+                            this_quiz &&
+                            Object.keys(this_quiz).findIndex((q: any) => {
+                                if (q == "due" || q == "id" || (q == "Sat" && this_quiz[q] == boss.find((b: any) => b.id == key).maxHp)) return false;
+                                return this_quiz[q] > 0;
                             }) > -1
                         ) {
                             // Define the order of days
-                            const daysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-                            const currentDayIndex = daysOrder.indexOf(key);
+                            const daysOrder = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
+                            const currentDayIndex = daysOrder.indexOf(d["day"]);
 
                             // Search for any entry after the current day
-                            const nextEntryDay = daysOrder.slice(currentDayIndex + 1).find((day) => d[day] > 0);
+                            const nextEntryDay = daysOrder.slice(currentDayIndex + 1).find((day) => this_quiz[day] > 0);
 
                             if (nextEntryDay) {
                                 // If there's any entry after the current day, look for the closest existing value from the entry before that day
                                 const previousEntryDay = daysOrder
                                     .slice(0, currentDayIndex)
                                     .reverse()
-                                    .find((day) => d[day] > 0);
+                                    .find((day) => this_quiz[day] > 0);
 
                                 if (previousEntryDay) {
-                                    const previousValue = d[previousEntryDay];
+                                    const previousValue = data.find((dd: any) => dd.day == previousEntryDay)[key];
                                     d[key] = previousValue;
                                 }
                             }

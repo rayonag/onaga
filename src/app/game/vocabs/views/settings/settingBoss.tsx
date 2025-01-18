@@ -11,9 +11,7 @@ const getDueDate = () => {
     const date = DateTime.now();
     const day = date.weekday;
     const nextFriday = day < 5 ? 5 - day : 7 - (day - 5);
-    date.plus({ days: nextFriday });
-    date.set({ hour: 16, minute: 0, second: 0, millisecond: 0 });
-    return date.toISO();
+    return date.plus({ days: nextFriday }).set({ hour: 16, minute: 0, second: 0, millisecond: 0 }).toString().slice(0, 16);
 };
 // setting boss component
 const SettingBoss = () => {
@@ -22,6 +20,7 @@ const SettingBoss = () => {
     const [maxHp, setMaxHp] = useState<number>(1000);
     const [reward, setReward] = useState<string>("");
     const [due, setDue] = useState<string>(getDueDate());
+    console.log("due", due);
     const { boss, setBoss } = useBoss();
     const bossLength = boss.length;
     // boss
@@ -48,7 +47,7 @@ const SettingBoss = () => {
             setName(currentBoss.name);
             setMaxHp(currentBoss.maxHp);
             setReward(currentBoss.reward);
-            setDue(new Date(currentBoss.due).toISOString().slice(0, 16));
+            setDue(DateTime.fromISO(currentBoss.due).toString().slice(0, 16));
         }
     }, [bossId]);
 
@@ -60,7 +59,7 @@ const SettingBoss = () => {
                 maxHp: maxHp,
                 hp: maxHp,
                 // reward: reward,
-                due: new Date(due).toISOString(),
+                due: due,
             })
             .eq("id", bossId);
         if (error) return alert("Failed to add boss");

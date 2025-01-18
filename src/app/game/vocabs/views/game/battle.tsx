@@ -21,6 +21,7 @@ const effect6 = "/effects/sound/会心の一撃1.mp3";
 const effect7 = "/effects/sound/会心の一撃2.mp3";
 const effect8 = "/effects/sound/会心の一撃3.mp3";
 const effect9 = "/effects/sound/火炎魔法1.mp3";
+const select = "/effects/sound/select.mp3";
 
 const Battle = () => {
     const { player, setPlayer } = usePlayer();
@@ -94,6 +95,7 @@ const Battle = () => {
         const handleAdd = async () => {
             if (!score) return;
             if (score < 0 || score > 100) return alert("Invalid score");
+            new Howl({ src: [select] }).play();
             //if (!window.confirm("Save Quiz Result?")) return;
             const { data: error } = await supabase.from("quiz").insert([{ name: record.name, score: score }]);
             if (error) return alert("Failed to add quiz result");
